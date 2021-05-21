@@ -63,13 +63,6 @@ Route::get('/',function (){
     }
 })->middleware('auth');
 
-Route::get('/TestMail',function(){
-    return $a = \Illuminate\Support\Facades\URL::signedRoute('result');
-});
-Route::get('/result',function(){
-    return 'result';
-})->name('result')->middleware('signed');
-
 /*
 |--------------------------------------------------------------------------
 | SuperAdmin Routes
@@ -78,6 +71,7 @@ Route::get('/result',function(){
 Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],function (){
     // dashboard route
     Route::get('/dashboard', 'DashBoardController@index')->name('dashboard');
+
     //employees route
     Route::get('/ManageEmployees','employeesController@index')->name('employees.index');
     Route::get('/AddEmployee','employeesController@create')->name('employees.create');
@@ -88,11 +82,13 @@ Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],func
     Route::delete('/DeleteEmployee/{employee}','employeesController@destroy')->name('employees.destroy');
     // OfficeBranches Route
     Route::resource('/OfficeBranches','OfficeBranchesController')->only(['index','store','update']);
+
     //DropDowns SystemSettings
     Route::get('/ManageDropDowns','SystemSettingsController@DropDownIndex')->name('system.DropDowns.index');
     Route::post('/StoreDropDownsOption','SystemSettingsController@StoreDropDownOption')->name('system.DropDowns.store.option');
     Route::delete('/DeleteDropDownsOption/{id}','SystemSettingsController@DeleteDropDownOption')->name('system.DropDowns.delete.option');
     Route::patch('/UpdateDropDownsOption/{id}','SystemSettingsController@UpdateDropDownOption')->name('system.DropDowns.update.option');
+
     //AccountCharts SystemSettings
     Route::get('/AccountCharts','SystemSettingsController@AccountChartsIndex')->name('system.AccountCharts.index');
     Route::post('/StoreAccountChart','SystemSettingsController@AccountChartsStore')->name('system.AccountCharts.store');
@@ -115,7 +111,6 @@ Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],func
 
 
     //FinancialGroupAccountsRoutes
-
     Route::post('/LinkAccountToFinancialGroup/{FinancialGroupID}','FinancialGroupsAccountsController@store')->name('FinancialGroupsAccounts.store.admin');
     Route::delete('/UnLinkAccountFromFinancialGroup/{AccountID}','FinancialGroupsAccountsController@destroy')->name('FinancialGroupsAccounts.destroy.admin');
 
@@ -135,8 +130,9 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     Route::get('/CreateTransaction', 'TransactionsController@create')->name('Transactions.create');
     Route::post('/StoreNewTransaction/institution/{institution}/reviser/{reviser}', 'TransactionsController@store')->name('Transactions.store');
     Route::get('/PrintReceiptVoucher/TransactionYear/{TransactionYear}/CompanyName/{CompanyName}/PaymentType/{PaymentType}/PaymentValue/{PaymentValue}/ReviserCompanyName/{ReviserCompanyName}','TransactionsController@PrintReceiptVoucher')->name('Print.ReceiptVoucher');
-    Route::get('/EngagementLetter/institution/{institution}/transaction/{transaction}/','TransactionsController@PrintEngagementLetter')->name('Print.EngagementLetter');
+    Route::get('/EngagementLetter/transaction/{transaction}/','TransactionsController@PrintEngagementLetter')->name('Print.EngagementLetter');
     Route::get('/EditTransaction/{Transaction_id}','TransactionsController@edit')->name('transactions.edit.secretary')->middleware('CheckEmployeeHasAccess');
+
     /*
     |--------------------------------------------------------------------------
     | institution Routes
@@ -144,13 +140,13 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     */
     Route::post('/StoreNewInstitution','InstitutionController@store')->name('Institution.store');
     Route::patch('/UpdateInstitution/{institution:id}','InstitutionController@update')->name('Institution.update');
+
     /*
     |--------------------------------------------------------------------------
     | Agent Routes
     |--------------------------------------------------------------------------
     */
     Route::post('/StoreNewAgentFor/{institution}','AgentController@store')->name('agent.store');
-
     Route::patch('/UpdateAgent/{agent}','AgentController@update')->name('agent.update');
 
     /*
@@ -159,12 +155,8 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     |--------------------------------------------------------------------------
     */
     Route::post('/SearchNewRegister','TradeRegisterController@search')->name('TradeRegister.search');
-
     Route::post('/StoreNewRegisterTrade/{institution:id}','TradeRegisterController@store')->name('TradeRegister.store');
-
     Route::patch('/UpdateRegister/{TradeRegister}','TradeRegisterController@update')->name('TradeRegister.update');
-
-
     Route::delete('/DeleteTradeRegister/{TradeRegisterID}','TradeRegisterController@delete')->name('TradeRegister.delete');
 
 

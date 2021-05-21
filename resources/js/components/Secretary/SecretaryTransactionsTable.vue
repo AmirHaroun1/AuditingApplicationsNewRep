@@ -22,7 +22,7 @@
                     <v-icon>mdi-plus</v-icon> {{$t('newTransaction')}}
                 </v-btn>
             </v-card-title>
-            <v-data-table :headers="headers" :items="Transactions" :search="search">
+            <v-data-table id="PrintTable" :headers="headers" :items="Transactions" :search="search">
                 <template v-slot:item.MainTradeRegisterNumber="{ item }">
                     <a :href="route('transactions.edit.secretary',item.id)">
                         {{item.MainTradeRegisterNumber}}
@@ -35,7 +35,7 @@
                     <v-icon small color="error" @click="deleteItem(item.id)">
                         mdi-delete
                     </v-icon>
-                    <v-icon small color="grey" @click="printRow(item.id)">
+                    <v-icon small color="grey" @click="PrintEngagementLetter(item)">
                         mdi-printer
                     </v-icon>
                 </template>
@@ -238,8 +238,8 @@ export default {
                     }
                 })
         },
-        printRow(item) {
-            console.log('item', item);
+        PrintEngagementLetter(item) {
+            window.open(route('Print.EngagementLetter', item),'_blank');
         },
         editItem(item) {
             window.location.href = route('transactions.edit.secretary', item)
@@ -254,6 +254,28 @@ export default {
                     this.LoadingSpinner = false;
 
                 })
+
+        },
+        PrintAllTransactions(){
+
+                this.LoadingSpinner = true;
+                const options = {
+                    specs: [
+                        'fullscreen=yes',
+                        'titlebar=yes',
+                        'scrollbars=no'
+
+                    ],
+                    styles: [
+                        'https://cdn.rtlcss.com/bootstrap/v4.5.3/css/bootstrap.min.css',
+                    ]
+                }
+                setTimeout(() => this.$htmlToPaper('PrintTable', options, () => {
+
+                    this.LoadingSpinner = false;
+
+                }), 1000);
+
 
         }
     },

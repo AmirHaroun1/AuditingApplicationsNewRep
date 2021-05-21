@@ -150,15 +150,15 @@ class TransactionsController extends Controller
         return view('Transactions.ReceiptVoucher',compact('TransactionYear','InistitutionName','PaymentType','PaymentValue','ReviserCompanyName'));
     }
 
-    public function PrintEngagementLetter(institution $Institution,Transaction $Transaction)
+    public function PrintEngagementLetter(Transaction $Transaction)
     {
 
-        $Transaction->load(['partner:id,name,signature']);
+        $Transaction->load(['partner:id,name,signature','institution.agent']);
         $OfficeInfo = SystemSettings::where('type','LIKE','بيانات المكتب')->first();
         if(!$OfficeInfo){
             return abort(403,'Please Set Office Info Data');
         }
-        $Institution->load(['agent']);
+        $Institution = $Transaction->institution;
         $Transaction->append(['actual_start_date','hijri_actual_start_date','actual_end_date','hijri_actual_end_date','engagement_letter_date','hijri_engagement_letter_Date'])->toArray();
 
         return view('Transactions.EngagementLetter',compact('Institution','Transaction','OfficeInfo'));
