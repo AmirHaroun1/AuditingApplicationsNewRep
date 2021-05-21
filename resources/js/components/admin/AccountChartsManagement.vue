@@ -553,7 +553,7 @@ export default {
                             'parent_id': this.Added_Account.parent_id
                         });
                     };
-                    this.$refs.CloseAddAccountModal.click();
+                    this.dialog = false
                     this.ParentAccountArray = [];
                     this.Added_Account.id = null;
                     this.Added_Account.code = null;
@@ -576,8 +576,7 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error);
-                    this.$refs.CloseAddAccountModal.click();
-
+                    this.dialog = false
                     this.ValidationErrors = error.response.data.errors;
                     this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
                         timout: 2000
@@ -664,8 +663,7 @@ export default {
                         timout: 2000
                     });
                 })
-            this.$refs.CloseEditAccountModal.click();
-
+                this.dialog = false
         }
     }
 }

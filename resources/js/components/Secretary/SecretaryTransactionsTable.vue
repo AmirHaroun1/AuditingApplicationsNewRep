@@ -155,7 +155,7 @@ export default {
                 {
                     text: this.$t('financialChristianYear'),
                     value: 'financial_year',
-                    width: "10%"
+                    width: "10%"    
                 },
                 {
                     text: this.$t('financialHijriYear'),

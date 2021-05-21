@@ -70,14 +70,34 @@
 
                                                     <td>
                                                         <input type="text" class="form-control" v-model="secretary_time">
+                                                        <input v-model="secretary_note" type="text" class="form-control" :placeholder="$t('note')">
                                                     </td>
-                                                    <td><input type="text" class="form-control" v-model="fieldDelegate_time"></td>
-                                                    <td><input type="text" class="form-control" v-model="reviser_time"></td>
-                                                    <td><input type="text" class="form-control" v-model="auditor_time"></td>
-                                                    <td><input type="text" class="form-control" v-model="revisingManager_time"></td>
-                                                    <td><input type="text" class="form-control" v-model="executiveDirector_time"></td>
-                                                    <td><input type="text" class="form-control" v-model="Managing_partner_time"></td>
-                                                    <td><input type="text" class="form-control" v-model="helper_time"></td>
+                                                    <td>
+                                                        <input type="text" class="form-control" v-model="fieldDelegate_time">
+                                                        <input v-model="secretary_note" type="text" class="form-control" outlined :placeholder="$t('note')">
+                                                    </td>
+                                                    <td><input type="text" class="form-control" v-model="reviser_time">
+                                                        <input v-model="secretary_note" type="text" class="form-control" outlined :placeholder="$t('note')">
+                                                    </td>
+                                                    <td><input type="text" class="form-control"  v-model="auditor_time">
+                                                        <input v-model="secretary_note" outlined type="text" class="form-control" :placeholder="$t('note')">
+                                                    </td>
+                                                    <td><input type="text" class="form-control" v-model="revisingManager_time">
+                                                        <input v-model="secretary_note" outlined type="text" class="form-control" :placeholder="$t('note')">
+
+                                                    </td>
+                                                    <td><input type="text" class="form-control" v-model="executiveDirector_time">
+                                                        <input v-model="secretary_note" outlined type="text" class="form-control" :placeholder="$t('note')">
+
+                                                    </td>
+                                                    <td><input type="text" class="form-control" v-model="Managing_partner_time">
+                                                        <input v-model="secretary_note" outlined type="text" class="form-control" :placeholder="$t('note')">
+
+                                                    </td>
+                                                    <td><input type="text" class="form-control" v-model="helper_time">
+                                                        <input v-model="secretary_note" outlined type="text" class="form-control" :placeholder="$t('note')">
+
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>

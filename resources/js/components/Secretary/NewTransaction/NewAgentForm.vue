@@ -39,7 +39,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn outlined type="submit" form="BranchRegisterForm" color="primary" dark>
-                        {{$t('next')}}
+                        {{$t('save')}}
                     </v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
@@ -106,7 +106,6 @@ export default {
                     });
                 this.ValidationErrors = '';
                 this.$parent.Agent = this.Agent;
-                this.$parent.SectionStage = 3;
                 this.LoadingSpinner = false;
             }).catch((error) => {
                 this.LoadingSpinner = false;

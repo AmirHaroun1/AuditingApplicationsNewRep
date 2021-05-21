@@ -20,10 +20,16 @@
                 </v-autocomplete>
             </v-card-title>
             <v-data-table :headers="headers" :items="Transactions" :search="search">
-                <template v-slot:item.MainTradeRegisterNumber="{ item }">
-                    <a :href="route('transactions.edit.reviser',item.id)">
-                        {{item.MainTradeRegisterNumber}}
-                    </a>
+                <template :ref="item.id" v-slot:item.action="{ item }">
+                    <v-icon small color="primary" @click="editItem(item.id)">
+                        mdi-pencil
+                    </v-icon>
+                    <v-icon small color="error" @click="deleteItem(item.id)">
+                        mdi-delete
+                    </v-icon>
+                    <v-icon small color="grey" @click="printRow(item.id)">
+                        mdi-printer
+                    </v-icon>
                 </template>
             </v-data-table>
         </v-card>
@@ -135,12 +141,18 @@ export default {
                 },
                 {
                     text: this.$t('financialChristianYear'),
-                    value: 'financial_year'
+                    value: 'financial_year',
+                    width: "10%"    
                 },
                 {
                     text: this.$t('financialHijriYear'),
-                    value: 'hijri_financial_year'
-                }
+                    value: 'hijri_financial_year',
+                    width: "10%"
+                },
+                {
+                    text: this.$t('action'),
+                    value: 'action'
+                },
             ],
             search: '',
 
@@ -184,6 +196,24 @@ export default {
                     this.Transactions.push(...data.transactions.data);
 
                 })
+        },
+        printRow(item) {
+            console.log('item', item);
+        },
+        editItem(item) {
+            window.location.href = route('transactions.edit.reviser', item)
+        },
+        deleteItem(item) {
+            this.LoadingSpinner = true;
+            axios.delete(route('transactions.index'))
+                .then(({
+                    data
+                }) => {
+
+                    this.LoadingSpinner = false;
+
+                })
+
         }
 
     },

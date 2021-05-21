@@ -17,6 +17,15 @@
                         <v-col cols="12" sm="6" md="6">
                             <v-text-field @input="CheckTotal_value()" v-model="agreed_contract_value" outlined :rules="numbersRules" autocomplete="MainTradeRegister" :label="$t('mainTradeNumber')" required />
                         </v-col>
+
+                        <v-col cols="12" sm="6" md="6">
+                            <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                <template v-slot:activator="{ on, attrs2 }">
+                                    <v-text-field outlined v-model="actualDate" name="national_id_date" :label="$t('actualDate')" prepend-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                </template>
+                                <v-date-picker v-model="actualDate" @input="menu2 = false"></v-date-picker>
+                            </v-menu>
+                        </v-col>
                         <v-col cols="12" sm="6" md="6">
                             <v-text-field v-model="secretary_notes" outlined :label="$t('notes')" required />
                         </v-col>

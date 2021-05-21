@@ -222,6 +222,8 @@
     "managinePartner": "الشريك الإدارى",
     "chooseManaginPartner": "تحديد الشريك الإداري",
 
-    "NumberOfFixedPoints": "عدد الخانات"
+    "NumberOfFixedPoints": "عدد الخانات",
+    "actualDate":  "تاريخ بدء المعاملة الفعلي",
+    "note":"ملاحظات"
 
 }

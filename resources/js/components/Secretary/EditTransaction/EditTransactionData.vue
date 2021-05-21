@@ -208,11 +208,19 @@
                                 </v-data-table>
                             </v-card>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete  v-model="ChoosenReviser" outlined :rules="required" :items="revisers" item-text="label" item-value="code" :label="$t('reviser')" required />
+                        <v-col cols="12" sm="12" md="12">
+                            <div v-if="Agent !== null">
+                                <edit-agent-form> </edit-agent-form>
+                            </div>
+                            <div v-else>
+                                <new-agent-form></new-agent-form>
+                            </div>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete  v-model="ChoosenRevisingManager" outlined :rules="required" :items="revisingManagers" item-text="label" item-value="code" :label="$t('revisingManager')" required />
+                            <v-autocomplete v-model="ChoosenReviser" outlined :rules="required" :items="revisers" item-text="label" item-value="code" :label="$t('reviser')" required />
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-autocomplete v-model="ChoosenRevisingManager" outlined :rules="required" :items="revisingManagers" item-text="label" item-value="code" :label="$t('revisingManager')" required />
                         </v-col>
                     </v-row>
                 </v-container>
@@ -235,7 +243,9 @@
 <script>
 export default {
     name: "EditTransactionData.vue",
-
+    props: [
+        'Agent'
+    ],
     data() {
         return {
             ValidationErrors: '',
@@ -399,67 +409,65 @@ export default {
 
         UpdateMainRegister() {
 
-                this.LoadingSpinner = true;
-                var formData = new FormData();
-                formData.append('_method', 'PATCH');
-                formData.append('number', this.MainTradeRegister.number);
-                formData.append('date', this.MainTradeRegister.date);
-                formData.append('production_place', this.MainTradeRegister.production_place);
-                formData.append('EndDate', this.MainTradeRegister.EndDate);
-                formData.append('type', 'رئيسي');
-                axios.post(route('TradeRegister.update', this.MainTradeRegister.id), formData)
-                    .then(({
-                        data
-                    }) => {
-                        this.LoadingSpinner = false;
-                        this.ValidationErrors = '';
-                        this.MainRegisterIS_UPDATED = true;
-                        this.UpdateInstitution();
-                    })
-                    .catch((error) => {
-                        this.LoadingSpinner = false;
-                        this.ValidationErrors = error.response.data.errors;
-                        this.$toast.error('خطأ', register.number + 'يرجى اعادة مراجعة بيانات سجل فرعي رقم ', {
-                            timout: 2000
-                        });
-                    })
-
+            this.LoadingSpinner = true;
+            var formData = new FormData();
+            formData.append('_method', 'PATCH');
+            formData.append('number', this.MainTradeRegister.number);
+            formData.append('date', this.MainTradeRegister.date);
+            formData.append('production_place', this.MainTradeRegister.production_place);
+            formData.append('EndDate', this.MainTradeRegister.EndDate);
+            formData.append('type', 'رئيسي');
+            axios.post(route('TradeRegister.update', this.MainTradeRegister.id), formData)
+                .then(({
+                    data
+                }) => {
+                    this.LoadingSpinner = false;
+                    this.ValidationErrors = '';
+                    this.MainRegisterIS_UPDATED = true;
+                    this.UpdateInstitution();
+                })
+                .catch((error) => {
+                    this.LoadingSpinner = false;
+                    this.ValidationErrors = error.response.data.errors;
+                    this.$toast.error('خطأ', register.number + 'يرجى اعادة مراجعة بيانات سجل فرعي رقم ', {
+                        timout: 2000
+                    });
+                })
 
         },
 
         UpdateInstitution() {
-                this.LoadingSpinner = true;
+            this.LoadingSpinner = true;
 
-                var formData = new FormData();
+            var formData = new FormData();
 
-                formData.append('_method', 'PATCH');
-                formData.append('address', this.getAddress);
-                formData.append('business_activity', this.Institution.business_activity);
-                formData.append('name', this.Institution.name);
-                formData.append('number', this.Institution.number);
-                formData.append('legal_entity', this.Institution.legal_entity);
-                formData.append('angel_interests', this.Institution.angel_interests);
-                formData.append('date_type', this.Institution.date_type);
-                formData.append('nature', this.Institution.nature);
-                formData.append('charity_num', this.Institution.charity_num);
-                formData.append('extra_tax_num', this.Institution.extra_tax_num);
-                axios.post(route('Institution.update', this.Institution.id),
-                    formData
-                ).then((res) => {
-                    this.LoadingSpinner = false;
-                    this.CompanyError = false;
-                    this.InstitutionIS_UPDATED = true;
-                    this.UpdateTransaction();
-                }).catch((error) => {
-                    this.LoadingSpinner = false;
-                    this.ValidationErrors = error.response.data.errors;
+            formData.append('_method', 'PATCH');
+            formData.append('address', this.getAddress);
+            formData.append('business_activity', this.Institution.business_activity);
+            formData.append('name', this.Institution.name);
+            formData.append('number', this.Institution.number);
+            formData.append('legal_entity', this.Institution.legal_entity);
+            formData.append('angel_interests', this.Institution.angel_interests);
+            formData.append('date_type', this.Institution.date_type);
+            formData.append('nature', this.Institution.nature);
+            formData.append('charity_num', this.Institution.charity_num);
+            formData.append('extra_tax_num', this.Institution.extra_tax_num);
+            axios.post(route('Institution.update', this.Institution.id),
+                formData
+            ).then((res) => {
+                this.LoadingSpinner = false;
+                this.CompanyError = false;
+                this.InstitutionIS_UPDATED = true;
+                this.UpdateTransaction();
+            }).catch((error) => {
+                this.LoadingSpinner = false;
+                this.ValidationErrors = error.response.data.errors;
 
-                    this.CompanyError = true;
-                    this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
-                        timout: 2000
-                    });
+                this.CompanyError = true;
+                this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
+                    timout: 2000
                 });
-
+            });
 
         },
 
