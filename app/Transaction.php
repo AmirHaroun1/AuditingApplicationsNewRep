@@ -20,7 +20,7 @@ class Transaction extends Model
     }
 
     public function getHijriFinancialYearAttribute(){
-        $date = Carbon::createFromDate($this->attributes['start_financial_year']);
+        $date = Carbon::createFromDate($this->attributes['financial_year']);
         return Hijri::Date('Y',$date );
     }
     public function getActualStartDateAttribute(){

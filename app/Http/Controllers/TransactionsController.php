@@ -158,7 +158,7 @@ class TransactionsController extends Controller
         if(!$OfficeInfo){
             return abort(403,'Please Set Office Info Data');
         }
-          $Institution->load(['agent']);
+        $Institution->load(['agent']);
         $Transaction->append(['actual_start_date','hijri_actual_start_date','actual_end_date','hijri_actual_end_date','engagement_letter_date','hijri_engagement_letter_Date'])->toArray();
 
         return view('Transactions.EngagementLetter',compact('Institution','Transaction','OfficeInfo'));
