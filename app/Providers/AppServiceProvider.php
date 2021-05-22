@@ -29,11 +29,14 @@ class AppServiceProvider extends ServiceProvider
         //
         Schema::defaultStringLength(191);
         // limit returning the balance to only your dashboard layout
-        view()->composer([
-            'layout._Sidebar'
-        ], function($view) {
-            $AuthUser = User::with('OfficeBranch')->findOrFail(Auth::id());
-            view()->share('AuthUser', $AuthUser);
-        });
+        if (Auth::check()){
+            view()->composer([
+                'layout._Sidebar'
+            ], function($view) {
+                $AuthUser = User::with('OfficeBranch')->findOrFail(Auth::id());
+                view()->share('AuthUser', $AuthUser);
+            });
+        }
+
     }
 }
