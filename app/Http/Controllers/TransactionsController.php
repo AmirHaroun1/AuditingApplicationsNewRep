@@ -81,14 +81,9 @@ class TransactionsController extends Controller
         return view('Transactions.create');
     }
 
-    public function store(StoreTransactionRequest $request, $institution_id ,$reviser_id){
+    public function store(StoreTransactionRequest $request){
 
         $NewTransaction = Transaction::create($request->all());
-        $NewTransaction = Transaction::findOrFail($NewTransaction->id);
-        $NewTransaction->institution_id = $institution_id;
-        $NewTransaction->reviser_id = $reviser_id;
-        $NewTransaction->MainTradeRegisterNumber = $request->MainTradeRegisterNumber;
-        $NewTransaction->save();
 
         return response()->json([$NewTransaction],200);
     }
