@@ -48,6 +48,7 @@ class CreateTransactionsTable extends Migration
             $table->double('reviser_time')->default(0);
             $table->double('revisingManager_time')->default(0);
             $table->double('helper_time')->default(0);
+            $table->text('notes_on_time')->nullable();
 
             $table->text('secretary_notes')->nullable();
             $table->text('reviser_notes')->nullable();

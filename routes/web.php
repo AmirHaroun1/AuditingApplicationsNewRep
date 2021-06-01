@@ -73,14 +73,23 @@ Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],func
     Route::get('/dashboard', 'DashBoardController@index')->name('dashboard');
 
     //employees route
-    Route::get('/ManageEmployees','AdminEmployeesController@index')->name('employees.index');
-    Route::get('/AddEmployee','AdminEmployeesController@create')->name('employees.create');
-    Route::post('/StoreNewEmployee','AdminEmployeesController@store')->name('employees.store');
-    Route::get('/EditEmployee/{employee}','AdminEmployeesController@edit')->name('employees.edit');
+    Route::get('/ManageEmployees','AdminEmployeesController@index')->name('admin.employees.index');
+    Route::get('/AddEmployee','AdminEmployeesController@create')->name('admin.employees.create');
+    Route::post('/StoreNewEmployee','AdminEmployeesController@store')->name('admin.employees.store');
+    Route::get('/EditEmployee/{employee}','AdminEmployeesController@edit')->name('admin.employees.edit');
     Route::get('/SearchEmployee/{employeeName}','AdminEmployeesController@search')->name('employees.search');
-    Route::patch('/UpdateEmployee/{employee}','AdminEmployeesController@update')->name('employees.update');
-    Route::delete('/DeleteEmployee/{employee}','AdminEmployeesController@destroy')->name('employees.destroy');
-
+    Route::patch('/UpdateEmployee/{employee}','AdminEmployeesController@update')->name('admin.employees.update');
+    Route::delete('/DeleteEmployee/{employee}','AdminEmployeesController@destroy')->name('admin.employees.destroy');
+    //Documents Routes
+    Route::resource('/managedocuments','AdminDocumentsController')
+                    ->parameters(['managedocuments'=>'document'])
+                    ->only(['index','update','store'])
+                    ->names([
+                        'index'=>'admin.documents.index',
+                        'store'=>'admin.documents.store',
+                        'update'=>'admin.documents.update',
+                        'destroy'=>'admin.documents.destroy',
+                    ]);
     // OfficeBranches Route
     Route::resource('/OfficeBranches','OfficeBranchesController')->only(['index','store','update']);
 
@@ -251,12 +260,20 @@ Route::group(['middleware'=>['auth'] ],function () {
 
     /*
     |--------------------------------------------------------------------------
-    |  OfficeInfo  Routes
+    |  System settings OfficeInfo  Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('/OfficeInfo','SystemSettingsController@GetOfficeInfo')->name('system.officeInfo');
-    Route::post('/StoreOfficeInfo','SystemSettingsController@StoreOfficeInfo')->name('system.officeInfo.store');
-    Route::patch('/UpdateOfficeInfo','SystemSettingsController@UpdateOfficeInfo')->name('system.officeInfo.update');
+    Route::get('/OfficeInfo','OfficeInfoController@GetOfficeInfo')->name('system.officeInfo');
+    Route::post('/StoreOfficeInfo','OfficeInfoController@StoreOfficeInfo')->name('system.officeInfo.store');
+    Route::patch('/UpdateOfficeInfo','OfficeInfoController@UpdateOfficeInfo')->name('system.officeInfo.update');
+    /*
+    |--------------------------------------------------------------------------
+    |  System Standard Time Table  Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/standardTime','SystemSettingsController@GetStandardTime')->name('system.standard_time.index');
+    Route::post('/StoreStandardTime','SystemSettingsController@StoreStandardTime')->name('system.standard_time.store');
+    Route::patch('/UpdateStandardTime','SystemSettingsController@UpdateStandardTime')->name('system.standard_time.update');
     /*
     |--------------------------------------------------------------------------
     |  update Transaction Routes
@@ -332,6 +349,8 @@ Route::group(['middleware'=>['auth'] ],function () {
     Route::patch('/UpdateInKind/{InKindID}','AccountsInKindController@update')->name('AccountsInKind.update');
     Route::delete('/DeleteInKind/{InKindID}/Parent/{ParentStatementID}','AccountsInKindController@destroy')->name('AccountsInKind.destroy');
 
+    // previous year Transaction Time
+    Route::get('/PreviousYearTransactionTime/{CurrentFinancialYear}/{MainTradeRegisterNumber}','TransactionsController@PreviousYearTimeTable')->name('transactions.PreviousYearTimeTable');
 
 });
 Route::get('/down',function(){

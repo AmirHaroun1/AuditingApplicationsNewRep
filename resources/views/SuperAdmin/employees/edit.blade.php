@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
 @endsection
 @section('content')
-    <form method="post" enctype='multipart/form-data' action="{{route('employees.update',$employee)}}"  style="padding-top:70px">
+    <form method="post" enctype='multipart/form-data' action="{{route('admin.employees.update',$employee)}}"  style="padding-top:70px">
         @csrf
         @method('patch')
         <div class="row pb-4">
@@ -185,7 +185,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <form action="{{route('employees.destroy',$employee)}}" method="post">
+                            <form action="{{route('admin.employees.destroy',$employee)}}" method="post">
                                 @csrf
                                 @method('delete')
                                  <button class="btn btn-flat btn-lg btn-danger"  type="submit" >حذف</button>

@@ -84,7 +84,7 @@ export default {
                 {
                     title: 'الموظفين',
                     icon: 'fa fa-user',
-                    path: "employees.index"
+                    path: "admin.employees.index"
                 },
                 {
                     title: 'بيانات المكتب',

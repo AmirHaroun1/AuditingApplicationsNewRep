@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\employee;
 use App\Http\Requests\UpdateEmployeeRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeesController extends Controller

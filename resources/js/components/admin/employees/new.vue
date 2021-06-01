@@ -123,7 +123,7 @@ export default {
                 form_data.append(key, this.user[key]);
             }
 
-            axios.post(route('employees.store'), form_data).then(res => {
+            axios.post(route('admin.employees.store'), form_data).then(res => {
                 console.log('res', res)
                 this.$emit('close')
             })

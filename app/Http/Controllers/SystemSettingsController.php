@@ -7,43 +7,15 @@ use App\AccountLVL2;
 use App\AccountLVL3;
 use App\AccountLVL4;
 use App\AccountRepository;
+use App\RevisingGuid;
 use App\SystemSettings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SystemSettingsController extends Controller
 {
     //
-    public function GetOfficeInfo(){
 
-        $OfficeInfo = SystemSettings::where('type','Like','بيانات المكتب')->first();
-
-        return view('SuperAdmin.OfficeInfo.index',compact('OfficeInfo'));
-    }
-    public function StoreOfficeInfo(Request $request){
-        if($request->has('logo')){
-            $logoPath = $request['logo']->store('OfficeLogo');
-            SystemSettings::create( array_merge($request->except('logo'),['type'=>'بيانات المكتب','logo'=>$logoPath]) );
-        }else{
-            SystemSettings::create( array_merge($request->all(),['type'=>'بيانات المكتب']) );
-        }
-        return response()->json('',200);
-    }
-    public function UpdateOfficeInfo(Request $request){
-
-
-        $OfficeInfo = SystemSettings::where('type','Like','بيانات المكتب')->firstOrFail();
-        if($request->has('logo')){
-
-            unlink('/storage/OfficeLogo/'.$OfficeInfo->logo);
-
-            $logoPath = $request['logo']->store('OfficeLogo');
-
-            $OfficeInfo->update($request->except('logo'),['logo'=>$logoPath]);
-        }else{
-            $OfficeInfo->update($request->all());
-        }
-        return response()->json('',200);
-    }
     public function DropDownIndex(){
 
         if(\request()->expectsJson()){
@@ -108,4 +80,36 @@ class SystemSettingsController extends Controller
         return response()->json($account);
     }
 
+    public function GetStandardTime(){
+        $StandardTime = DB::table('standard_time')->selectRaw('*')->first();
+        return response()->json(['StandardTime' => $StandardTime],200);
+    }
+    public function StoreStandardTime(Request $request){
+        $StandardTime = DB::table('standard_time')->insert([
+           'secretary_time' => $request->secretary_time,
+            'fieldDelegate_time'=> $request->fieldDelegate_time,
+            'auditor_time' => $request->auditor_time,
+            'executiveDirector_time'=>$request->executiveDirector_time,
+            'Managing_partner_time' => $request->Managing_partner_time,
+            'reviser_time' => $request->reviser_time,
+            'revisingManager_time' => $request->revisingManager_time,
+            'helper_time' => $request->helper_time
+        ]);
+        return response()->json(['StandardTime' => $StandardTime],200);
+    }
+    public function UpdateStandardTime(Request $request){
+        $StandardTime = DB::table('standard_time')
+            ->first()
+            ->update([
+                'secretary_time' => $request->secretary_time,
+                'fieldDelegate_time'=> $request->fieldDelegate_time,
+                'auditor_time' => $request->auditor_time,
+                'executiveDirector_time'=>$request->executiveDirector_time,
+                'Managing_partner_time' => $request->Managing_partner_time,
+                'reviser_time' => $request->reviser_time,
+                'revisingManager_time' => $request->revisingManager_time,
+                'helper_time' => $request->helper_time
+             ]);
+        return response()->json(['StandardTime' => $StandardTime],200);
+    }
 }

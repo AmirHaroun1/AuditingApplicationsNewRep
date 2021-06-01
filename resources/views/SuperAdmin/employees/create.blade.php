@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
 @endsection
 @section('content')
-    <form enctype='multipart/form-data' action="{{route('employees.store')}}" method="POST" style="padding-top:70px">
+    <form enctype='multipart/form-data' action="{{route('admin.employees.store')}}" method="POST" style="padding-top:70px">
         @csrf
         <div class="row">
             <div class="col-lg-6 ">

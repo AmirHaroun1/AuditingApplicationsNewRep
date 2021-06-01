@@ -67,7 +67,6 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-
                                                     <td>
                                                         <input type="text" class="form-control" v-model="secretary_time">
                                                         <input v-model="secretary_note" type="text" class="form-control" :placeholder="$t('note')">
