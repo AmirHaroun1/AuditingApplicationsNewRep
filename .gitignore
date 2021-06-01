@@ -3,6 +3,10 @@ node_modules
 /dist
 vendor/
 
+#api docs
+resources/docs
+public/docs
+
 # local env files
 .env.local
 .env

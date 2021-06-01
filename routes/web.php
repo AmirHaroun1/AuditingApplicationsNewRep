@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +57,6 @@ Route::get('/',function (){
             return redirect()->route('Transactions.index.archive');
             break;
         }
-
         default:
             return '/login';
             break;
@@ -73,13 +73,14 @@ Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],func
     Route::get('/dashboard', 'DashBoardController@index')->name('dashboard');
 
     //employees route
-    Route::get('/ManageEmployees','employeesController@index')->name('employees.index');
-    Route::get('/AddEmployee','employeesController@create')->name('employees.create');
-    Route::post('/StoreNewEmployee','employeesController@store')->name('employees.store');
-    Route::get('/EditEmployee/{employee}','employeesController@edit')->name('employees.edit');
-    Route::get('/SearchEmployee/{employeeName}','employeesController@search')->name('employees.search');
-    Route::patch('/UpdateEmployee/{employee}','employeesController@update')->name('employees.update');
-    Route::delete('/DeleteEmployee/{employee}','employeesController@destroy')->name('employees.destroy');
+    Route::get('/ManageEmployees','AdminEmployeesController@index')->name('employees.index');
+    Route::get('/AddEmployee','AdminEmployeesController@create')->name('employees.create');
+    Route::post('/StoreNewEmployee','AdminEmployeesController@store')->name('employees.store');
+    Route::get('/EditEmployee/{employee}','AdminEmployeesController@edit')->name('employees.edit');
+    Route::get('/SearchEmployee/{employeeName}','AdminEmployeesController@search')->name('employees.search');
+    Route::patch('/UpdateEmployee/{employee}','AdminEmployeesController@update')->name('employees.update');
+    Route::delete('/DeleteEmployee/{employee}','AdminEmployeesController@destroy')->name('employees.destroy');
+
     // OfficeBranches Route
     Route::resource('/OfficeBranches','OfficeBranchesController')->only(['index','store','update']);
 
@@ -189,12 +190,6 @@ Route::group(['prefix'=>'TechnicalAuditor','middleware'=>['auth','auditor'] ],fu
     Route::delete('/DeleteExistingBranchedStatementAddedByExcel/{BranchedStatementID}/WhoseParent/{ParentID}','ExcelController@destroy')->name('Excel.BranchedStatement.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| get All Transactions JsonFormat
-|--------------------------------------------------------------------------
-*/
-Route::get('/AllTransactions/{OrderByCase?}/{MainRegisterNumber?}','TransactionsController@index')->name('transactions.index');
 
 /*
 |--------------------------------------------------------------------------
@@ -204,7 +199,7 @@ Route::get('/AllTransactions/{OrderByCase?}/{MainRegisterNumber?}','Transactions
 Route::group(['prefix'=>'ManagementPartner','middleware'=>['auth','partner'] ],function () {
 
     Route::get('/Transactions', 'TransactionsController@index')->name('Transactions.index.partner');
-Route::get('/EditTransaction/{Transaction_id}','TransactionsController@edit')->name('transactions.edit.partner')->middleware('CheckEmployeeHasAccess');
+    Route::get('/EditTransaction/{Transaction_id}','TransactionsController@edit')->name('transactions.edit.partner')->middleware('CheckEmployeeHasAccess');
 
 
 });
@@ -240,6 +235,19 @@ Route::group([ 'prefix'=>'ArchiveSecretary','middleware'=>['auth','ArchiveSecret
 
 });
 Route::group(['middleware'=>['auth'] ],function () {
+    /*
+    |--------------------------------------------------------------------------
+    | Employee Format
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/EmployeeProfile/{employee}','EmployeesController@show')->name('employee.show');
+    Route::patch('/UpdateEmployeeProfile/{employee}','EmployeesController@update')->name('employee.update');
+    /*
+    |--------------------------------------------------------------------------
+    | get All Transactions JsonFormat
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/AllTransactions/{OrderByCase?}/{MainRegisterNumber?}','TransactionsController@index')->name('transactions.index');
 
     /*
     |--------------------------------------------------------------------------
@@ -274,7 +282,7 @@ Route::group(['middleware'=>['auth'] ],function () {
     */
     Route::get('/GetDropDownsOptions','SystemSettingsController@DropDownIndex')->name('system.DropDowns.retrieve.option');
 
-    Route::get('/GetEmployeesType/{employees_type}','employeesController@getEmployeeType')->name('employee.type');
+    Route::get('/GetEmployeesType/{employees_type}','AdminEmployeesController@getEmployeeType')->name('employee.type');
     /*
     |--------------------------------------------------------------------------
     |  AccountCharts Routes
@@ -326,3 +334,10 @@ Route::group(['middleware'=>['auth'] ],function () {
 
 
 });
+Route::get('/down',function(){
+    return Artisan::call('down');
+});
+Route::get('/up',function(){
+    return Artisan::call('up');
+})->name('up');
+

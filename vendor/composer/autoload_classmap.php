@@ -40,7 +40,7 @@ return array(
     'App\\Http\\Controllers\\TransactionAccountStatementBranchesController' => $baseDir . '/app/Http/Controllers/TransactionAccountStatementBranchesController.php',
     'App\\Http\\Controllers\\TransactionAccountsStatementsController' => $baseDir . '/app/Http/Controllers/TransactionAccountsStatementsController.php',
     'App\\Http\\Controllers\\TransactionsController' => $baseDir . '/app/Http/Controllers/TransactionsController.php',
-    'App\\Http\\Controllers\\employeesController' => $baseDir . '/app/Http/Controllers/employeesController.php',
+    'App\\Http\\Controllers\\adminEmployeesController' => $baseDir . '/app/Http/Controllers/AdminEmployeesController.phpr.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\ArchiveSecretary' => $baseDir . '/app/Http/Middleware/ArchiveSecretary.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',

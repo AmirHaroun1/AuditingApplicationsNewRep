@@ -239,7 +239,7 @@
                 <v-form @submit.prevent="CloseDetermineFixedPointsModalOpenAddModal()">
                     <v-row>
                         <v-col cols="12">
-                            <v-autocomplete v-model="NumberOfFixedPoints" :items="[1,2,3,4,5]"  outlined :label="$t('NumberOfFixedPoints')"></v-autocomplete>
+                            <v-autocomplete v-model="NumberOfFixedPoints" :items="FixedPointsOptions"  outlined :label="$t('NumberOfFixedPoints')"></v-autocomplete>
                         </v-col>
                     </v-row>
                     <v-card-actions>
@@ -325,6 +325,7 @@ export default {
                 'second_study': '',
 
             },
+            FixedPointsOptions : [{text:'0',value:''},{text:'1',value:'0'},{text:'2',value:'00'},{text:'3',value:'000'},{text:'4',value:'0000'}],
             PaginationData: {
                 'current_page': '',
                 'last_page': '',
@@ -399,17 +400,16 @@ export default {
                 })
         },
         ShowAddAccountChartModal(parentAccountArray, oldest_parent_id, top_parent_id, Parent, level) {
-            if (oldest_parent_id != 0) {
+            if(oldest_parent_id != 0){
                 this.Added_Account.oldest_parent_id = oldest_parent_id;
             }
-            if (top_parent_id != 0) {
+            if(top_parent_id != 0){
                 this.Added_Account.top_parent_id = top_parent_id;
             }
-            if (Parent !== null) {
+            if(Parent !== null){
                 this.Added_Account.parent_id = Parent.id;
                 this.Added_Account.is_related_party = Parent.is_related_party;
             }
-
             this.Added_Account.level = level;
             this.ParentAccountArray = parentAccountArray;
             if (Parent == null && !this.ParentAccountArray.length) {
@@ -420,25 +420,21 @@ export default {
                 this.Added_Account.code = Parent.code;
                 this.NumberOfFixedPointsDialog =  true;
             } else {
-
-                let LastItemCode = this.ParentAccountArray[this.ParentAccountArray.length - 1].code;
-                LastItemCode = LastItemCode.toString();
-
-                let NewItemLastChar = parseInt(LastItemCode[LastItemCode.length - 1]) + 1;
-
-                let NewItemLastCode = LastItemCode.substring(0, LastItemCode.length - 1) + NewItemLastChar;
-
+                let LastItemCode = this.ParentAccountArray[this.ParentAccountArray.length-1].code;
+                LastItemCode =  LastItemCode.toString();
+                let NewItemLastChar = parseInt(LastItemCode[LastItemCode.length-1])+1;
+                let NewItemLastCode  = LastItemCode.substring(0,LastItemCode.length-1) + NewItemLastChar ;
                 this.Added_Account.code = NewItemLastCode;
+
                 this.newAccountDialog = true;
             }
         },
         CloseDetermineFixedPointsModalOpenAddModal() {
 
-            this.Added_Account.code = this.Added_Account.code + this.NumberOfFixedPoints + (this.ParentAccountArray.length + 1);
-
+            this.Added_Account.code = this.Added_Account.code + this.NumberOfFixedPoints + (this.ParentAccountArray.length + 1);alert(this.Added_Account.code);
             this.NumberOfFixedPointsDialog = false;
             this.newAccountDialog = true;
-            },
+        },
         ShowEditAccountChartModal(account, level) {
             this.dialog = true;
             this.Edit_Account = account;
@@ -582,7 +578,7 @@ export default {
                         timout: 2000
                     });
                 });
-
+            this.newAccountDialog = false;
         },
         destroy(ParentArray, index, id, level) {
             this.$toast.question('.', 'تأكيد حذف الحساب', {
@@ -663,7 +659,7 @@ export default {
                         timout: 2000
                     });
                 })
-                this.dialog = false
+                this.dialog = false;
         }
     }
 }

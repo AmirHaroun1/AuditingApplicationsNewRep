@@ -4,7 +4,13 @@
         {{authObject.name}} 
     </h3>
     <h5 class="white--text text-center">
-        ( {{authObject.role}} )
+
+        <p v-if="authObject.role == 'سوبر'">
+              ( ادمن )
+        </p>
+        <p v-else>
+            ( {{authObject.role}} )
+        </p>
     </h5>
     <h6 class="white--text text-center">
     فرع:        {{authObject.office_branch.name}}

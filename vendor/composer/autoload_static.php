@@ -695,7 +695,7 @@ class ComposerStaticInit1bac571cd7f7817ed9c14246d2e93d53
         'App\\Http\\Controllers\\TransactionAccountStatementBranchesController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransactionAccountStatementBranchesController.php',
         'App\\Http\\Controllers\\TransactionAccountsStatementsController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransactionAccountsStatementsController.php',
         'App\\Http\\Controllers\\TransactionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransactionsController.php',
-        'App\\Http\\Controllers\\employeesController' => __DIR__ . '/../..' . '/app/Http/Controllers/employeesController.php',
+        'App\\Http\\Controllers\\adminEmployeesController' => __DIR__ . '/../..',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\ArchiveSecretary' => __DIR__ . '/../..' . '/app/Http/Middleware/ArchiveSecretary.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
