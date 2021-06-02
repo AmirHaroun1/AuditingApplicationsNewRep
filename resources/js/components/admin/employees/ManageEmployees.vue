@@ -147,7 +147,7 @@ export default {
             this.$router.push('./plans/' + item.id);
         },
         deleteEmployee () {
-            axios.delete(route('employees.destroy',{'employee':this.currentEmployeeDelete})).then(res => {
+            axios.delete(route('admin.employees.destroy',{'employee':this.currentEmployeeDelete})).then(res => {
                 console.log('res', res)
                 this.deleteDialog = false
             })

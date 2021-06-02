@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Scopes\AuditorScope;
+use App\scopes\AuditorScope;
 use Illuminate\Database\Eloquent\Model;
 
 class auditor extends Model

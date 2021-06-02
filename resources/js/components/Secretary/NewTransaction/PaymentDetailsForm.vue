@@ -279,7 +279,7 @@ export default {
             });
         },
         EngagementLetterLink() {
-            return route('Print.EngagementLetter', [this.$parent.Institution, this.Transaction]);
+            return route('Print.EngagementLetter', [this.Transaction]);
         }
 
     },

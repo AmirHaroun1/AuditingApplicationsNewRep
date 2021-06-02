@@ -10,6 +10,8 @@ use App\SystemSettings;
 use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 /**
  * @group  Manage Transactions
  *
@@ -39,14 +41,14 @@ class TransactionsController extends Controller
 
         if(\request()->expectsJson()){
             $transactions = Transaction::
-            when(true, function($query){
-                switch (auth()->user()->role)
-                {
-                    case "مراجع فني": return $query->where('reviser_id',auth()->user()->id);
-                    case "مدقق": return $query->where('auditor_id',auth()->user()->id);
-                    case "شريك اداري": return $query->where('partner_id',auth()->user()->id);
-                }
-            })
+                when(true, function($query){
+                    switch (auth()->user()->role)
+                    {
+                        case "مراجع فني": return $query->where('reviser_id',auth()->user()->id);
+                        case "مدقق": return $query->where('auditor_id',auth()->user()->id);
+                        case "شريك اداري": return $query->where('partner_id',auth()->user()->id);
+                    }
+                })
                 ->when(!is_null($MainRegisterNumber),function($query) use ($MainRegisterNumber){
                     return $query->where('MainTradeRegisterNumber','=',$MainRegisterNumber);
                 })
@@ -81,14 +83,9 @@ class TransactionsController extends Controller
         return view('Transactions.create');
     }
 
-    public function store(StoreTransactionRequest $request, $institution_id ,$reviser_id){
+    public function store(StoreTransactionRequest $request){
 
         $NewTransaction = Transaction::create($request->all());
-        $NewTransaction = Transaction::findOrFail($NewTransaction->id);
-        $NewTransaction->institution_id = $institution_id;
-        $NewTransaction->reviser_id = $reviser_id;
-        $NewTransaction->MainTradeRegisterNumber = $request->MainTradeRegisterNumber;
-        $NewTransaction->save();
 
         return response()->json([$NewTransaction],200);
     }
@@ -104,8 +101,17 @@ class TransactionsController extends Controller
             'revisingManager:id,name,role,signature',
             'partner:id,name,role,signature')
         ->findOrFail($transaction_id);
+
         $Transaction->append(['actual_start_date','hijri_actual_start_date','actual_end_date','hijri_actual_end_date','engagement_letter_date','hijri_engagement_letter_Date'])->toArray();
         return view('Transactions.edit',compact('Transaction'));
+    }
+    public function PreviousYearTimeTable($CurrentFinancialYear,$MainTradeRegisterNumber){
+        $PastYearTransactionTime= DB::table('transactions')
+            ->where('financial_year',$CurrentFinancialYear-1)
+            ->where('MainTradeRegisterNumber',$MainTradeRegisterNumber)
+            ->select('secretary_time','fieldDelegate_time','auditor_time','executiveDirector_time','Managing_partner_time','reviser_time','revisingManager_time','helper_time')
+            ->first();
+        return response()->json(['$PastYearTransactionTime'=>$PastYearTransactionTime],200);
     }
     public function update(UpdateTransactionRequest $request, Transaction $transaction){
         if( ($transaction->auditor_id != null) && ($request->auditor_id != $transaction->auditor_id ) ){
@@ -114,7 +120,6 @@ class TransactionsController extends Controller
         $transaction->update($request->all());
 
         return response()->json([$transaction],200);
-
     }
     public function updateActualTime(Transaction $transaction, Request $request){
 
@@ -150,15 +155,15 @@ class TransactionsController extends Controller
         return view('Transactions.ReceiptVoucher',compact('TransactionYear','InistitutionName','PaymentType','PaymentValue','ReviserCompanyName'));
     }
 
-    public function PrintEngagementLetter(institution $Institution,Transaction $Transaction)
+    public function PrintEngagementLetter(Transaction $Transaction)
     {
 
-        $Transaction->load(['partner:id,name,signature']);
+        $Transaction->load(['partner:id,name,signature','institution.agent']);
         $OfficeInfo = SystemSettings::where('type','LIKE','بيانات المكتب')->first();
         if(!$OfficeInfo){
             return abort(403,'Please Set Office Info Data');
         }
-        $Institution->load(['agent']);
+        $Institution = $Transaction->institution;
         $Transaction->append(['actual_start_date','hijri_actual_start_date','actual_end_date','hijri_actual_end_date','engagement_letter_date','hijri_engagement_letter_Date'])->toArray();
 
         return view('Transactions.EngagementLetter',compact('Institution','Transaction','OfficeInfo'));

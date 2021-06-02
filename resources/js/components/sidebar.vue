@@ -4,8 +4,17 @@
         {{authObject.name}} 
     </h3>
     <h5 class="white--text text-center">
-        ( {{authObject.role}} )
+
+        <p v-if="authObject.role == 'سوبر'">
+              ( ادمن )
+        </p>
+        <p v-else>
+            ( {{authObject.role}} )
+        </p>
     </h5>
+    <h6 class="white--text text-center">
+    فرع:        {{authObject.office_branch.name}}
+    </h6>
         <!-- <v-img class="mainLogo my-2" src="https://toppng.com/uploads/preview/deezer-logo-white-png-spotify-icon-png-white-115628504321wsqwqfkog.png" height="75px"></v-img> -->
     <v-divider></v-divider>
     <v-list>
@@ -75,7 +84,7 @@ export default {
                 {
                     title: 'الموظفين',
                     icon: 'fa fa-user',
-                    path: "employees.index"
+                    path: "admin.employees.index"
                 },
                 {
                     title: 'بيانات المكتب',

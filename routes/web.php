@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -56,19 +57,11 @@ Route::get('/',function (){
             return redirect()->route('Transactions.index.archive');
             break;
         }
-
         default:
             return '/login';
             break;
     }
 })->middleware('auth');
-
-Route::get('/TestMail',function(){
-    return $a = \Illuminate\Support\Facades\URL::signedRoute('result');
-});
-Route::get('/result',function(){
-    return 'result';
-})->name('result')->middleware('signed');
 
 /*
 |--------------------------------------------------------------------------
@@ -78,21 +71,34 @@ Route::get('/result',function(){
 Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],function (){
     // dashboard route
     Route::get('/dashboard', 'DashBoardController@index')->name('dashboard');
+
     //employees route
-    Route::get('/ManageEmployees','employeesController@index')->name('employees.index');
-    Route::get('/AddEmployee','employeesController@create')->name('employees.create');
-    Route::post('/StoreNewEmployee','employeesController@store')->name('employees.store');
-    Route::get('/EditEmployee/{employee}','employeesController@edit')->name('employees.edit');
-    Route::get('/SearchEmployee/{employeeName}','employeesController@search')->name('employees.search');
-    Route::patch('/UpdateEmployee/{employee}','employeesController@update')->name('employees.update');
-    Route::delete('/DeleteEmployee/{employee}','employeesController@destroy')->name('employees.destroy');
+    Route::get('/ManageEmployees','AdminEmployeesController@index')->name('admin.employees.index');
+    Route::get('/AddEmployee','AdminEmployeesController@create')->name('admin.employees.create');
+    Route::post('/StoreNewEmployee','AdminEmployeesController@store')->name('admin.employees.store');
+    Route::get('/EditEmployee/{employee}','AdminEmployeesController@edit')->name('admin.employees.edit');
+    Route::get('/SearchEmployee/{employeeName}','AdminEmployeesController@search')->name('employees.search');
+    Route::patch('/UpdateEmployee/{employee}','AdminEmployeesController@update')->name('admin.employees.update');
+    Route::delete('/DeleteEmployee/{employee}','AdminEmployeesController@destroy')->name('admin.employees.destroy');
+    //Documents Routes
+    Route::resource('/managedocuments','AdminDocumentsController')
+                    ->parameters(['managedocuments'=>'document'])
+                    ->only(['index','update','store'])
+                    ->names([
+                        'index'=>'admin.documents.index',
+                        'store'=>'admin.documents.store',
+                        'update'=>'admin.documents.update',
+                        'destroy'=>'admin.documents.destroy',
+                    ]);
     // OfficeBranches Route
     Route::resource('/OfficeBranches','OfficeBranchesController')->only(['index','store','update']);
+
     //DropDowns SystemSettings
     Route::get('/ManageDropDowns','SystemSettingsController@DropDownIndex')->name('system.DropDowns.index');
     Route::post('/StoreDropDownsOption','SystemSettingsController@StoreDropDownOption')->name('system.DropDowns.store.option');
     Route::delete('/DeleteDropDownsOption/{id}','SystemSettingsController@DeleteDropDownOption')->name('system.DropDowns.delete.option');
     Route::patch('/UpdateDropDownsOption/{id}','SystemSettingsController@UpdateDropDownOption')->name('system.DropDowns.update.option');
+
     //AccountCharts SystemSettings
     Route::get('/AccountCharts','SystemSettingsController@AccountChartsIndex')->name('system.AccountCharts.index');
     Route::post('/StoreAccountChart','SystemSettingsController@AccountChartsStore')->name('system.AccountCharts.store');
@@ -115,7 +121,6 @@ Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],func
 
 
     //FinancialGroupAccountsRoutes
-
     Route::post('/LinkAccountToFinancialGroup/{FinancialGroupID}','FinancialGroupsAccountsController@store')->name('FinancialGroupsAccounts.store.admin');
     Route::delete('/UnLinkAccountFromFinancialGroup/{AccountID}','FinancialGroupsAccountsController@destroy')->name('FinancialGroupsAccounts.destroy.admin');
 
@@ -133,10 +138,11 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     */
     Route::get('/Transactions', 'TransactionsController@index')->name('Transactions.index.Secretary');
     Route::get('/CreateTransaction', 'TransactionsController@create')->name('Transactions.create');
-    Route::post('/StoreNewTransaction/institution/{institution}/reviser/{reviser}', 'TransactionsController@store')->name('Transactions.store');
+    Route::post('/StoreNewTransaction', 'TransactionsController@store')->name('Transactions.store');
     Route::get('/PrintReceiptVoucher/TransactionYear/{TransactionYear}/CompanyName/{CompanyName}/PaymentType/{PaymentType}/PaymentValue/{PaymentValue}/ReviserCompanyName/{ReviserCompanyName}','TransactionsController@PrintReceiptVoucher')->name('Print.ReceiptVoucher');
-    Route::get('/EngagementLetter/institution/{institution}/transaction/{transaction}/','TransactionsController@PrintEngagementLetter')->name('Print.EngagementLetter');
+    Route::get('/EngagementLetter/transaction/{transaction}/','TransactionsController@PrintEngagementLetter')->name('Print.EngagementLetter');
     Route::get('/EditTransaction/{Transaction_id}','TransactionsController@edit')->name('transactions.edit.secretary')->middleware('CheckEmployeeHasAccess');
+
     /*
     |--------------------------------------------------------------------------
     | institution Routes
@@ -144,13 +150,13 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     */
     Route::post('/StoreNewInstitution','InstitutionController@store')->name('Institution.store');
     Route::patch('/UpdateInstitution/{institution:id}','InstitutionController@update')->name('Institution.update');
+
     /*
     |--------------------------------------------------------------------------
     | Agent Routes
     |--------------------------------------------------------------------------
     */
     Route::post('/StoreNewAgentFor/{institution}','AgentController@store')->name('agent.store');
-
     Route::patch('/UpdateAgent/{agent}','AgentController@update')->name('agent.update');
 
     /*
@@ -159,12 +165,8 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     |--------------------------------------------------------------------------
     */
     Route::post('/SearchNewRegister','TradeRegisterController@search')->name('TradeRegister.search');
-
     Route::post('/StoreNewRegisterTrade/{institution:id}','TradeRegisterController@store')->name('TradeRegister.store');
-
     Route::patch('/UpdateRegister/{TradeRegister}','TradeRegisterController@update')->name('TradeRegister.update');
-
-
     Route::delete('/DeleteTradeRegister/{TradeRegisterID}','TradeRegisterController@delete')->name('TradeRegister.delete');
 
 
@@ -197,12 +199,6 @@ Route::group(['prefix'=>'TechnicalAuditor','middleware'=>['auth','auditor'] ],fu
     Route::delete('/DeleteExistingBranchedStatementAddedByExcel/{BranchedStatementID}/WhoseParent/{ParentID}','ExcelController@destroy')->name('Excel.BranchedStatement.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| get All Transactions JsonFormat
-|--------------------------------------------------------------------------
-*/
-Route::get('/AllTransactions/{OrderByCase?}/{MainRegisterNumber?}','TransactionsController@index')->name('transactions.index');
 
 /*
 |--------------------------------------------------------------------------
@@ -212,7 +208,7 @@ Route::get('/AllTransactions/{OrderByCase?}/{MainRegisterNumber?}','Transactions
 Route::group(['prefix'=>'ManagementPartner','middleware'=>['auth','partner'] ],function () {
 
     Route::get('/Transactions', 'TransactionsController@index')->name('Transactions.index.partner');
-Route::get('/EditTransaction/{Transaction_id}','TransactionsController@edit')->name('transactions.edit.partner')->middleware('CheckEmployeeHasAccess');
+    Route::get('/EditTransaction/{Transaction_id}','TransactionsController@edit')->name('transactions.edit.partner')->middleware('CheckEmployeeHasAccess');
 
 
 });
@@ -248,15 +244,36 @@ Route::group([ 'prefix'=>'ArchiveSecretary','middleware'=>['auth','ArchiveSecret
 
 });
 Route::group(['middleware'=>['auth'] ],function () {
+    /*
+    |--------------------------------------------------------------------------
+    | Employee Format
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/EmployeeProfile/{employee}','EmployeesController@show')->name('employee.show');
+    Route::patch('/UpdateEmployeeProfile/{employee}','EmployeesController@update')->name('employee.update');
+    /*
+    |--------------------------------------------------------------------------
+    | get All Transactions JsonFormat
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/AllTransactions/{OrderByCase?}/{MainRegisterNumber?}','TransactionsController@index')->name('transactions.index');
 
     /*
     |--------------------------------------------------------------------------
-    |  OfficeInfo  Routes
+    |  System settings OfficeInfo  Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('/OfficeInfo','SystemSettingsController@GetOfficeInfo')->name('system.officeInfo');
-    Route::post('/StoreOfficeInfo','SystemSettingsController@StoreOfficeInfo')->name('system.officeInfo.store');
-    Route::patch('/UpdateOfficeInfo','SystemSettingsController@UpdateOfficeInfo')->name('system.officeInfo.update');
+    Route::get('/OfficeInfo','OfficeInfoController@GetOfficeInfo')->name('system.officeInfo');
+    Route::post('/StoreOfficeInfo','OfficeInfoController@StoreOfficeInfo')->name('system.officeInfo.store');
+    Route::patch('/UpdateOfficeInfo','OfficeInfoController@UpdateOfficeInfo')->name('system.officeInfo.update');
+    /*
+    |--------------------------------------------------------------------------
+    |  System Standard Time Table  Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/standardTime','SystemSettingsController@GetStandardTime')->name('system.standard_time.index');
+    Route::post('/StoreStandardTime','SystemSettingsController@StoreStandardTime')->name('system.standard_time.store');
+    Route::patch('/UpdateStandardTime','SystemSettingsController@UpdateStandardTime')->name('system.standard_time.update');
     /*
     |--------------------------------------------------------------------------
     |  update Transaction Routes
@@ -282,7 +299,7 @@ Route::group(['middleware'=>['auth'] ],function () {
     */
     Route::get('/GetDropDownsOptions','SystemSettingsController@DropDownIndex')->name('system.DropDowns.retrieve.option');
 
-    Route::get('/GetEmployeesType/{employees_type}','employeesController@getEmployeeType')->name('employee.type');
+    Route::get('/GetEmployeesType/{employees_type}','AdminEmployeesController@getEmployeeType')->name('employee.type');
     /*
     |--------------------------------------------------------------------------
     |  AccountCharts Routes
@@ -332,5 +349,14 @@ Route::group(['middleware'=>['auth'] ],function () {
     Route::patch('/UpdateInKind/{InKindID}','AccountsInKindController@update')->name('AccountsInKind.update');
     Route::delete('/DeleteInKind/{InKindID}/Parent/{ParentStatementID}','AccountsInKindController@destroy')->name('AccountsInKind.destroy');
 
+    // previous year Transaction Time
+    Route::get('/PreviousYearTransactionTime/{CurrentFinancialYear}/{MainTradeRegisterNumber}','TransactionsController@PreviousYearTimeTable')->name('transactions.PreviousYearTimeTable');
 
 });
+Route::get('/down',function(){
+    return Artisan::call('down');
+});
+Route::get('/up',function(){
+    return Artisan::call('up');
+})->name('up');
+

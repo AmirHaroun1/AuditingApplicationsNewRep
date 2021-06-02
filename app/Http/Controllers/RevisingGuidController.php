@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RevisingGuid;
 use App\Transaction;
-use App\User;
+
 use Illuminate\Http\Request;
 
 class RevisingGuidController extends Controller
@@ -16,11 +16,11 @@ class RevisingGuidController extends Controller
 
             if($withRelation){
 
-                $AvailableRevisingGuides = RevisingGuid::whereNull('parent_id')->with('children.children.children.children')->orderBy('order_in_list')->get();
+                $AvailableRevisingGuides = RevisingGuid::orderBy('order_in_list')->whereNull('parent_id')->with('children.children.children.children')->get();
             }
             else{
 
-                $AvailableRevisingGuides = RevisingGuid::orderBy('order_in_list')->all();
+                $AvailableRevisingGuides = RevisingGuid::all();
             }
             return response()->json(['AllRevisingGuides'=> $AvailableRevisingGuides],200);
 

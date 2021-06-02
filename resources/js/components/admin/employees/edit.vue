@@ -112,7 +112,7 @@ export default {
                 form_data.append(key, this.user[key]);
             }
 
-            axios.patch(route('employees.update',{'employee':this.user})).then(res => {
+            axios.patch(route('admin.employees.update',{'employee':this.user})).then(res => {
                 console.log('res', res)
                 this.$emit('close')
             })
