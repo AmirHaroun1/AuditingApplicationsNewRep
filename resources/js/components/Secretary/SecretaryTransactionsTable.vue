@@ -22,12 +22,7 @@
                     <v-icon>mdi-plus</v-icon> {{$t('newTransaction')}}
                 </v-btn>
             </v-card-title>
-            <v-data-table :headers="headers" :items="Transactions" :search="search">
-                <template v-slot:item.MainTradeRegisterNumber="{ item }">
-                    <a :href="route('transactions.edit.secretary',item.id)">
-                        {{item.MainTradeRegisterNumber}}
-                    </a>
-                </template>
+            <v-data-table :headers="computedHeaders" :items="Transactions" :search="search">
                 <template :ref="item.id" v-slot:item.action="{ item }">
                     <v-icon small color="primary" @click="editItem(item.id)">
                         mdi-pencil
@@ -155,16 +150,12 @@ export default {
                 {
                     text: this.$t('financialChristianYear'),
                     value: 'financial_year',
-                    width: "10%"    
+                    width: "10%"
                 },
                 {
                     text: this.$t('financialHijriYear'),
                     value: 'hijri_financial_year',
                     width: "10%"
-                },
-                {
-                    text: this.$t('action'),
-                    value: 'action'
                 },
             ],
             search: "",
@@ -255,6 +246,16 @@ export default {
 
                 })
 
+        }
+    },
+    computed: {
+        computedHeaders() {
+            const headers = [...this.headers]
+            headers.push({
+                text: this.$t('action'),
+                value: 'action'
+            }, )
+            return headers
         }
     },
 }

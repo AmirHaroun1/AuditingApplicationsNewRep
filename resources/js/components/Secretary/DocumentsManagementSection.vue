@@ -43,7 +43,7 @@
             </td>
         </template>
         <template v-slot:item.action="{ item }">
-            <v-icon @click="DeleteDocuments(file.pivot)" small>
+            <v-icon @click="UploadDocuments()" small>
                 mdi-upload
             </v-icon>
         </template>

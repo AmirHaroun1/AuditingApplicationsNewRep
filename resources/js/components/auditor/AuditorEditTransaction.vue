@@ -223,7 +223,7 @@
                 class="tab-pane fade in show"
                 v-if="ActivePane == 'بيانات المعاملة'"
             >
-                <transaction-info :Transaction="Transaction"></transaction-info>
+                <transaction-info jobTitle="auditor" :Transaction="Transaction"></transaction-info>
             </div>
             <div class="tab-pane fade in show" v-if="ActivePane == 'الإيضاحات'">
                 <transaction-clearances

@@ -8,11 +8,59 @@
             <v-card :elevation="24" color="#fafafa">
                 <v-list color="#fafafa" flat dense>
                     <v-card-title>عقود الارتباط</v-card-title>
-                                        <v-divider class="ma-0"></v-divider>
+                    <v-divider class="ma-0"></v-divider>
+                    <v-simple-table>
+                        <template v-slot:default>
+                            <thead>
+                                <tr>
+                                    <th>
+                                    </th>
+                                    <th>
+                                    </th>
+                                    <th>
+                                        {{$t('secrtary')}}
+                                    </th>
+                                    <th>
+                                        {{$t('reiser')}}
+                                    </th>
+                                    <th>
+                                        {{$t('revisingManager')}}
+                                    </th>
+                                    <th>
+                                        {{$t('auditor')}}
+                                    </th>
+                                    <th>
+                                        {{$t('partner')}}
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <v-icon class="accent2--text" v-text="'mdi-eye'"></v-icon>
+                                    </td>
+                                    <td>
+                                        <v-list-item-title class="accent2--text text-body-2 font-weight-black"> عقود ارتباط تحت المراجعه:</v-list-item-title>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <v-list-item-action class="accent2--text">
+                                            {{OfficeBranch.TransactionsUnderReview}}
+                                        </v-list-item-action>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </template>
+                    </v-simple-table>
                     <v-list-item-group color="primary">
                         <v-list-item>
                             <v-list-item-icon>
-                                <v-icon class="primary--text" v-text="'mdi-clock'"></v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title class="primary--text"> عقود ارتباط السنه الحاليه:</v-list-item-title>
@@ -129,7 +177,7 @@
                     <v-list-item-group color="red">
                         <v-list-item v-for="(item, index) in chartDataLate.labels" :key="item">
                             <v-list-item-icon>
-                                <v-icon  v-text="'mdi-exclamation'"></v-icon>
+                                <v-icon v-text="'mdi-exclamation'"></v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title> {{item}} </v-list-item-title>
@@ -150,7 +198,7 @@
                     <v-list-item-group color="red">
                         <v-list-item v-for="(item, index) in chartData2.labels" :key="item">
                             <v-list-item-icon>
-                                <v-icon  v-text="'mdi-account'"></v-icon>
+                                <v-icon v-text="'mdi-account'"></v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title> {{item}} </v-list-item-title>

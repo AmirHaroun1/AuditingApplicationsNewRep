@@ -14,7 +14,7 @@
                         <v-col cols="12" sm="6" md="4">
                             <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                 <template v-slot:activator="{ on, attrs2 }">
-                                    <v-text-field outlined v-model="MainTradeRegister.date" name="national_id_date" :label="$t('mainTradeDate')" prepend-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                    <v-text-field outlined v-model="MainTradeRegister.date" name="national_id_date" :label="$t('mainTradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
                                 </template>
                                 <v-date-picker v-if="MainTradeRegister" v-model="MainTradeRegister.date" @input="menu2 = false"></v-date-picker>
                             </v-menu>
@@ -216,6 +216,33 @@
                                 <new-agent-form></new-agent-form>
                             </div>
                         </v-col>
+                        <v-card>
+                            <v-alert type="primary" outlined>
+                                <v-card-title>
+                                    {{$t("note")}}
+                                </v-card-title>
+                                <v-col sm="6" md="6">
+                                    <v-text-field v-model="Transaction.secretary_notes" outlined :label="$t('secretary_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.reviser_notes" outlined :label="$t('reviser_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.revisingManager_notes" outlined :label="$t('revisingManager_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.auditor_notes" outlined :label="$t('auditor_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.archiveSecretary_notes" outlined :label="$t('archiveSecretary_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-btn @click="UpdateTransaction" color="primary" dark>
+                                        {{$t('save')}}
+                                    </v-btn>
+                                </v-col>
+                            </v-alert>
+                        </v-card>
                         <v-col cols="12" sm="6" md="6">
                             <v-autocomplete v-model="ChoosenReviser" outlined :rules="required" :items="revisers" item-text="label" item-value="code" :label="$t('reviser')" required />
                         </v-col>
@@ -324,7 +351,7 @@ export default {
         this.GetRevisingManagers(route('employee.type', 'مدير مراجعة'));;
 
         this.GetDropDowns(route('system.DropDowns.retrieve.option'));
-        if(this.Institution.address){
+        if (this.Institution.address) {
             this.City = this.Institution.address.split(',')[0];
             this.District = this.Institution.address.split(',')[1];
             this.RestOfAddress = this.Institution.address.split(',')[2];
@@ -480,6 +507,11 @@ export default {
 
             formData.append('_method', 'PATCH');
             formData.append('financial_year', this.Transaction.financial_year);
+            formData.append('secretary_notes', this.Transaction.secretary_notes);
+            formData.append('reviser_notes', this.Transaction.reviser_notes);
+            formData.append('revisingManager_notes', this.Transaction.revisingManager_notes);
+            formData.append('auditor_notes', this.Transaction.auditor_notes);
+            formData.append('archiveSecretary_notes', this.Transaction.archiveSecretary_notes);
             formData.append('start_financial_year', this.Transaction.start_financial_year);
             formData.append('end_financial_year', this.Transaction.end_financial_year);
             formData.append('financial_period', this.Transaction.financial_period);

@@ -85,6 +85,11 @@
                         </div>
                         <!-- توزيع ساعات العمل/.  ------>
                         <!-- اختيرا المندوب الميدانى و المدقق  ------>
+                        <v-col md="12">
+                            <v-textarea v-model="Transaction.notes_on_time" outlined :label="$t('notes')">
+
+                            </v-textarea>
+                        </v-col>
                         <div class="row">
                             <div class="col-md-4" style="padding-top: 15px">
                                 <label> المندوب الميداني</label>
@@ -105,7 +110,7 @@
             <transaction-accounts :Transaction="Transaction"></transaction-accounts>
         </div>
         <div class="tab-pane fade in show" v-if="ActivePane=='بيانات المعاملة'">
-            <transaction-info :Transaction="Transaction"></transaction-info>
+            <transaction-info jobTitle="revisingManager" :Transaction="Transaction"></transaction-info>
         </div>
         <div class="tab-pane fade in show" v-if="ActivePane=='الشريك الأداري'">
             <div class="container box" style="margin-top: 20px">

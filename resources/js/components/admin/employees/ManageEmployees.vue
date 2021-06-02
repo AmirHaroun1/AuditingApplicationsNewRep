@@ -27,33 +27,58 @@
             </v-dialog>
         </v-card-title>
         <v-data-table :headers="headers" :items="employeesArray" :search="search">
-                <template :ref="item.id" v-slot:item.action="{ item }">
-                    <v-icon small color="primary">
-                        mdi-pencil
-                    </v-icon>
-                    <v-icon small color="error">
-                        mdi-delete
-                    </v-icon>
-                    <v-icon small color="grey">
-                        mdi-printer
-                    </v-icon>
-                </template>
+            <template :ref="item.id" v-slot:item.action="{ item }">
+                <v-icon @click="editDialog = true; currentEmployee = item" small color="primary">
+                    mdi-pencil
+                </v-icon>
+                <v-icon small @click="deleteDialog = true; currentEmployeeDelete = item" color="error">
+                    mdi-delete
+                </v-icon>
+                <v-icon small color="grey">
+                    mdi-printer
+                </v-icon>
+            </template>
         </v-data-table>
     </v-card>
+    <v-dialog v-model="editDialog" max-width="600px">
+        <editEmployee :user="currentEmployee" @close="editDialog = false" />
+    </v-dialog>
+    <v-dialog v-model="deleteDialog" max-width="600px">
+        <v-card>
+            <v-container>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="deleteEmployee" color="error">
+                        {{$t('delete')}}
+                    </v-btn>
+                    <v-btn color="primary" @click="deleteDialog = false">
+                        {{$t('cancel')}}
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-container>
+        </v-card>
+    </v-dialog>
 </v-container>
 </template>
 
 <script>
 import newEmployee from './new'
+import editEmployee from './edit'
 export default {
     components: {
-        newEmployee
+        newEmployee,
+        editEmployee
     },
     data() {
         return {
             search: "",
             loading: true,
             dialog: false,
+            editDialog: false,
+            deleteDialog: false,
+            currentEmployee: {},
+            currentEmployeeDelete: {},
             filter: [],
             headers: [{
                     text: this.$t('name'),
@@ -120,6 +145,12 @@ export default {
     methods: {
         ViewPlanProfile(item) {
             this.$router.push('./plans/' + item.id);
+        },
+        deleteEmployee () {
+            axios.delete(route('employees.destroy',{'employee':this.currentEmployeeDelete})).then(res => {
+                console.log('res', res)
+                this.deleteDialog = false
+            })
         }
     },
     filters: {

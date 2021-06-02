@@ -55,9 +55,9 @@
     "englishBankName": "اسم البنك بالإنجليزية",
     "bankAccountNumber": "رقم حساب البنك",
 
-    "transactionsTable": "جدول المعاملات",
-    "transactionsData": "بيانات المعاملات",
-    "newTransaction": "إضافة معامله جديده",
+    "transactionsTable": "جدول عقود الارتباط",
+    "transactionsData": "بيانات عقود الارتباط",
+    "newTransaction": "إضافة عقد ارتباط جديد",
     "mainItemNumber": "رقم السجل الرئيسي",
     "TransactionChirstianDate": "تاريخ تسجيل عقد الارتباط (ميلادي)",
     "TransactionHijriDate": "تاريخ تسجيل عقد الارتباط (هجري)",
@@ -202,7 +202,7 @@
     "oldest": "الاقدم",
 
 
-    "transactionInfoAndHours": "بيانات المعاملة و توزيع عدد الساعات",
+    "transactionInfoAndHours": "بيانات عقد الارتباط و توزيع عدد الساعات",
     "chooseAuditor": "اختيار مدقق",
     "ChooseFieldDelegate": "اختيار المندوب الميداني",
     "detail_debit": "تفصيلية - مدين",
@@ -215,15 +215,21 @@
     "addNewBranch": "إضافة فرع جديد",
     "editBranch": "تعديل فرع",
 
-    "transactionInfoTitle": "بيانات المعاملة",
-    "transactionHours": "عدد ساعات المعاملة",
+    "transactionInfoTitle": "بيانات عقد الارتباط",
+    "transactionHours": "عدد ساعات عقد الارتباط",
     "accounts": "الحسابات",
 
     "managinePartner": "الشريك الإدارى",
     "chooseManaginPartner": "تحديد الشريك الإداري",
 
     "NumberOfFixedPoints": "عدد الخانات",
-    "actualDate":  "تاريخ بدء المعاملة الفعلي",
-    "note":"ملاحظات"
+    "actualDate":  "تاريخ بدء عقد الارتباط الفعلي",
+    "note":"ملاحظات",
+
+    "secretary_notes":  "ملاحظات السكرتيرة",
+    "reviser_notes":  "ملاحظات المراجع الفني",
+    "revisingManager_notes":  "ملاحظات مدير المراجعه",
+    "auditor_notes":  "ملاحظات المدقق",
+    "archiveSecretary_notes":  "ملاحظات الأرشيف"
 
 }
