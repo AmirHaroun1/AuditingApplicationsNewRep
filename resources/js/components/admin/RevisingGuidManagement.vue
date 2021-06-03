@@ -407,8 +407,7 @@ export default {
             this.newAccountDialog = true;
         },
         ShowAddChildOfRevisingGuidModal(Parent) {
-
-            this.$refs.AddMainModalButton.click();
+            this.newAccountDialog = true
         },
         ShowAddChildOfRevisingGuidModal(Parent) {
 
@@ -420,12 +419,11 @@ export default {
                 this.Added_revisingGuid.default_reference = '',
 
                 this.Added_revisingGuid.Parent = Parent,
-                this.$refs.AddMainModalButton.click();
+                this.newAccountDialog = true;
 
         },
         ShowUpdateGuidModal(RevisingGuid) {
-            this.$refs.EditModalButton.click();
-
+            this.editAccountDialog = true
             this.temp_revisingGuid.id = RevisingGuid.id;
             this.temp_revisingGuid.name_alias = RevisingGuid.name_alias;
             this.temp_revisingGuid.name = RevisingGuid.name;
@@ -436,8 +434,7 @@ export default {
             this.edited_item = RevisingGuid;
         },
         ShowUpdateChildGuidModal(Parent, RevisingGuid, level) {
-            this.$refs.EditModalButton.click();
-
+            this.editAccountDialog = true;
             this.temp_revisingGuid.id = RevisingGuid.id;
             this.temp_revisingGuid.Parent = Parent;
             this.temp_revisingGuid.level = level;
@@ -480,7 +477,7 @@ export default {
                     });
 
                 })
-            this.$refs.CloseAddRevisingGuidModal.click();
+            this.newAccountDialog = false
         },
         storeNewChildOfRevisingGuid() {
 
@@ -525,7 +522,7 @@ export default {
                     });
 
                 });
-            this.$refs.CloseAddRevisingGuidModal.click();
+            this.newAccountDialog = false;
         },
         updateRevisingGuid() {
 
@@ -575,7 +572,7 @@ export default {
                     this.temp_revisingGuid.default_status = '';
                     this.temp_revisingGuid.default_reference = '';
                 })
-            this.$refs.CloseRevisingGuidModal.click();
+            this.newAccountDialog = false
         },
         updateRevisingGuidNotes() {
 
@@ -625,7 +622,7 @@ export default {
 
         },
         DeleteRevisingGuid() {
-            this.$refs.CloseRevisingGuidModal.click();
+            this.newAccountDialog = false
             let i = this.AvailableRevisingGuides.findIndex(child => child.id === this.temp_revisingGuid.id);
 
             // this.$toast.question('.','تأكيد الحذف ',{
@@ -711,7 +708,7 @@ export default {
                     });
 
                 })
-            this.$refs.CloseAddRevisingGuidModal.click();
+            this.newAccountDialog = false
         },
         storeNewChildOfRevisingGuid() {
 
@@ -756,7 +753,7 @@ export default {
                     });
 
                 });
-            this.$refs.CloseAddRevisingGuidModal.click();
+            this.newAccountDialog = false;
         },
         updateRevisingGuid() {
 
@@ -807,6 +804,7 @@ export default {
                     this.temp_revisingGuid.default_reference = '';
                 })
             this.$refs.CloseRevisingGuidModal.click();
+            this.newAccountDialog = false
         },
         updateRevisingGuidNotes() {
 
@@ -856,7 +854,7 @@ export default {
 
         },
         DeleteRevisingGuid() {
-            this.$refs.CloseRevisingGuidModal.click();
+            this.newAccountDialog = false;
             let i = this.AvailableRevisingGuides.findIndex(child => child.id === this.temp_revisingGuid.id);
 
             this.$toast.question('.', 'تأكيد الحذف ', {

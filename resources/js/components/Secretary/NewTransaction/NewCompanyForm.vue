@@ -258,6 +258,9 @@
                             </v-card>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
+                                                <new-agent-form></new-agent-form>
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12">
                             <v-card>
                                 <v-alert type="primary" outlined>
                                     <v-card-title>

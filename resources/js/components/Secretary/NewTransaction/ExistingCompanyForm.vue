@@ -78,27 +78,39 @@
                                 </v-alert>
                             </v-card>
                         </v-col>
-                        <v-col cols="12" sm="6" md="3">
-                            <v-text-field @change="SetFinancialDates()" v-model="transaction.financial_year" outlined :rules="numbersRules" :label="$t('finaincialYear')" required />
+                        <v-col cols="12" sm="12" md="12">
+                            <v-card>
+                                <v-alert type="primary" outlined>
+                                    <v-card-title>
+                                        {{$t('finaincialYear')}}
+                                    </v-card-title>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-text-field @change="SetFinancialDates()" v-model="transaction.financial_year" outlined :rules="numbersRules" :label="$t('finaincialYear')" required />
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-autocomplete @change="SetFinancialDates()" v-model="transaction.financial_period" outlined :rules="required" :items="[$t('finaincialYear2'), $t('shortPeriod'), $t('longPeriod')]" item-text="value" item-value="value" :label="$t('finaincialPeriod')" required />
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                            <template v-slot:activator="{ on, attrs2 }">
+                                                <v-text-field outlined v-model="transaction.start_financial_year" :label="$t('finaincialYearStart')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="transaction.start_financial_year"></v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                            <template v-slot:activator="{ on, attrs2 }">
+                                                <v-text-field outlined v-model="transaction.end_financial_year" :label="$t('finaincialYearEnd')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="transaction.end_financial_year"></v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                </v-alert>
+                            </v-card>
                         </v-col>
-                        <v-col cols="12" sm="6" md="2">
-                            <v-autocomplete @change="SetFinancialDates()" v-model="transaction.financial_period" outlined :rules="required" :items="[$t('finaincialYear2'), $t('shortPeriod'), $t('longPeriod')]" item-text="value" item-value="value" :label="$t('finaincialPeriod')" required />
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs2 }">
-                                    <v-text-field outlined v-model="transaction.start_financial_year" :label="$t('finaincialYearStart')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
-                                </template>
-                                <v-date-picker v-model="transaction.start_financial_year"></v-date-picker>
-                            </v-menu>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs2 }">
-                                    <v-text-field outlined v-model="transaction.end_financial_year" :label="$t('finaincialYearEnd')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
-                                </template>
-                                <v-date-picker v-model="transaction.end_financial_year"></v-date-picker>
-                            </v-menu>
+                        <v-col cols="12" sm="12" md="12">
+                            <new-agent-form></new-agent-form>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
                             <v-card>
@@ -209,7 +221,7 @@ export default {
             ChoosenReviserID: '',
             ChoosenRevisingManagerID: '',
 
-                        numbersRules: [
+            numbersRules: [
                 v => !!v || this.$t('requiredField'),
                 v => /^\d+$/.test(v) || this.$t('numbersOnly'),
             ],
@@ -441,8 +453,8 @@ export default {
             formData.append('MainTradeRegisterNumber', this.MainTradeRegister.number);
             formData.append('revisingManager_id', this.ChoosenRevisingManagerID);
 
-            formData.append('institution_id',this.created_institution.id);
-            formData.append('reviser_id',this.ChoosenReviserID);
+            formData.append('institution_id', this.created_institution.id);
+            formData.append('reviser_id', this.ChoosenReviserID);
 
             axios.post(route('Transactions.store'), formData)
                 .then(({

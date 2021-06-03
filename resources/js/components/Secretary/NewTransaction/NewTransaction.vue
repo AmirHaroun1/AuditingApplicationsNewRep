@@ -39,19 +39,13 @@
 
                 <v-divider></v-divider>
 
-                <v-stepper-step :complete="SectionStage > 2" step="2">
-                    {{$t('contactOfficer')}}
-                </v-stepper-step>
-
-                <v-divider></v-divider>
-
-                <v-stepper-step step="3">
+                <v-stepper-step step="2">
                     {{$t('files')}}
                 </v-stepper-step>
 
                 <v-divider></v-divider>
 
-                <v-stepper-step step="4">
+                <v-stepper-step step="3">
                     {{$t('payment')}}
                 </v-stepper-step>
             </v-stepper-header>
@@ -61,12 +55,9 @@
                     <new-company-form></new-company-form>
                 </v-stepper-content>
                 <v-stepper-content step="2">
-                    <new-agent-form></new-agent-form>
-                </v-stepper-content>
-                <v-stepper-content step="3">
                     <documents-management-section></documents-management-section>
                 </v-stepper-content>
-                <v-stepper-content step="4">
+                <v-stepper-content step="3">
                     <payment-details-form :Transaction="Transaction"></payment-details-form>
                 </v-stepper-content>
             </v-stepper-items>
@@ -77,16 +68,10 @@
 
     <!-- /.Existing Company Section -->
     <div v-else-if="IsNewRegister == false" id="ExistingCompany" style="padding-top:20px">
-                <v-stepper v-model="SectionStage">
+        <v-stepper v-model="SectionStage">
             <v-stepper-header>
                 <v-stepper-step :complete="SectionStage > 1" step="1">
                     {{$t('companyData')}}
-                </v-stepper-step>
-
-                <v-divider></v-divider>
-
-                <v-stepper-step :complete="SectionStage > 2" step="2">
-                    {{$t('contactOfficer')}}
                 </v-stepper-step>
 
                 <v-divider></v-divider>
@@ -107,12 +92,9 @@
                     <existing-company-form></existing-company-form>
                 </v-stepper-content>
                 <v-stepper-content step="2">
-                    <new-agent-form></new-agent-form>
-                </v-stepper-content>
-                <v-stepper-content step="3">
                     <documents-management-section></documents-management-section>
                 </v-stepper-content>
-                <v-stepper-content step="4">
+                <v-stepper-content step="3">
                     <payment-details-form :Transaction="Transaction"></payment-details-form>
                 </v-stepper-content>
             </v-stepper-items>
