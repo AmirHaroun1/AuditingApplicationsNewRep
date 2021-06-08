@@ -25,7 +25,7 @@ Welcome to the generated API reference.
 
 APIs To Manage OfficeBranches
 <!-- START_8cc9fd4169b2125d7dda5538d73ecc44 -->
-## In case of  response expects json it retrieves all office_branches
+## In case of response expects json it retrieves all office_branches
 &lt;br&gt;
 In case of normal response it return the blade SuperAdmin/OfficeBranches/index.php
 , your component is their &lt;office-branches&gt;&lt;/office-branches&gt; , load all branches through the same endpoint
@@ -83,7 +83,7 @@ curl -X POST \
     "http://localhost/SuperAdmin/OfficeBranches" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"nobis","address":"quis","is_main":"voluptatem"}'
+    -d '{"name":"rerum","address":"assumenda","is_main":"nesciunt"}'
 
 ```
 
@@ -98,9 +98,9 @@ let headers = {
 };
 
 let body = {
-    "name": "nobis",
-    "address": "quis",
-    "is_main": "voluptatem"
+    "name": "rerum",
+    "address": "assumenda",
+    "is_main": "nesciunt"
 }
 
 fetch(url, {
@@ -133,16 +133,16 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X PUT \
-    "http://localhost/SuperAdmin/OfficeBranches/enim" \
+    "http://localhost/SuperAdmin/OfficeBranches/dolores" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"cupiditate","address":"quibusdam","is_main":"eius"}'
+    -d '{"name":"sapiente","address":"dolorem","is_main":"voluptatem"}'
 
 ```
 
 ```javascript
 const url = new URL(
-    "http://localhost/SuperAdmin/OfficeBranches/enim"
+    "http://localhost/SuperAdmin/OfficeBranches/dolores"
 );
 
 let headers = {
@@ -151,9 +151,9 @@ let headers = {
 };
 
 let body = {
-    "name": "cupiditate",
-    "address": "quibusdam",
-    "is_main": "eius"
+    "name": "sapiente",
+    "address": "dolorem",
+    "is_main": "voluptatem"
 }
 
 fetch(url, {
@@ -206,7 +206,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 
 ```bash
 curl -X GET \
-    -G "http://localhost/Secretary/Transactions?BranchOfficeID=et" \
+    -G "http://localhost/Secretary/Transactions?BranchOfficeID=magnam" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
 ```
@@ -217,7 +217,7 @@ const url = new URL(
 );
 
 let params = {
-    "BranchOfficeID": "et",
+    "BranchOfficeID": "magnam",
 };
 Object.keys(params)
     .forEach(key => url.searchParams.append(key, params[key]));
@@ -305,20 +305,20 @@ fetch(url, {
 
 <!-- END_d732a768110d6845a77f40f1bdab652b -->
 
-<!-- START_a1947c3bee1d91922c6982e912d6b726 -->
-## Secretary/StoreNewTransaction/institution/{institution}/reviser/{reviser}
+<!-- START_db99a0d8b5e1c432739174bb2131c785 -->
+## Secretary/StoreNewTransaction
 > Example request:
 
 ```bash
 curl -X POST \
-    "http://localhost/Secretary/StoreNewTransaction/institution/1/reviser/1" \
+    "http://localhost/Secretary/StoreNewTransaction" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
 ```
 
 ```javascript
 const url = new URL(
-    "http://localhost/Secretary/StoreNewTransaction/institution/1/reviser/1"
+    "http://localhost/Secretary/StoreNewTransaction"
 );
 
 let headers = {
@@ -337,10 +337,10 @@ fetch(url, {
 
 
 ### HTTP Request
-`POST Secretary/StoreNewTransaction/institution/{institution}/reviser/{reviser}`
+`POST Secretary/StoreNewTransaction`
 
 
-<!-- END_a1947c3bee1d91922c6982e912d6b726 -->
+<!-- END_db99a0d8b5e1c432739174bb2131c785 -->
 
 <!-- START_e854c86341294e905847a916d97e7789 -->
 ## Secretary/PrintReceiptVoucher/TransactionYear/{TransactionYear}/CompanyName/{CompanyName}/PaymentType/{PaymentType}/PaymentValue/{PaymentValue}/ReviserCompanyName/{ReviserCompanyName}
@@ -386,20 +386,20 @@ fetch(url, {
 
 <!-- END_e854c86341294e905847a916d97e7789 -->
 
-<!-- START_9b72df565d7dfd9197882b71bf5f32c7 -->
-## Secretary/EngagementLetter/institution/{institution}/transaction/{transaction}
+<!-- START_3cf34abf1deeb76f2e34c5cdab69c6d8 -->
+## Secretary/EngagementLetter/transaction/{transaction}
 > Example request:
 
 ```bash
 curl -X GET \
-    -G "http://localhost/Secretary/EngagementLetter/institution/1/transaction/1" \
+    -G "http://localhost/Secretary/EngagementLetter/transaction/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
 ```
 
 ```javascript
 const url = new URL(
-    "http://localhost/Secretary/EngagementLetter/institution/1/transaction/1"
+    "http://localhost/Secretary/EngagementLetter/transaction/1"
 );
 
 let headers = {
@@ -425,10 +425,10 @@ fetch(url, {
 ```
 
 ### HTTP Request
-`GET Secretary/EngagementLetter/institution/{institution}/transaction/{transaction}`
+`GET Secretary/EngagementLetter/transaction/{transaction}`
 
 
-<!-- END_9b72df565d7dfd9197882b71bf5f32c7 -->
+<!-- END_3cf34abf1deeb76f2e34c5cdab69c6d8 -->
 
 <!-- START_d4c414cb492ea47627539046a81d3e97 -->
 ## Secretary/EditTransaction/{Transaction_id}
@@ -490,7 +490,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 
 ```bash
 curl -X GET \
-    -G "http://localhost/Reviser/Transactions?BranchOfficeID=saepe" \
+    -G "http://localhost/Reviser/Transactions?BranchOfficeID=voluptatem" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
 ```
@@ -501,7 +501,7 @@ const url = new URL(
 );
 
 let params = {
-    "BranchOfficeID": "saepe",
+    "BranchOfficeID": "voluptatem",
 };
 Object.keys(params)
     .forEach(key => url.searchParams.append(key, params[key]));
@@ -605,7 +605,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 
 ```bash
 curl -X GET \
-    -G "http://localhost/TechnicalAuditor/Transactions?BranchOfficeID=consequuntur" \
+    -G "http://localhost/TechnicalAuditor/Transactions?BranchOfficeID=neque" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
 ```
@@ -616,7 +616,7 @@ const url = new URL(
 );
 
 let params = {
-    "BranchOfficeID": "consequuntur",
+    "BranchOfficeID": "neque",
 };
 Object.keys(params)
     .forEach(key => url.searchParams.append(key, params[key]));
@@ -704,77 +704,6 @@ fetch(url, {
 
 <!-- END_b07a64e5465844402dd36d538ccea707 -->
 
-<!-- START_1fec506264869d28d11347ff9e4741ae -->
-## in case of json response Retrieve The Transactions of the current user in this branch.
-
-<br>
-if the Auth User is 'مدير مراجعة ' and his office_branch.is_main all transactions would be retrieved
-<br>
-and based on the above condition you should show taps of available branches load them through the following end point.
-,route('OfficeBranches.index'), on clicking on any name of the branches send it as query param 'BranchOfficeID'
-<br>
-in case of non json response Returns Blade Transactions/index.blade.php.
-<br>
-
-> Example request:
-
-```bash
-curl -X GET \
-    -G "http://localhost/AllTransactions/qui/ea?BranchOfficeID=labore" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json"
-```
-
-```javascript
-const url = new URL(
-    "http://localhost/AllTransactions/qui/ea"
-);
-
-let params = {
-    "BranchOfficeID": "labore",
-};
-Object.keys(params)
-    .forEach(key => url.searchParams.append(key, params[key]));
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-
-> Example response (500):
-
-```json
-{
-    "message": "Server Error"
-}
-```
-
-### HTTP Request
-`GET AllTransactions/{OrderByCase?}/{MainRegisterNumber?}`
-
-#### URL Parameters
-
-Parameter | Status | Description
---------- | ------- | ------- | -------
-    `OrderByCase` |  optional  | optional param of the OrderBy [Latest,oldest].
-    `MainRegisterNumber` |  optional  | optional param of the Search TreadRegister.
-#### Query Parameters
-
-Parameter | Status | Description
---------- | ------- | ------- | -----------
-    `BranchOfficeID` |  optional  | optional param if the Auth User.role is 'مدير مراجعة' and his User.office_branch.is_main
-
-<!-- END_1fec506264869d28d11347ff9e4741ae -->
-
 <!-- START_0b596fe756ab3db6b27156ba5bf0e58d -->
 ## in case of json response Retrieve The Transactions of the current user in this branch.
 
@@ -791,7 +720,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 
 ```bash
 curl -X GET \
-    -G "http://localhost/ManagementPartner/Transactions?BranchOfficeID=repudiandae" \
+    -G "http://localhost/ManagementPartner/Transactions?BranchOfficeID=non" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
 ```
@@ -802,7 +731,7 @@ const url = new URL(
 );
 
 let params = {
-    "BranchOfficeID": "repudiandae",
+    "BranchOfficeID": "non",
 };
 Object.keys(params)
     .forEach(key => url.searchParams.append(key, params[key]));
@@ -1021,7 +950,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 
 ```bash
 curl -X GET \
-    -G "http://localhost/ArchiveSecretary/Transactions?BranchOfficeID=accusamus" \
+    -G "http://localhost/ArchiveSecretary/Transactions?BranchOfficeID=enim" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"
 ```
@@ -1032,7 +961,7 @@ const url = new URL(
 );
 
 let params = {
-    "BranchOfficeID": "accusamus",
+    "BranchOfficeID": "enim",
 };
 Object.keys(params)
     .forEach(key => url.searchParams.append(key, params[key]));
@@ -1075,6 +1004,77 @@ Parameter | Status | Description
     `BranchOfficeID` |  optional  | optional param if the Auth User.role is 'مدير مراجعة' and his User.office_branch.is_main
 
 <!-- END_2d06c5c20cf8972e518a63e9e061531c -->
+
+<!-- START_1fec506264869d28d11347ff9e4741ae -->
+## in case of json response Retrieve The Transactions of the current user in this branch.
+
+<br>
+if the Auth User is 'مدير مراجعة ' and his office_branch.is_main all transactions would be retrieved
+<br>
+and based on the above condition you should show taps of available branches load them through the following end point.
+,route('OfficeBranches.index'), on clicking on any name of the branches send it as query param 'BranchOfficeID'
+<br>
+in case of non json response Returns Blade Transactions/index.blade.php.
+<br>
+
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/AllTransactions/voluptas/veritatis?BranchOfficeID=sit" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/AllTransactions/voluptas/veritatis"
+);
+
+let params = {
+    "BranchOfficeID": "sit",
+};
+Object.keys(params)
+    .forEach(key => url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+### HTTP Request
+`GET AllTransactions/{OrderByCase?}/{MainRegisterNumber?}`
+
+#### URL Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -------
+    `OrderByCase` |  optional  | optional param of the OrderBy [Latest,oldest].
+    `MainRegisterNumber` |  optional  | optional param of the Search TreadRegister.
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    `BranchOfficeID` |  optional  | optional param if the Auth User.role is 'مدير مراجعة' and his User.office_branch.is_main
+
+<!-- END_1fec506264869d28d11347ff9e4741ae -->
 
 <!-- START_94e0e7bd8c2a61f640dd7a56dcd1266d -->
 ## UpdateTransaction/{transaction}
@@ -1149,6 +1149,50 @@ fetch(url, {
 
 
 <!-- END_7f2c0c93ca4ba4540be584ff4e324329 -->
+
+<!-- START_45532f2bd80d654631b7ad4feef59228 -->
+## PreviousYearTransactionTime/{CurrentFinancialYear}/{MainTradeRegisterNumber}
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/PreviousYearTransactionTime/1/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/PreviousYearTransactionTime/1/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+### HTTP Request
+`GET PreviousYearTransactionTime/{CurrentFinancialYear}/{MainTradeRegisterNumber}`
+
+
+<!-- END_45532f2bd80d654631b7ad4feef59228 -->
 
 #dashboard
 
@@ -1350,10 +1394,12 @@ fetch(url, {
 ```
 
 
-> Example response (200):
+> Example response (500):
 
 ```json
-null
+{
+    "message": "Server Error"
+}
 ```
 
 ### HTTP Request
@@ -1894,6 +1940,126 @@ fetch(url, {
 
 <!-- END_3240fcd744fe9e64ba129c48446c4573 -->
 
+<!-- START_a0e8b1d8fee5985bb29bb0811ee609eb -->
+## SuperAdmin/managedocuments
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/SuperAdmin/managedocuments" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/SuperAdmin/managedocuments"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+### HTTP Request
+`GET SuperAdmin/managedocuments`
+
+
+<!-- END_a0e8b1d8fee5985bb29bb0811ee609eb -->
+
+<!-- START_10a4d8da7ff370f11317aca1c8c12806 -->
+## SuperAdmin/managedocuments
+> Example request:
+
+```bash
+curl -X POST \
+    "http://localhost/SuperAdmin/managedocuments" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/SuperAdmin/managedocuments"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST SuperAdmin/managedocuments`
+
+
+<!-- END_10a4d8da7ff370f11317aca1c8c12806 -->
+
+<!-- START_552029eb0ade80e114d2d121f79eee4f -->
+## SuperAdmin/managedocuments/{document}
+> Example request:
+
+```bash
+curl -X PUT \
+    "http://localhost/SuperAdmin/managedocuments/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/SuperAdmin/managedocuments/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`PUT SuperAdmin/managedocuments/{document}`
+
+`PATCH SuperAdmin/managedocuments/{document}`
+
+
+<!-- END_552029eb0ade80e114d2d121f79eee4f -->
+
 <!-- START_d7a0b83ad67cb087b49dc063f40173b8 -->
 ## SuperAdmin/ManageDropDowns
 > Example request:
@@ -2358,6 +2524,43 @@ fetch(url, {
 
 
 <!-- END_7ee5490300c53870684fc87f45c160fd -->
+
+<!-- START_a1a0b33645c27e8585cca40e068267c1 -->
+## SuperAdmin/PatchUpdateOrderIndices
+> Example request:
+
+```bash
+curl -X PATCH \
+    "http://localhost/SuperAdmin/PatchUpdateOrderIndices" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/SuperAdmin/PatchUpdateOrderIndices"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`PATCH SuperAdmin/PatchUpdateOrderIndices`
+
+
+<!-- END_a1a0b33645c27e8585cca40e068267c1 -->
 
 <!-- START_f9400f7c499d682f68ffe1f1d29e0c38 -->
 ## SuperAdmin/ManageFinancialGroups
@@ -3201,6 +3404,87 @@ fetch(url, {
 
 <!-- END_f81d5c0d40ee19472008d07c78311814 -->
 
+<!-- START_156c12fb167bb18699f800dbda76c8cc -->
+## EmployeeProfile/{employee}
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/EmployeeProfile/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/EmployeeProfile/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+### HTTP Request
+`GET EmployeeProfile/{employee}`
+
+
+<!-- END_156c12fb167bb18699f800dbda76c8cc -->
+
+<!-- START_4b4f24906d278013990b88747ab93beb -->
+## UpdateEmployeeProfile/{employee}
+> Example request:
+
+```bash
+curl -X PATCH \
+    "http://localhost/UpdateEmployeeProfile/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/UpdateEmployeeProfile/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`PATCH UpdateEmployeeProfile/{employee}`
+
+
+<!-- END_4b4f24906d278013990b88747ab93beb -->
+
 <!-- START_5799883540e324eb5f2e9e0eb487b491 -->
 ## OfficeInfo
 > Example request:
@@ -3318,6 +3602,124 @@ fetch(url, {
 
 
 <!-- END_eebc5b04e305f81371d22f8755dafbe8 -->
+
+<!-- START_dc3e3f3d9b2e60fd8e64559cc7692dc7 -->
+## standardTime
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://localhost/standardTime" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/standardTime"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+> Example response (401):
+
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+### HTTP Request
+`GET standardTime`
+
+
+<!-- END_dc3e3f3d9b2e60fd8e64559cc7692dc7 -->
+
+<!-- START_416789bfd92227dedf55be92c46bccaf -->
+## StoreStandardTime
+> Example request:
+
+```bash
+curl -X POST \
+    "http://localhost/StoreStandardTime" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/StoreStandardTime"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`POST StoreStandardTime`
+
+
+<!-- END_416789bfd92227dedf55be92c46bccaf -->
+
+<!-- START_5c76de623261dfefc0db8d95ef5bcb64 -->
+## UpdateStandardTime
+> Example request:
+
+```bash
+curl -X PATCH \
+    "http://localhost/UpdateStandardTime" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"
+```
+
+```javascript
+const url = new URL(
+    "http://localhost/UpdateStandardTime"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+
+### HTTP Request
+`PATCH UpdateStandardTime`
+
+
+<!-- END_5c76de623261dfefc0db8d95ef5bcb64 -->
 
 <!-- START_388895b6c6e11957e4ab353fce76fc68 -->
 ## Documents/{transactionID?}/document/{documentCode?}
