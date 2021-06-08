@@ -51,7 +51,7 @@
 <h1>Manage OfficeBranches</h1>
 <p>APIs To Manage OfficeBranches</p>
 <!-- START_8cc9fd4169b2125d7dda5538d73ecc44 -->
-<h2>In case of  response expects json it retrieves all office_branches</h2>
+<h2>In case of response expects json it retrieves all office_branches</h2>
 <p>&lt;br&gt;
 In case of normal response it return the blade SuperAdmin/OfficeBranches/index.php
 , your component is their &lt;office-branches&gt;&lt;/office-branches&gt; , load all branches through the same endpoint
@@ -96,7 +96,7 @@ fetch(url, {
     "http://localhost/SuperAdmin/OfficeBranches" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"nobis","address":"quis","is_main":"voluptatem"}'
+    -d '{"name":"rerum","address":"assumenda","is_main":"nesciunt"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://localhost/SuperAdmin/OfficeBranches"
@@ -108,9 +108,9 @@ let headers = {
 };
 
 let body = {
-    "name": "nobis",
-    "address": "quis",
-    "is_main": "voluptatem"
+    "name": "rerum",
+    "address": "assumenda",
+    "is_main": "nesciunt"
 }
 
 fetch(url, {
@@ -160,13 +160,13 @@ fetch(url, {
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X PUT \
-    "http://localhost/SuperAdmin/OfficeBranches/enim" \
+    "http://localhost/SuperAdmin/OfficeBranches/dolores" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"cupiditate","address":"quibusdam","is_main":"eius"}'
+    -d '{"name":"sapiente","address":"dolorem","is_main":"voluptatem"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/SuperAdmin/OfficeBranches/enim"
+    "http://localhost/SuperAdmin/OfficeBranches/dolores"
 );
 
 let headers = {
@@ -175,9 +175,9 @@ let headers = {
 };
 
 let body = {
-    "name": "cupiditate",
-    "address": "quibusdam",
-    "is_main": "eius"
+    "name": "sapiente",
+    "address": "dolorem",
+    "is_main": "voluptatem"
 }
 
 fetch(url, {
@@ -255,7 +255,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/Secretary/Transactions?BranchOfficeID=et" \
+    -G "http://localhost/Secretary/Transactions?BranchOfficeID=magnam" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
@@ -263,7 +263,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 );
 
 let params = {
-    "BranchOfficeID": "et",
+    "BranchOfficeID": "magnam",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -360,17 +360,17 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET Secretary/CreateTransaction</code></p>
 <!-- END_d732a768110d6845a77f40f1bdab652b -->
-<!-- START_a1947c3bee1d91922c6982e912d6b726 -->
-<h2>Secretary/StoreNewTransaction/institution/{institution}/reviser/{reviser}</h2>
+<!-- START_db99a0d8b5e1c432739174bb2131c785 -->
+<h2>Secretary/StoreNewTransaction</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "http://localhost/Secretary/StoreNewTransaction/institution/1/reviser/1" \
+    "http://localhost/Secretary/StoreNewTransaction" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/Secretary/StoreNewTransaction/institution/1/reviser/1"
+    "http://localhost/Secretary/StoreNewTransaction"
 );
 
 let headers = {
@@ -385,8 +385,8 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <h3>HTTP Request</h3>
-<p><code>POST Secretary/StoreNewTransaction/institution/{institution}/reviser/{reviser}</code></p>
-<!-- END_a1947c3bee1d91922c6982e912d6b726 -->
+<p><code>POST Secretary/StoreNewTransaction</code></p>
+<!-- END_db99a0d8b5e1c432739174bb2131c785 -->
 <!-- START_e854c86341294e905847a916d97e7789 -->
 <h2>Secretary/PrintReceiptVoucher/TransactionYear/{TransactionYear}/CompanyName/{CompanyName}/PaymentType/{PaymentType}/PaymentValue/{PaymentValue}/ReviserCompanyName/{ReviserCompanyName}</h2>
 <blockquote>
@@ -420,17 +420,17 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET Secretary/PrintReceiptVoucher/TransactionYear/{TransactionYear}/CompanyName/{CompanyName}/PaymentType/{PaymentType}/PaymentValue/{PaymentValue}/ReviserCompanyName/{ReviserCompanyName}</code></p>
 <!-- END_e854c86341294e905847a916d97e7789 -->
-<!-- START_9b72df565d7dfd9197882b71bf5f32c7 -->
-<h2>Secretary/EngagementLetter/institution/{institution}/transaction/{transaction}</h2>
+<!-- START_3cf34abf1deeb76f2e34c5cdab69c6d8 -->
+<h2>Secretary/EngagementLetter/transaction/{transaction}</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/Secretary/EngagementLetter/institution/1/transaction/1" \
+    -G "http://localhost/Secretary/EngagementLetter/transaction/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/Secretary/EngagementLetter/institution/1/transaction/1"
+    "http://localhost/Secretary/EngagementLetter/transaction/1"
 );
 
 let headers = {
@@ -451,8 +451,8 @@ fetch(url, {
     "message": "Unauthenticated."
 }</code></pre>
 <h3>HTTP Request</h3>
-<p><code>GET Secretary/EngagementLetter/institution/{institution}/transaction/{transaction}</code></p>
-<!-- END_9b72df565d7dfd9197882b71bf5f32c7 -->
+<p><code>GET Secretary/EngagementLetter/transaction/{transaction}</code></p>
+<!-- END_3cf34abf1deeb76f2e34c5cdab69c6d8 -->
 <!-- START_d4c414cb492ea47627539046a81d3e97 -->
 <h2>Secretary/EditTransaction/{Transaction_id}</h2>
 <blockquote>
@@ -500,7 +500,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/Reviser/Transactions?BranchOfficeID=saepe" \
+    -G "http://localhost/Reviser/Transactions?BranchOfficeID=voluptatem" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
@@ -508,7 +508,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 );
 
 let params = {
-    "BranchOfficeID": "saepe",
+    "BranchOfficeID": "voluptatem",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -619,7 +619,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/TechnicalAuditor/Transactions?BranchOfficeID=consequuntur" \
+    -G "http://localhost/TechnicalAuditor/Transactions?BranchOfficeID=neque" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
@@ -627,7 +627,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 );
 
 let params = {
-    "BranchOfficeID": "consequuntur",
+    "BranchOfficeID": "neque",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -724,92 +724,6 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>GET TechnicalAuditor/EditTransaction/{Transaction_id}</code></p>
 <!-- END_b07a64e5465844402dd36d538ccea707 -->
-<!-- START_1fec506264869d28d11347ff9e4741ae -->
-<h2>in case of json response Retrieve The Transactions of the current user in this branch.</h2>
-<p><br>
-if the Auth User is 'مدير مراجعة ' and his office_branch.is_main all transactions would be retrieved
-<br>
-and based on the above condition you should show taps of available branches load them through the following end point.
-,route('OfficeBranches.index'), on clicking on any name of the branches send it as query param 'BranchOfficeID'
-<br>
-in case of non json response Returns Blade Transactions/index.blade.php.
-<br></p>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/AllTransactions/qui/ea?BranchOfficeID=labore" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json"</code></pre>
-<pre><code class="language-javascript">const url = new URL(
-    "http://localhost/AllTransactions/qui/ea"
-);
-
-let params = {
-    "BranchOfficeID": "labore",
-};
-Object.keys(params)
-    .forEach(key =&gt; url.searchParams.append(key, params[key]));
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response =&gt; response.json())
-    .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (500):</p>
-</blockquote>
-<pre><code class="language-json">{
-    "message": "Server Error"
-}</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET AllTransactions/{OrderByCase?}/{MainRegisterNumber?}</code></p>
-<h4>URL Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>OrderByCase</code></td>
-<td>optional</td>
-<td>optional param of the OrderBy [Latest,oldest].</td>
-</tr>
-<tr>
-<td><code>MainRegisterNumber</code></td>
-<td>optional</td>
-<td>optional param of the Search TreadRegister.</td>
-</tr>
-</tbody>
-</table>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>BranchOfficeID</code></td>
-<td>optional</td>
-<td>optional param if the Auth User.role is 'مدير مراجعة' and his User.office_branch.is_main</td>
-</tr>
-</tbody>
-</table>
-<!-- END_1fec506264869d28d11347ff9e4741ae -->
 <!-- START_0b596fe756ab3db6b27156ba5bf0e58d -->
 <h2>in case of json response Retrieve The Transactions of the current user in this branch.</h2>
 <p><br>
@@ -824,7 +738,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/ManagementPartner/Transactions?BranchOfficeID=repudiandae" \
+    -G "http://localhost/ManagementPartner/Transactions?BranchOfficeID=non" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
@@ -832,7 +746,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 );
 
 let params = {
-    "BranchOfficeID": "repudiandae",
+    "BranchOfficeID": "non",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -1062,7 +976,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "http://localhost/ArchiveSecretary/Transactions?BranchOfficeID=accusamus" \
+    -G "http://localhost/ArchiveSecretary/Transactions?BranchOfficeID=enim" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
@@ -1070,7 +984,7 @@ in case of non json response Returns Blade Transactions/index.blade.php.
 );
 
 let params = {
-    "BranchOfficeID": "accusamus",
+    "BranchOfficeID": "enim",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -1134,6 +1048,92 @@ fetch(url, {
 </tbody>
 </table>
 <!-- END_2d06c5c20cf8972e518a63e9e061531c -->
+<!-- START_1fec506264869d28d11347ff9e4741ae -->
+<h2>in case of json response Retrieve The Transactions of the current user in this branch.</h2>
+<p><br>
+if the Auth User is 'مدير مراجعة ' and his office_branch.is_main all transactions would be retrieved
+<br>
+and based on the above condition you should show taps of available branches load them through the following end point.
+,route('OfficeBranches.index'), on clicking on any name of the branches send it as query param 'BranchOfficeID'
+<br>
+in case of non json response Returns Blade Transactions/index.blade.php.
+<br></p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/AllTransactions/voluptas/veritatis?BranchOfficeID=sit" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/AllTransactions/voluptas/veritatis"
+);
+
+let params = {
+    "BranchOfficeID": "sit",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET AllTransactions/{OrderByCase?}/{MainRegisterNumber?}</code></p>
+<h4>URL Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OrderByCase</code></td>
+<td>optional</td>
+<td>optional param of the OrderBy [Latest,oldest].</td>
+</tr>
+<tr>
+<td><code>MainRegisterNumber</code></td>
+<td>optional</td>
+<td>optional param of the Search TreadRegister.</td>
+</tr>
+</tbody>
+</table>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BranchOfficeID</code></td>
+<td>optional</td>
+<td>optional param if the Auth User.role is 'مدير مراجعة' and his User.office_branch.is_main</td>
+</tr>
+</tbody>
+</table>
+<!-- END_1fec506264869d28d11347ff9e4741ae -->
 <!-- START_94e0e7bd8c2a61f640dd7a56dcd1266d -->
 <h2>UpdateTransaction/{transaction}</h2>
 <blockquote>
@@ -1188,6 +1188,39 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>PATCH UpdateTransactionActualTime/{transaction}</code></p>
 <!-- END_7f2c0c93ca4ba4540be584ff4e324329 -->
+<!-- START_45532f2bd80d654631b7ad4feef59228 -->
+<h2>PreviousYearTransactionTime/{CurrentFinancialYear}/{MainTradeRegisterNumber}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/PreviousYearTransactionTime/1/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/PreviousYearTransactionTime/1/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET PreviousYearTransactionTime/{CurrentFinancialYear}/{MainTradeRegisterNumber}</code></p>
+<!-- END_45532f2bd80d654631b7ad4feef59228 -->
 <h1>dashboard</h1>
 <!-- START_2534e8474f687fe3cf8e4b7f63532ad8 -->
 <h2>Retrieve Dash Board Data</h2>
@@ -1333,9 +1366,11 @@ fetch(url, {
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
 <blockquote>
-<p>Example response (200):</p>
+<p>Example response (500):</p>
 </blockquote>
-<pre><code class="language-json">null</code></pre>
+<pre><code class="language-json">{
+    "message": "Server Error"
+}</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET register</code></p>
 <!-- END_ff38dfb1bd1bb7e1aa24b4e1792a9768 -->
@@ -1727,6 +1762,94 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>DELETE SuperAdmin/DeleteEmployee/{employee}</code></p>
 <!-- END_3240fcd744fe9e64ba129c48446c4573 -->
+<!-- START_a0e8b1d8fee5985bb29bb0811ee609eb -->
+<h2>SuperAdmin/managedocuments</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/SuperAdmin/managedocuments" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/SuperAdmin/managedocuments"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET SuperAdmin/managedocuments</code></p>
+<!-- END_a0e8b1d8fee5985bb29bb0811ee609eb -->
+<!-- START_10a4d8da7ff370f11317aca1c8c12806 -->
+<h2>SuperAdmin/managedocuments</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "http://localhost/SuperAdmin/managedocuments" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/SuperAdmin/managedocuments"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST SuperAdmin/managedocuments</code></p>
+<!-- END_10a4d8da7ff370f11317aca1c8c12806 -->
+<!-- START_552029eb0ade80e114d2d121f79eee4f -->
+<h2>SuperAdmin/managedocuments/{document}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT \
+    "http://localhost/SuperAdmin/managedocuments/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/SuperAdmin/managedocuments/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT SuperAdmin/managedocuments/{document}</code></p>
+<p><code>PATCH SuperAdmin/managedocuments/{document}</code></p>
+<!-- END_552029eb0ade80e114d2d121f79eee4f -->
 <!-- START_d7a0b83ad67cb087b49dc063f40173b8 -->
 <h2>SuperAdmin/ManageDropDowns</h2>
 <blockquote>
@@ -2069,6 +2192,33 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>DELETE SuperAdmin/DeleteRevisingGuid/{RevisingGuidID}</code></p>
 <!-- END_7ee5490300c53870684fc87f45c160fd -->
+<!-- START_a1a0b33645c27e8585cca40e068267c1 -->
+<h2>SuperAdmin/PatchUpdateOrderIndices</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH \
+    "http://localhost/SuperAdmin/PatchUpdateOrderIndices" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/SuperAdmin/PatchUpdateOrderIndices"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH SuperAdmin/PatchUpdateOrderIndices</code></p>
+<!-- END_a1a0b33645c27e8585cca40e068267c1 -->
 <!-- START_f9400f7c499d682f68ffe1f1d29e0c38 -->
 <h2>SuperAdmin/ManageFinancialGroups</h2>
 <blockquote>
@@ -2687,6 +2837,66 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>POST ArchiveSecretary/StoreArchiveRecord/{transactionID}</code></p>
 <!-- END_f81d5c0d40ee19472008d07c78311814 -->
+<!-- START_156c12fb167bb18699f800dbda76c8cc -->
+<h2>EmployeeProfile/{employee}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/EmployeeProfile/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/EmployeeProfile/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET EmployeeProfile/{employee}</code></p>
+<!-- END_156c12fb167bb18699f800dbda76c8cc -->
+<!-- START_4b4f24906d278013990b88747ab93beb -->
+<h2>UpdateEmployeeProfile/{employee}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH \
+    "http://localhost/UpdateEmployeeProfile/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/UpdateEmployeeProfile/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH UpdateEmployeeProfile/{employee}</code></p>
+<!-- END_4b4f24906d278013990b88747ab93beb -->
 <!-- START_5799883540e324eb5f2e9e0eb487b491 -->
 <h2>OfficeInfo</h2>
 <blockquote>
@@ -2774,6 +2984,93 @@ fetch(url, {
 <h3>HTTP Request</h3>
 <p><code>PATCH UpdateOfficeInfo</code></p>
 <!-- END_eebc5b04e305f81371d22f8755dafbe8 -->
+<!-- START_dc3e3f3d9b2e60fd8e64559cc7692dc7 -->
+<h2>standardTime</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://localhost/standardTime" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/standardTime"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated."
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET standardTime</code></p>
+<!-- END_dc3e3f3d9b2e60fd8e64559cc7692dc7 -->
+<!-- START_416789bfd92227dedf55be92c46bccaf -->
+<h2>StoreStandardTime</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "http://localhost/StoreStandardTime" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/StoreStandardTime"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST StoreStandardTime</code></p>
+<!-- END_416789bfd92227dedf55be92c46bccaf -->
+<!-- START_5c76de623261dfefc0db8d95ef5bcb64 -->
+<h2>UpdateStandardTime</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PATCH \
+    "http://localhost/UpdateStandardTime" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost/UpdateStandardTime"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PATCH UpdateStandardTime</code></p>
+<!-- END_5c76de623261dfefc0db8d95ef5bcb64 -->
 <!-- START_388895b6c6e11957e4ab353fce76fc68 -->
 <h2>Documents/{transactionID?}/document/{documentCode?}</h2>
 <blockquote>

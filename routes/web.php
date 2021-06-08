@@ -90,9 +90,6 @@ Route::group([ 'prefix'=>'SuperAdmin','middleware'=>['auth','SuperAdmin'] ],func
                         'update'=>'admin.documents.update',
                         'destroy'=>'admin.documents.destroy',
                     ]);
-    // OfficeBranches Route
-    Route::resource('/OfficeBranches','OfficeBranchesController')->only(['index','store','update']);
-
     //DropDowns SystemSettings
     Route::get('/ManageDropDowns','SystemSettingsController@DropDownIndex')->name('system.DropDowns.index');
     Route::post('/StoreDropDownsOption','SystemSettingsController@StoreDropDownOption')->name('system.DropDowns.store.option');
@@ -246,6 +243,9 @@ Route::group([ 'prefix'=>'ArchiveSecretary','middleware'=>['auth','ArchiveSecret
 
 });
 Route::group(['middleware'=>['auth'] ],function () {
+    // OfficeBranches Route
+    Route::resource('/OfficeBranches','OfficeBranchesController')->only(['index','store','update']);
+
     /*
     |--------------------------------------------------------------------------
     | Employee Format
