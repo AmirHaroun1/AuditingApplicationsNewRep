@@ -8,7 +8,7 @@
                 <v-spacer></v-spacer>
                 <v-text-field id="search-box" v-model="search" class="col-md-2 mr-2 ml-2 mt-4" :label="$t('search')" dense small justify="center" single-line solo align-center hide-details append-icon="mdi-search" />
                 <v-spacer></v-spacer>
-                <v-autocomplete :label="$t('filter')" hide-details dense chips multiple return-object v-model="headers" outlined class="col-md-3 mt-4 mr-2" :items="predefinedFilters" dense small justify="center">
+                <v-autocomplete :label="$t('filter')" hide-details dense chips multiple return-object v-model="headers" outlined class="col-md-3 mt-4 mr-2" :items="predefinedFilters" small justify="center">
                     <template v-slot:selection="{ item, index }">
                         <v-chip small v-if="index === 0">
                             <span>{{ item.text }}</span>
@@ -17,6 +17,9 @@
                             (+{{ headers.length - 1 }} {{$t('others')}})
                         </span>
                     </template>
+                </v-autocomplete>
+                <v-spacer></v-spacer>
+                <v-autocomplete :label="$t('branches')" hide-details dense chips multiple return-object v-model="currentBranch" outlined class="col-md-3 mt-4 mr-2" :items="branches" small justify="center">
                 </v-autocomplete>
             </v-card-title>
             <v-data-table :headers="headers" :items="Transactions" :search="search">
@@ -44,6 +47,8 @@ export default {
         return {
             LoadingSpinner: false,
             Transactions: [],
+            branches: [],
+            currentBranch: '',
             SearchedTransactions: [],
             SearchMainRegisterNumber: '',
             OrderByCase: 'latest',
@@ -173,6 +178,7 @@ export default {
     },
     created() {
         this.fetchTransactions();
+        this.getAllBranches();
     },
     methods: {
         fetchTransactions(page = 1) {
@@ -243,7 +249,15 @@ export default {
 
                 })
 
-        }
+        },
+        getAllBranches() {
+            axios.get(route('OfficeBranches.index')).then((result) => {
+                console.log('res', result);
+                this.branches = result.data.OfficeBranches
+            }).catch((err) => {
+                console.log('err', error);
+            });
+        },
 
     },
 }
