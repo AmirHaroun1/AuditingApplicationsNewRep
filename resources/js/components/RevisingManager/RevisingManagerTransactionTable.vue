@@ -19,7 +19,7 @@
                     </template>
                 </v-autocomplete>
                 <v-spacer></v-spacer>
-                <v-autocomplete :label="$t('branches')" hide-details dense chips multiple return-object v-model="currentBranch" outlined class="col-md-3 mt-4 mr-2" :items="branches" small justify="center">
+                <v-autocomplete :label="$t('branches')" @change="fetchTransactions" item-text="name" item-value="id" hide-details dense chips v-model="currentBranch" outlined class="col-md-3 mt-4 mr-2" :items="branches" small justify="center">
                 </v-autocomplete>
             </v-card-title>
             <v-data-table :headers="headers" :items="Transactions" :search="search">
@@ -176,16 +176,17 @@ export default {
 
         }
     },
-    created() {
-        this.fetchTransactions();
-        this.getAllBranches();
+   async created() {
+        await this.getAllBranches();
+       await this.fetchTransactions();
     },
     methods: {
         fetchTransactions(page = 1) {
             this.LoadingSpinner = true;
             axios.get(route('transactions.index', {
                     OrderByCase: this.OrderByCase,
-                    page
+                    page,
+                    BranchOfficeID : this.currentBranch
                 }))
                 .then(({
                     data
