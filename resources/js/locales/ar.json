@@ -230,6 +230,8 @@
     "reviser_notes":  "ملاحظات المراجع الفني",
     "revisingManager_notes":  "ملاحظات مدير المراجعه",
     "auditor_notes":  "ملاحظات المدقق",
-    "archiveSecretary_notes":  "ملاحظات الأرشيف"
+    "archiveSecretary_notes":  "ملاحظات الأرشيف",
+
+    "branches": "الفروع"
 
 }
