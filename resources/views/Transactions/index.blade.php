@@ -31,17 +31,17 @@
 @endsection
 @section('content')
                     @if(auth()->user()->role == 'سكرتير')
-                        <secretary-transactions-table></secretary-transactions-table>
+                        <secretary-transactions-table auth="{{$AuthUser}}"></secretary-transactions-table>
                         @elseif(auth()->user()->role == 'مراجع فني')
-                        <reviser-transactions-table></reviser-transactions-table>
+                        <reviser-transactions-table auth="{{$AuthUser}}"></reviser-transactions-table>
                         @elseif(auth()->user()->role == 'مدقق')
-                        <auditor-transactions-table></auditor-transactions-table>
+                        <auditor-transactions-table auth="{{$AuthUser}}"></auditor-transactions-table>
                         @elseif(auth()->user()->role == 'مدير مراجعة')
-                        <revising-manager-transactions-table></revising-manager-transactions-table>
+                        <revising-manager-transactions-table auth="{{$AuthUser}}"></revising-manager-transactions-table>
                         @elseif(auth()->user()->role == 'شريك اداري')
-                        <partner-transactions-table></partner-transactions-table>
+                        <partner-transactions-table auth="{{$AuthUser}}"></partner-transactions-table>
                         @elseif(auth()->user()->role == 'سكرتير تنفيذي')
-                        <archive-transactions-table></archive-transactions-table>
+                        <archive-transactions-table auth="{{$AuthUser}}"></archive-transactions-table>
                     @endif
 @endsection
 @section('scripts')

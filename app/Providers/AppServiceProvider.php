@@ -32,13 +32,12 @@ class AppServiceProvider extends ServiceProvider
         // limit returning the balance to only your dashboard layout
 
         View::composer([
-                'layout._Sidebar'
+                'layout._Sidebar',
+                'Transactions.index'
             ], function($view) {
 
                     $AuthUser = User::with('OfficeBranch')->findOrFail(Auth::id());
-
-
-                view()->share('AuthUser', $AuthUser);
+                    view()->share('AuthUser', $AuthUser);
             });
 
 
