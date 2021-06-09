@@ -37,7 +37,7 @@
                         @elseif(auth()->user()->role == 'مدقق')
                         <auditor-transactions-table></auditor-transactions-table>
                         @elseif(auth()->user()->role == 'مدير مراجعة')
-                        <revising-manager-transactions-table></revising-manager-transactions-table>
+                        <revising-manager-transactions-table auth="{{json_encode(auth()->user())}}"></revising-manager-transactions-table>
                         @elseif(auth()->user()->role == 'شريك اداري')
                         <partner-transactions-table></partner-transactions-table>
                         @elseif(auth()->user()->role == 'سكرتير تنفيذي')

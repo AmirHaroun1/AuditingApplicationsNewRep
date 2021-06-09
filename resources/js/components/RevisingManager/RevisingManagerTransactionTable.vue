@@ -43,6 +43,7 @@
 <script>
 export default {
     name: "RevisingManagerTransactionsTable",
+    props: ['auth'],
     data() {
         return {
             LoadingSpinner: false,
@@ -260,6 +261,11 @@ export default {
             });
         },
 
+    },
+    computed: {
+        authObject () {
+            return JSON.parse(this.auth) 
+        },
     },
 }
 </script>
