@@ -19,7 +19,7 @@
                     </template>
                 </v-autocomplete>
                 <v-spacer></v-spacer>
-                <v-autocomplete :label="$t('branches')" @change="fetchTransactions" item-text="name" item-value="id" hide-details dense chips v-model="currentBranch" outlined class="col-md-3 mt-4 mr-2" :items="branches" small justify="center">
+                <v-autocomplete v-if="authObject.office_branch.is_main" :label="$t('branches')" @change="fetchTransactions" item-text="name" item-value="id" hide-details dense chips v-model="currentBranch" outlined class="col-md-3 mt-4 mr-2" :items="branches" small justify="center">
                 </v-autocomplete>
             </v-card-title>
             <v-data-table :headers="headers" :items="Transactions" :search="search">
