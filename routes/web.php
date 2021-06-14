@@ -164,7 +164,7 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     |--------------------------------------------------------------------------
     */
     Route::post('/SearchNewRegister','TradeRegisterController@search')->name('TradeRegister.search');
-    Route::post('/StoreNewRegisterTrade/{institution:id}','TradeRegisterController@store')->name('TradeRegister.store');
+    Route::post('/StoreNewTradeRegister/{institution:id}','TradeRegisterController@store')->name('TradeRegister.store');
     Route::patch('/UpdateRegister/{TradeRegister}','TradeRegisterController@update')->name('TradeRegister.update');
     Route::delete('/DeleteTradeRegister/{TradeRegisterID}','TradeRegisterController@delete')->name('TradeRegister.delete');
 

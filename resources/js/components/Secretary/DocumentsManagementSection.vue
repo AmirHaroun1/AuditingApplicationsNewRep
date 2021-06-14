@@ -109,7 +109,6 @@ export default {
                 this.UploadProgress = Math.round((100 * event.loaded) / event.total);
             })
         },
-
         uploadFiles(onUploadProgress) {
 
             if (this.$refs.FileContainer.files.length > 0) {
