@@ -239,13 +239,6 @@
                                             </v-col>
                                         </div>
                                     </v-row>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn @click="createInstitution" color="primary" dark>
-                                            {{$t('save')}}
-                                        </v-btn>
-                                        <v-spacer></v-spacer>
-                                    </v-card-actions>
                                 </v-alert>
                             </v-card>
                         </v-col>
