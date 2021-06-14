@@ -351,8 +351,8 @@
                                                     </v-col>
                                                     <v-card-actions>
                                                         <v-spacer></v-spacer>
-                                                        <v-btn type="submit" form="BranchRegisterForm" color="primary" dark>
-                                                            {{$t('save')}}
+                                                        <v-btn  @click="AddBranchedRegister()" color="primary" dark>
+                                                            {{$t('save')}} 
                                                         </v-btn>
                                                         <v-spacer></v-spacer>
                                                     </v-card-actions>
@@ -361,7 +361,7 @@
                                         </v-dialog>
                                     </v-card-title>
 
-                                    <v-data-table :headers="headers" :items="BranchedTradeRegisters">
+                                    <v-data-table :headers="headers" :items="BranchedRegisters">
                                         <template v-slot:item.action="{ item }">
                                             <v-dialog v-model="editDialog" max-width="600px">
                                                 <template v-slot:activator="{ on, attrs }">
@@ -464,7 +464,28 @@ export default {
                 },
 
             ],
-
+            headers: [{
+                    text: this.$t('tradeNumber'),
+                    align: 'start',
+                    value: 'number',
+                },
+                {
+                    text: this.$t('tradePlace'),
+                    value: 'production_place',
+                },
+                {
+                    text: this.$t('tradeDate'),
+                    value: 'date',
+                },
+                {
+                    text: this.$t('tradeEndDate'),
+                    value: 'EndDate',
+                },
+                {
+                    text: this.$t('action'),
+                    value: 'action',
+                },
+            ],
             institution: this.$parent.$parent.$parent.Institution,
             MainTradeRegister: this.$parent.$parent.$parent.TradeRegister,
             BranchedRegisters: [],
@@ -638,6 +659,7 @@ export default {
         },
 
         AddBranchedRegister() {
+            console.log('brances');
             this.LoadingSpinner = true;
 
             let formData = new FormData();

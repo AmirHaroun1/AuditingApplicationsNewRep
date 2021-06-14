@@ -2,7 +2,7 @@
 <div>
     <!-- Find Trade Register Section -->
     <div v-if="IsNewRegister === null" id="SearchTradeRegister">
-        <v-form v-model="valid" @submit.prevent="SearchTradeRegister()">
+        <v-form     ref="form" v-model="valid" lazy-validation @submit.prevent="SearchTradeRegister()">
             <v-card>
                 <v-card-title>
                     {{$t('transactionInfo')}}
@@ -11,7 +11,7 @@
                     <v-container>
                         <v-row justify-center>
                             <v-col cols="12" sm="6" md="4">
-                                <v-text-field v-model="TradeRegisterInput" outlined :rules="required" :label="$t('enterCopmanyMainNumber')" required />
+                                <v-text-field v-model="TradeRegisterInput" outlined :rules="required" :label="$t('enterCopmanyMainNumber')"  />
                             </v-col>
                         </v-row>
                     </v-container>
@@ -111,6 +111,7 @@ export default {
         return {
             LoadingSpinner: false,
             ValidationErrors: '',
+            valid: true,
             IsNewRegister: null,
             TradeRegisterInput: '',
 
@@ -121,6 +122,11 @@ export default {
             Institution: '',
             Agent: '',
             Transaction: '',
+
+            required: [
+                v => !!v || this.$t('requiredField'),
+        v => (v && v.length == 10) || this.$t('requiredField'),
+            ],
 
             NonActiveCircle: {
                 'numberCircle': true,
@@ -137,7 +143,7 @@ export default {
     name: "NewTransaction.vue",
     methods: {
         SearchTradeRegister() {
-
+            this.$refs.form.validate()
             this.IsNewRegister = null;
             this.LoadingSpinner = true;
             let formData = new FormData();

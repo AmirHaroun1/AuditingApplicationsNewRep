@@ -232,6 +232,8 @@
     "auditor_notes":  "ملاحظات المدقق",
     "archiveSecretary_notes":  "ملاحظات الأرشيف",
 
-    "branches": "الفروع"
+    "branches": "الفروع",
+    "shouldbe10": "يجب ان يكون 10  ارقام",
+    "companyName": "اسم الشركة"
 
 }
