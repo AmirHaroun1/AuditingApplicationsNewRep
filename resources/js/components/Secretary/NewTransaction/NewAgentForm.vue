@@ -38,7 +38,7 @@
                 </v-row>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn outlined type="submit" form="BranchRegisterForm" color="primary" dark>
+                    <v-btn outlined type="submit" ref="NewAgentForm" form="BranchRegisterForm" color="primary" dark>
                         {{$t('save')}}
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -97,7 +97,7 @@ export default {
             formData.append('phone', this.Agent.phone);
             formData.append('role', 'مندوب شركة');
 
-            axios.post(route('agent.store', this.$parent.Institution),
+            axios.post(route('agent.store', this.$parent.$parent.$parent.$parent.$parent.$parent.Institution),
                 formData
             ).then((res) => {
                 this.$toast.success('<i class="fas fa-thumbs-up"></i>',
@@ -105,11 +105,11 @@ export default {
                         timout: 2000
                     });
                 this.ValidationErrors = '';
-                this.$parent.Agent = this.Agent;
+                this.$parent.$parent.$parent.$parent.$parent.$parent.Agent = this.Agent;
                 this.LoadingSpinner = false;
             }).catch((error) => {
                 this.LoadingSpinner = false;
-                this.ValidationErrors = error.response.data.errors;
+                console.log('err', error);
                 this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
                     timout: 2000
                 });

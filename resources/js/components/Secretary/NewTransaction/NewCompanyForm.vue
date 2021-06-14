@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-form v-model="valid" @submit.prevent="createInstitution()">
+    <v-form v-model="valid" ref="form" @submit.prevent="createInstitution()">
         <v-card>
             <v-card-title>
                 {{$t('transactionInfo')}}
@@ -14,17 +14,17 @@
                         <v-col cols="12" sm="6" md="3">
                             <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                 <template v-slot:activator="{ on, attrs2 }">
-                                    <v-text-field outlined v-model="MainTradeRegister.date" name="national_id_date" :label="$t('mainTradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                    <v-text-field outlined :rules="required" v-model="MainTradeRegister.date" name="national_id_date" :label="$t('mainTradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="MainTradeRegister.date" @input="menu2 = false"></v-date-picker>
+                                <v-date-picker v-model="MainTradeRegister.date" :rules="required" @input="menu2 = false"></v-date-picker>
                             </v-menu>
                         </v-col>
                         <v-col cols="12" sm="6" md="3">
                             <v-menu v-model="menu6" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                 <template v-slot:activator="{ on, attrs2 }">
-                                    <v-text-field outlined v-model="MainTradeRegister.EndDate" name="national_id_date" :label="$t('mainTradeEndDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                    <v-text-field outlined v-model="MainTradeRegister.EndDate" :rules="required" name="national_id_date" :label="$t('mainTradeEndDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="MainTradeRegister.EndDate" @input="menu6 = false"></v-date-picker>
+                                <v-date-picker v-model="MainTradeRegister.EndDate" :rules="required" @input="menu6 = false"></v-date-picker>
                             </v-menu>
                         </v-col>
                         <v-col cols="12" sm="6" md="3">
@@ -41,13 +41,13 @@
                                             <v-autocomplete v-model="InstitutionType" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                         </v-col>
                                         <v-col cols="12" v-if="InstitutionType !='chairty'" sm="6" md="3">
-                                            <v-text-field v-model="institution.number700" outlined autocomplete="number 700" :label="$t('number700')" required />
+                                            <v-text-field v-model="institution.number700" :rules="required" outlined autocomplete="number 700" :label="$t('number700')" required />
                                         </v-col>
                                         <v-col cols="12" sm="6" md="3">
-                                            <v-text-field v-if="InstitutionType !='chairty'" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
+                                            <v-text-field v-if="InstitutionType !='chairty'" :rules="required" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
                                         </v-col>
                                         <v-col cols="12" sm="6" md="3">
-                                            <v-text-field v-model="institution.extra_tax_num" outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
+                                            <v-text-field v-model="institution.extra_tax_num"  outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
                                         </v-col>
                                         <div v-if="InstitutionType=='organization'" class="row" id="NewOrganizationInformation">
                                             <v-col cols="12" sm="6" md="3">
@@ -323,32 +323,32 @@
                                                 <v-card-title>
                                                     {{$t('addBranchTrade')}}
                                                 </v-card-title>
-                                                <v-form id="BranchRegisterForm" @submit.prevent="AddBranchedRegister(); addDialog = false">
+                                                <v-form id="BranchRegisterForm" @submit.prevent="AddRegisterToList(); addDialog = false">
                                                     <v-col cols="12" sm="6" md="6">
-                                                        <v-text-field v-model="NewBranchedRegister.number" outlined :rules="numbersRules" :label="$t('tradeNumber')" required />
+                                                        <v-text-field v-model="BranchedTradeRegister.number" outlined :rules="numbersRules" :label="$t('tradeNumber')" required />
                                                     </v-col>
                                                     <v-col cols="12" sm="6" md="6">
-                                                        <v-text-field v-model="NewBranchedRegister.production_place" outlined :rules="required" :label="$t('tradePlace')" required />
+                                                        <v-text-field v-model="BranchedTradeRegister.production_place" outlined :rules="required" :label="$t('tradePlace')" required />
                                                     </v-col>
                                                     <v-col cols="12" sm="6" md="6">
                                                         <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                                             <template v-slot:activator="{ on, attrs2 }">
-                                                                <v-text-field outlined v-model="NewBranchedRegister.date" :label="$t('tradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                                <v-text-field outlined v-model="BranchedTradeRegister.date" :label="$t('tradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
                                                             </template>
-                                                            <v-date-picker v-model="NewBranchedRegister.date"></v-date-picker>
+                                                            <v-date-picker v-model="BranchedTradeRegister.date"></v-date-picker>
                                                         </v-menu>
                                                     </v-col>
                                                     <v-col cols="12" sm="6" md="6">
                                                         <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
                                                             <template v-slot:activator="{ on, attrs2 }">
-                                                                <v-text-field outlined v-model="NewBranchedRegister.EndDate" :label="$t('tradeEndDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                                <v-text-field outlined v-model="BranchedTradeRegister.EndDate" :label="$t('tradeEndDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
                                                             </template>
-                                                            <v-date-picker v-model="NewBranchedRegister.EndDate"></v-date-picker>
+                                                            <v-date-picker v-model="BranchedTradeRegister.EndDate"></v-date-picker>
                                                         </v-menu>
                                                     </v-col>
                                                     <v-card-actions>
                                                         <v-spacer></v-spacer>
-                                                        <v-btn type="submit" form="BranchRegisterForm" color="primary" dark>
+                                                        <v-btn type="submit" @click="AddRegisterToList()" form="BranchRegisterForm" color="primary" dark>
                                                             {{$t('save')}}
                                                         </v-btn>
                                                         <v-spacer></v-spacer>
@@ -358,7 +358,7 @@
                                         </v-dialog>
                                     </v-card-title>
 
-                                    <v-data-table :headers="headers" :items="BranchedTradeRegisters">
+                                    <v-data-table :headers="headers" :items="AddedBranchedRegisters">
                                         <template v-slot:item.action="{ item }">
                                             <v-dialog v-model="editDialog" max-width="600px">
                                                 <template v-slot:activator="{ on, attrs }">
@@ -443,7 +443,7 @@ export default {
             revisers: [],
             revisingManagers: [],
             InstitutionType: '',
-                  /////// Added Branched Register //////////
+            /////// Added Branched Register //////////
             NewBranchedRegister: {
                 id: '',
                 number: '',
@@ -645,6 +645,7 @@ export default {
                 })
         },
         createInstitution() {
+            if (this.$refs.form.validate()) {
             if (this.NewCompanyNot_ADDED) {
                 this.LoadingSpinner = true;
 
@@ -700,6 +701,7 @@ export default {
                     this.CompanyError = false;
 
                     this.LoadingSpinner = false;
+                    this.createMainTradeRegister();
                 }).catch((error) => {
                     this.LoadingSpinner = false;
                     this.ValidationErrors = error.response.data.errors;
@@ -712,6 +714,7 @@ export default {
                 this.LoadingSpinner = false;
 
                 this.createMainTradeRegister();
+            }
             }
 
         },
@@ -857,7 +860,7 @@ export default {
 
         },
         AddRegisterToList() {
-
+            console.log('branch');
             this.AddedBranchedRegisters.push({
                 number: this.BranchedTradeRegister.number,
                 date: this.BranchedTradeRegister.date,
@@ -869,7 +872,6 @@ export default {
         },
         removeRegisterFromList(reg) {
             this.AddedBranchedRegisters.splice(this.AddedBranchedRegisters.indexOf(reg), 1);
-
         },
         ClearBranchedRegisterInput() {
             this.BranchedTradeRegister.number = '',
