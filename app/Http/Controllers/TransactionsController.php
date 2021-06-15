@@ -85,7 +85,7 @@ class TransactionsController extends Controller
 
     public function store(StoreTransactionRequest $request){
 
-        $NewTransaction = Transaction::create($request->all());
+        $NewTransaction = Transaction::create(array_merge($request->all(),['branch_office_id'=>Auth::id()]));
 
         return response()->json([$NewTransaction],200);
     }
