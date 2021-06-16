@@ -669,7 +669,8 @@ export default {
                     });
                     formData.append('managers', JSON.stringify(this.institution.managers));
 
-                } else if (this.InstitutionType == 'company') {
+                } 
+                else if (this.InstitutionType == 'company') {
                     formData.append('legal_entity', this.institution.legal_entity);
                     formData.append('company_nationality', this.institution.company_nationality);
                     formData.append('company_period', this.institution.company_period);
@@ -678,6 +679,9 @@ export default {
                     //managers needed to be implemented
                     formData.append('managers', JSON.stringify(this.institution.managers));
 
+                }
+                else if (this.InstitutionType == 'project') {
+                    formData.append('number700', this.institution.number700);
                 }
                 axios.post(route('Institution.store'),
                     formData
