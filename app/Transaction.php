@@ -15,6 +15,7 @@ class Transaction extends Model
     protected $appends =['hijri_financial_year','hijri_created_at'];
     protected $dates = ['created_at', 'updated_at'];
 
+
     public function getCreatedAtAttribute(){
         return Carbon::parse($this->attributes['created_at'])->format('Y / m / d');
     }

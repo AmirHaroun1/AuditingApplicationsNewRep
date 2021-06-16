@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
 
             $table->unsignedInteger('financial_year')->nullable(); //السنة المالية
-            $table->unsignedInteger('MainTradeRegisterNumber')->nullable(); //رقم السجل الرئيسي
+            $table->unsignedBigInteger('MainTradeRegisterNumber')->nullable(); //رقم السجل الرئيسي
 
             $table->date('start_financial_year')->nullable(); // بداية السنة المالية
             $table->date('end_financial_year')->nullable(); //نهاية السنة المالية
@@ -27,13 +27,13 @@ class CreateTransactionsTable extends Migration
             $table->string('measurement_standard')->nullable(); //معيار القياس
             $table->string('measurement_standard_determinants')->nullable(); // محددات معيار القياس
 
-            $table->unsignedBigInteger('agreed_contract_value')->default(0); //قيمة التعاقد المتفق عليها
-            $table->unsignedBigInteger('down_payment')->default(0); //الدفعة المقدمة
-            $table->unsignedBigInteger('final_payment')->default(0); //الدفعة النهائية
-            $table->unsignedBigInteger('zakat_deposit_fees')->default(0); //أتعاب الذكاه
-            $table->unsignedBigInteger('value_added_tax')->default(0);  //ضرائب القيمة المضافة
-            $table->unsignedBigInteger('offer_value')->default(0); //قيمة الخصم
-            $table->unsignedBigInteger('total_value')->default(0); //اجمالى أتعاب
+            $table->unsignedDouble('agreed_contract_value')->default(0); //قيمة التعاقد المتفق عليها
+            $table->unsignedDouble('down_payment')->default(0); //الدفعة المقدمة
+            $table->unsignedDouble('final_payment')->default(0); //الدفعة النهائية
+            $table->unsignedDouble('zakat_deposit_fees')->default(0); //أتعاب الذكاه
+            $table->unsignedDouble('value_added_tax')->default(0);  //ضرائب القيمة المضافة
+            $table->unsignedDouble('offer_value')->default(0); //قيمة الخصم
+            $table->unsignedDouble('total_value')->default(0); //اجمالى أتعاب
 
             $table->string('status')->default('under_review'); //الحالة
 
