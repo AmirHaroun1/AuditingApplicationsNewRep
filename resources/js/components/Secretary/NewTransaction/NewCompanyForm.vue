@@ -684,8 +684,8 @@ export default {
                     formData.append('company_end_period', this.institution.company_end_period);
                     //managers needed to be implemented
                     formData.append('managers', JSON.stringify(this.institution.managers));
-
                 }
+
                 axios.post(route('Institution.store'),
                     formData
                 ).then((res) => {
@@ -714,7 +714,7 @@ export default {
                 this.LoadingSpinner = false;
 
                 this.createMainTradeRegister();
-            }
+                }
             }
 
         },
@@ -761,49 +761,36 @@ export default {
         createTransaction() {
 
             if (this.NewTransactionNot_ADDED) {
-
                 this.LoadingSpinner = true;
-
                 var formData = new FormData();
-
                 formData.append('financial_year', this.transaction.financial_year);
                 formData.append('status', 'under_review');
                 formData.append('start_financial_year', this.transaction.start_financial_year);
                 formData.append('end_financial_year', this.transaction.end_financial_year);
-
                 formData.append('financial_period', this.transaction.financial_period);
-
                 formData.append('MainTradeRegisterNumber', this.MainTradeRegister.number);
                 formData.append('revisingManager_id', this.ChoosenRevisingManagerID);
-
                 formData.append('institution_id', this.created_institution.id);
                 formData.append('reviser_id', this.ChoosenReviserID);
-
                 axios.post(route('Transactions.store'), formData)
                     .then(({
                         data
                     }) => {
-
                         this.NewTransactionNot_ADDED = false;
                         this.$parent.$parent.$parent.Transaction = data[0];
                         this.ValidationErrors = '';
                         this.LoadingSpinner = false;
-
                         this.createBranchedRegisters();
                     }).catch((error) => {
                         this.LoadingSpinner = false;
-
                         this.ValidationErrors = error.response.data.errors;
                         this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
                             timout: 2000
                         });
-
                     });
             } else if (!this.NewTransactionNot_ADDED) {
                 this.createBranchedRegisters();
-
             }
-
         },
 
         createBranchedRegisters() {
