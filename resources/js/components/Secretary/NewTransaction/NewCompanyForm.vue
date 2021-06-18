@@ -147,7 +147,7 @@
                                                 <v-autocomplete v-model="institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
-                                                <v-text-field v-model="institution.company_nationality" :rules="required" outlined autocomplete="company_nationality" :label="$t('company_nationality')" required />
+                                                <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
                                                 <v-text-field v-model="institution.company_period" :rules="required" outlined autocomplete="company_period" :label="$t('company_period')" required />
@@ -239,13 +239,6 @@
                                             </v-col>
                                         </div>
                                     </v-row>
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn @click="createInstitution" color="primary" dark>
-                                            {{$t('save')}}
-                                        </v-btn>
-                                        <v-spacer></v-spacer>
-                                    </v-card-actions>
                                 </v-alert>
                             </v-card>
                         </v-col>
@@ -676,7 +669,8 @@ export default {
                     });
                     formData.append('managers', JSON.stringify(this.institution.managers));
 
-                } else if (this.InstitutionType == 'company') {
+                } 
+                else if (this.InstitutionType == 'company') {
                     formData.append('legal_entity', this.institution.legal_entity);
                     formData.append('company_nationality', this.institution.company_nationality);
                     formData.append('company_period', this.institution.company_period);
@@ -684,8 +678,11 @@ export default {
                     formData.append('company_end_period', this.institution.company_end_period);
                     //managers needed to be implemented
                     formData.append('managers', JSON.stringify(this.institution.managers));
-                }
 
+                }
+                else if (this.InstitutionType == 'project') {
+                    formData.append('number700', this.institution.number700);
+                }
                 axios.post(route('Institution.store'),
                     formData
                 ).then((res) => {
@@ -714,7 +711,7 @@ export default {
                 this.LoadingSpinner = false;
 
                 this.createMainTradeRegister();
-                }
+            }
             }
 
         },
@@ -761,36 +758,49 @@ export default {
         createTransaction() {
 
             if (this.NewTransactionNot_ADDED) {
+
                 this.LoadingSpinner = true;
+
                 var formData = new FormData();
+
                 formData.append('financial_year', this.transaction.financial_year);
                 formData.append('status', 'under_review');
                 formData.append('start_financial_year', this.transaction.start_financial_year);
                 formData.append('end_financial_year', this.transaction.end_financial_year);
+
                 formData.append('financial_period', this.transaction.financial_period);
+
                 formData.append('MainTradeRegisterNumber', this.MainTradeRegister.number);
                 formData.append('revisingManager_id', this.ChoosenRevisingManagerID);
+
                 formData.append('institution_id', this.created_institution.id);
                 formData.append('reviser_id', this.ChoosenReviserID);
+
                 axios.post(route('Transactions.store'), formData)
                     .then(({
                         data
                     }) => {
+
                         this.NewTransactionNot_ADDED = false;
                         this.$parent.$parent.$parent.Transaction = data[0];
                         this.ValidationErrors = '';
                         this.LoadingSpinner = false;
+
                         this.createBranchedRegisters();
                     }).catch((error) => {
                         this.LoadingSpinner = false;
+
                         this.ValidationErrors = error.response.data.errors;
                         this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
                             timout: 2000
                         });
+
                     });
             } else if (!this.NewTransactionNot_ADDED) {
                 this.createBranchedRegisters();
+
             }
+
         },
 
         createBranchedRegisters() {

@@ -2,7 +2,7 @@
 <div>
     <!-- Find Trade Register Section -->
     <div v-if="IsNewRegister === null" id="SearchTradeRegister">
-        <v-form     ref="form" v-model="valid" lazy-validation @submit.prevent="SearchTradeRegister()">
+        <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="SearchTradeRegister()">
             <v-card>
                 <v-card-title>
                     {{$t('transactionInfo')}}
@@ -11,8 +11,9 @@
                     <v-container>
                         <v-row justify-center>
                             <v-col cols="12" sm="6" md="4">
-                                <v-text-field v-model="TradeRegisterInput" outlined :rules="required" :label="$t('enterCopmanyMainNumber')"  />
+                                <v-text-field v-if="!LoadingSpinner" v-model="TradeRegisterInput" outlined :rules="required" :label="$t('enterCopmanyMainNumber')" />
                             </v-col>
+                            <v-progress-circular v-if="LoadingSpinner" indeterminate color="primary"></v-progress-circular>
                         </v-row>
                     </v-container>
                 </v-card-text>
@@ -125,7 +126,7 @@ export default {
 
             required: [
                 v => !!v || this.$t('requiredField'),
-        v => (v && v.length == 10) || this.$t('requiredField'),
+                v => (v && v.length == 10) || this.$t('requiredField'),
             ],
 
             NonActiveCircle: {
