@@ -1,227 +1,452 @@
 <template>
-<div style="margin-top: 20px">
-    <v-container>
-        <v-card style="padding:25px">
-            <v-card-title class="mb-3">
-                <span class="mr-3 ml-3">{{ $t("transactionsData") }}</span>
+<div>
+    <v-form v-model="valid" @submit.prevent="UpdateMainRegister()">
+        <v-card>
+            <v-card-title>
+                {{$t('transactionInfo')}}
             </v-card-title>
-            <div class="row">
-                <div class="box-body">
-                    <!------ رقم السجل ------>
+            <v-card-text>
+                <v-container>
                     <v-row>
-                        <v-col cols="12" md="6">
-                            <v-text-field label="رقم السجل الرئيسي" outlined v-model="
-                                        Transaction.MainTradeRegisterNumber
-                                    " type="number" hide-details disabled></v-text-field>
+                        <v-col cols="12" sm="6" md="3">
+                            <v-text-field v-model="MainTradeRegister.number" outlined :rules="numbersRules" autocomplete="MainTradeRegister" :label="$t('mainTradeNumber')" required />
                         </v-col>
-                    </v-row>
-                    <!------ تاريخ السجل ------>
-                    <v-row>
-                        <v-col cols="12" md="6">
-                            <v-menu v-if="
-                                        Transaction.institution
-                                            .main_trade_register
-                                    " v-model="main_datePicker" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field hide-details disabled outlined label="تاريخ السجل الرئيسى" append-icon="mdi-calendar" readonly v-bind="attrs" v-on="on" v-model="
-                                                Transaction.institution
-                                                    .main_trade_register.date
-                                            "></v-text-field>
+                        <v-col cols="12" sm="6" md="3">
+                            <v-text-field v-model="MainTradeRegister.production_place" outlined :rules="required" :label="$t('mainTradePlace')" required />
+                        </v-col>
+                        <v-col cols="12" sm="6" md="3">
+                            <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                <template v-slot:activator="{ on, attrs2 }">
+                                    <v-text-field outlined v-model="MainTradeRegister.date" name="national_id_date" :label="$t('mainTradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="
-                                            Transaction.institution
-                                                .main_trade_register.date
-                                        " @input="main_datePicker = false"></v-date-picker>
+                                <v-date-picker v-model="MainTradeRegister.date" @input="menu2 = false"></v-date-picker>
                             </v-menu>
                         </v-col>
-                    </v-row>
-                    <!------ مكان اصدار ------>
-                    <v-row>
-                        <v-col cols="12" md="6">
-                            <v-text-field v-if="
-                                        Transaction.institution
-                                            .main_trade_register
-                                    " v-model="
-                                        Transaction.institution
-                                            .main_trade_register
-                                            .production_place
-                                    " label="مكان اصدار السجل الرئيسى" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                    </v-row>
-
-                    <hr />
-                    <v-row id="CompanyInformation">
-                        <!------ أسم المنشأة ------>
-                        <v-col cols="12" md="6">
-                            <v-text-field v-if="Transaction.institution" v-model="Transaction.institution.name" label="أسم المنشأة" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ أسم المنشأة/. ------>
-                        <!------ رقم المنشأة ------>
-                        <v-col cols="12" md="6">
-                            <v-text-field v-if="Transaction.institution" v-model="Transaction.institution.name" label="رقم المنشأة" outlined type="number" hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ رقم المنشأة/. ------>
-                        <!------ الكيان القانوني ------>
-                        <v-col md="3">
-                            <v-text-field v-if="Transaction.institution" v-model="
-                                        Transaction.institution.legal_entity
-                                    " label="الكيان القانوني" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ الكيان القانوني/. ------>
-                        <!------ اهتمامات الملاك ------>
-                        <v-col md="3">
-                            <v-text-field v-if="Transaction.institution" v-model="
-                                        Transaction.institution.angel_interests
-                                    " label="اهتمامات الملاك" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ اهتمامات الملاك/. ------>
-                        <!------ طبيعة ملكية المنشأة وكيفية تمويلها ------>
-                        <v-col md="3">
-                            <v-text-field v-model="Transaction.institution.nature" label="طبيعة ملكية المنشأة وكيفية تمويلها" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ طبيعة ملكية المنشأة وكيفية تمويلها/. ------>
-                        <!------ تقويم العام المالي للمنشأة ------>
-                        <v-col md="3">
-                            <v-text-field v-model="Transaction.institution.date_type" label="تقويم العام المالي للمنشأة" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ تقويم العام المالي للمنشأة/. ------>
-                        <!------ نشاط المنشأة ------>
-                        <v-col md="9">
-                            <v-textarea v-model="
-                                        Transaction.institution
-                                            .business_activity
-                                    " rows="6" outlined hide-details label="نشاط المنشأة" disabled></v-textarea>
-                        </v-col>
-                        <!------ نشاط المنشأة/. ------>
-                        <!------ عنوان المنشأة ------>
-                        <v-col md="4">
-                            <v-text-field v-model="Transaction.institution.address" label="العنوان" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ عنوان المنشأة./ ------>
-                        <!------ الرقم المميز لدى هيئة الذكاة ------>
-                        <v-col md="4">
-                            <v-text-field v-model="
-                                        Transaction.institution.charity_num
-                                    " label="الرقم المميز لدى هيئة الذكاة" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ الرقم المميز لدى هيئة الذكاة/. ------>
-                        <!------ رقم الضريبة المضافة ------>
-                        <v-col md="4">
-                            <v-text-field v-model="
-                                        Transaction.institution.extra_tax_num
-                                    " label="رقم الضريبة المضافة" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <!------ رقم الضريبة المضافة/> ------>
-                    </v-row>
-
-                    <hr />
-                    <!------ تاريخ انتهاء السجل ------>
-                    <v-row>
-                        <v-col md="6">
-                            <v-menu v-model="finish_reservation" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field hide-details outlined label="تاريخ انتهاء السجل" append-icon="mdi-calendar" readonly disabled v-bind="attrs" v-on="on" v-model="
-                                                Transaction.institution
-                                                    .main_trade_register.EndDate
-                                            "></v-text-field>
+                        <v-col cols="12" sm="6" md="3">
+                            <v-menu v-model="menu6" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                <template v-slot:activator="{ on, attrs2 }">
+                                    <v-text-field outlined v-model="MainTradeRegister.EndDate" name="national_id_date" :label="$t('mainTradeEndDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
                                 </template>
-                                <v-date-picker v-model="
-                                            Transaction.institution
-                                                .main_trade_register.EndDate
-                                        " @input="finish_reservation = false"></v-date-picker>
+                                <v-date-picker v-model="MainTradeRegister.EndDate" @input="menu6 = false"></v-date-picker>
                             </v-menu>
                         </v-col>
-                    </v-row>
-                    <!------ تاريخ انتهاء السجل/. ------>
-                    <!------   السنة المالية ------>
-                    <v-row>
-                        <v-col md="6">
-                            <v-text-field type="number" v-model="Transaction.financial_year" label="السنة المالية" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <!------   السنة المالية/. ------>
-                    <!------   الفترة المالية ------>
-                    <v-row>
-                        <v-col md="6">
-                            <v-text-field v-model="Transaction.financial_period" label="الفترة المالية" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <!------   الفترة المالية/. ------>
-                    <!------ بداية / نهاية  السنة المالية ------>
-                    <v-row>
-                        <v-col md="6">
-                            <v-text-field v-model="Transaction.start_financial_year" label="بداية السنة المالية" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                        <v-col md="6">
-                            <v-text-field v-model="Transaction.end_financial_year" label="نهاية السنة المالية" outlined hide-details disabled></v-text-field>
-                        </v-col>
-                    </v-row>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-card>
+                                <v-alert type="primary" outlined>
+                                    <v-card-title>
+                                        {{$t('copmanyInfo')}}
+                                    </v-card-title>
+                                    <v-form id="UpdateInstitutionForm" @submit.prevent="UpdateInstitution()">
+                                        <v-row>
+                                            <v-col cols="12" sm="6" md="3">
+                                                <v-autocomplete v-model="Institution.type" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
+                                            </v-col>
+                                            <v-col cols="12" v-if="Institution.type !='chairty'" sm="6" md="3">
+                                                <v-text-field v-model="Institution.number700" outlined autocomplete="number 700" :label="$t('number700')" required />
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="3">
+                                                <v-text-field v-if="Institution.type !='chairty'" v-model="Institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="3">
+                                                <v-text-field v-model="Institution.extra_tax_num" outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
+                                            </v-col>
+                                            <div v-if="Institution.type=='organization'" class="row" id="NewOrganizationInformation">
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-autocomplete v-model="Institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.postal_box" outlined :rules="required" :label="$t('postal_box')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.postal_code" outlined :rules="required" :label="$t('postal_code')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.phone" outlined :rules="numbersRules" autocomplete="phone" :label="$t('phone')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.fax" outlined :rules="required" autocomplete="fax" :label="$t('fax')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.merchant_name" outlined :rules="required" autocomplete="merchant_name" :label="$t('merchant_name')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.merchant_nationality" outlined :rules="required" autocomplete="merchant_nationality" :label="$t('merchant_nationality')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-menu v-model="menu3" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                        <template v-slot:activator="{ on, attrs2 }">
+                                                            <v-text-field outlined v-model="Institution.merchant_birth_date" name="national_id_date" :label="$t('merchant_birth_date')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                        </template>
+                                                        <v-date-picker v-model="Institution.merchant_birth_date" @input="menu3 = false"></v-date-picker>
+                                                    </v-menu>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.capital" outlined :rules="numbersRules" autocomplete="capital" :label="$t('capital')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="ManagerTemp.name" outlined :rules="required" autocomplete="managerName" :label="$t('ManagerTempName')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.manager_authorities" outlined :rules="required" autocomplete="manager_authorities" :label="$t('manager_authorities')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-textarea v-model="Institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
+                                                </v-col>
+                                            </div>
+                                            <div v-if="Institution.type=='chairty'" class="row">
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-autocomplete v-model="Institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.postal_box" outlined :rules="required" :label="$t('postal_box')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.postal_code" outlined :rules="required" :label="$t('postal_code')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-text-field v-model="Institution.phone" outlined :rules="numbersRules" autocomplete="phone" :label="$t('phone')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-text-field v-model="Institution.fax" outlined :rules="required" autocomplete="fax" :label="$t('fax')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-textarea v-model="Institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="Institution.capital" outlined :rules="required" autocomplete="capital" :label="$t('capital')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="ManagerTemp.name" outlined :rules="required" autocomplete="managerName" :label="$t('ManagerTempName')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="Institution.manager_authorities" outlined :rules="required" autocomplete="manager_authorities" :label="$t('manager_authorities')" required />
+                                                </v-col>
+                                            </div>
+                                            <div v-if="Institution.type == 'company' " class="row" id="NewCompanyInformation">
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('companyName')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-autocomplete v-model="Institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.company_period" :rules="required" outlined autocomplete="company_period" :label="$t('company_period')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-menu v-model="menu4" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                        <template v-slot:activator="{ on, attrs2 }">
+                                                            <v-text-field outlined v-model="Institution.company_start_period" name="company_start_period" :label="$t('company_start_period')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                        </template>
+                                                        <v-date-picker v-model="Institution.company_start_period" @input="menu4 = false"></v-date-picker>
+                                                    </v-menu>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-menu v-model="menu5" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                        <template v-slot:activator="{ on, attrs2 }">
+                                                            <v-text-field outlined v-model="Institution.company_end_period" name="company_end_period" :label="$t('company_end_period')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                        </template>
+                                                        <v-date-picker v-model="Institution.company_end_period" @input="menu5 = false"></v-date-picker>
+                                                    </v-menu>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-autocomplete v-model="Institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="3">
+                                                    <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.postal_box" outlined :rules="required" :label="$t('postal_box')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.postal_code" outlined :rules="required" :label="$t('postal_code')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.phone" outlined :rules="numbersRules" autocomplete="phone" :label="$t('phone')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.fax" outlined :rules="required" autocomplete="fax" :label="$t('fax')" required></v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="2">
+                                                    <v-text-field v-model="Institution.capital" outlined :rules="required" autocomplete="capital" :label="$t('capital')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-textarea v-model="Institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-text-field v-model="ManagerTemp.name" outlined :rules="required" autocomplete="managerName" :label="$t('ManagerTempName')" required />
+                                                    <v-btn @click="AddManagerToList()" dark color="success">
+                                                        {{$t('addManager')}}
+                                                    </v-btn>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-list v-if="Institution.managers.length" two-line>
+                                                        <v-alert type="primary" outlined>
+                                                            <v-subheader inset>{{$t('managers')}}</v-subheader>
 
-                    <!------ بداية / نهاية  السنة المالية/. ------>
-                    <div v-if="
-                                Transaction.institution.branched_trade_register
-                                    .length
-                            ">
-                        <v-row v-for="register in Transaction.institution
-                                    .branched_trade_register" :key="register">
-                            <v-col md="3">
-                                <v-text-field label="رقم السجل" type="number" v-model="register.number" outlined hide-details disabled></v-text-field>
-                            </v-col>
-                            <v-col md="3">
-                                <v-text-field label="مكان اصدار السجل" v-model="register.production_place" outlined hide-details disabled></v-text-field>
-                            </v-col>
-                            <v-col md="3">
-                                <!-- Data ------------------------------------------------------------>
-                                <v-text-field label="تاريخ اصدار السجل" v-model="register.date" outlined hide-details disabled></v-text-field>
-                            </v-col>
+                                                            <v-list-item v-for="(manager,index) in Institution.managers" :key="manager">
+                                                                <v-list-item-avatar>
+                                                                    <v-icon class="grey lighten-1" dark>
+                                                                        mdi-account
+                                                                    </v-icon>
+                                                                </v-list-item-avatar>
 
-                            <v-col md="3">
-                                <!-- Data ------------------------------------------------------------>
-                                <v-text-field label="تاريخ انتهاء السجل" v-model="register.EndDate" outlined hide-details disabled></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </div>
-                    <v-card>
-                        <v-alert type="primary" outlined>
-                            <v-card-title>
-                                {{$t("note")}}
-                            </v-card-title>
-                            <v-col sm="6" md="6">
-                                <v-text-field disabled v-model="Transaction.secretary_notes" outlined :label="$t('secretary_notes')" required />
-                            </v-col>
-                            <v-col sm="6" md="6">
-                                <v-text-field :disabled="jobTitle != 'reviser'" v-model="Transaction.reviser_notes" outlined :label="$t('reviser_notes')" required />
-                            </v-col>
-                            <v-col sm="6" md="6">
-                                <v-text-field :disabled="jobTitle != 'revisingManager'" v-model="Transaction.revisingManager_notes" outlined :label="$t('revisingManager_notes')" required />
-                            </v-col>
-                            <v-col sm="6" md="6">
-                                <v-text-field :disabled="jobTitle != 'auditor'" v-model="Transaction.auditor_notes" outlined :label="$t('auditor_notes')" required />
-                            </v-col>
-                            <v-col sm="6" md="6">
-                                <v-text-field disabled v-model="Transaction.archiveSecretary_notes" outlined :label="$t('archiveSecretary_notes')" required />
-                            </v-col>
-                            <v-col sm="6" md="6">
-                                <v-btn @click="UpdateTransaction" color="primary" dark>
-                                    {{$t('save')}}
-                                </v-btn>
-                            </v-col>
-                        </v-alert>
-                    </v-card>
-                    <!----- Choose revisers Form Content -->
-                    <v-row class="row" id="chooseRevisers">
-                        <v-col md="6" v-if="Transaction.auditor">
-                            <v-text-field label="المدقق المسؤول" v-model="Transaction.auditor.name" outlined hide-details disabled></v-text-field>
+                                                                <v-list-item-content>
+                                                                    <v-list-item-title v-text="manager"></v-list-item-title>
+                                                                </v-list-item-content>
+
+                                                                <v-list-item-action>
+                                                                    <v-btn @click="RemoveManagerFromList(index)" icon>
+                                                                        <v-icon color="grey lighten-1">mdi-delete</v-icon>
+                                                                    </v-btn>
+                                                                </v-list-item-action>
+                                                            </v-list-item>
+
+                                                        </v-alert>
+                                                    </v-list>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-text-field v-model="Institution.manager_authorities" outlined :rules="required" autocomplete="manager_authorities" :label="$t('manager_authorities')" required />
+                                                </v-col>
+                                            </div>
+                                            <div v-if="Institution.type == 'project' " class="row" id="NewProjectInformation">
+                                                <v-col cols="12" sm="6" md="6">
+                                                    <v-textarea v-model="Institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
+                                                </v-col>
+                                            </div>
+                                        </v-row>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn outlined type="submit" form="UpdateInstitutionForm" color="primary" dark>
+                                                {{$t('save')}}
+                                            </v-btn>
+                                            <v-spacer></v-spacer>
+                                        </v-card-actions>
+                                    </v-form>
+                                </v-alert>
+                            </v-card>
                         </v-col>
-                        <v-col md="6" v-if="Transaction.reviser" class="col-md-6">
-                            <v-text-field label="المراجع المسؤول" v-model="Transaction.reviser.name" outlined hide-details disabled></v-text-field>
+                        <v-col cols="12" sm="6" md="6">
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-card>
+                                <v-alert type="primary" outlined>
+                                    <v-card-title>
+                                        {{$t('finaincialYear')}}
+                                    </v-card-title>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-text-field @change="SetFinancialDates()" v-model="Transaction.financial_year" outlined :rules="numbersRules" :label="$t('finaincialYear')" required />
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-autocomplete @change="SetFinancialDates()" v-model="Transaction.financial_period" outlined :rules="required" :items="[$t('finaincialYear2'), $t('shortPeriod'), $t('longPeriod')]" item-text="value" item-value="value" :label="$t('finaincialPeriod')" required />
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                            <template v-slot:activator="{ on, attrs2 }">
+                                                <v-text-field outlined v-model="Transaction.start_financial_year" :label="$t('finaincialYearStart')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="Transaction.start_financial_year"></v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                    <v-col cols="12" sm="6" md="3">
+                                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                            <template v-slot:activator="{ on, attrs2 }">
+                                                <v-text-field outlined v-model="Transaction.end_financial_year" :label="$t('finaincialYearEnd')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="Transaction.end_financial_year"></v-date-picker>
+                                        </v-menu>
+                                    </v-col>
+                                </v-alert>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12">
+                            <v-divider></v-divider>
+                        </v-col>
+                        <v-col cols="12" sm="12" md="12">
+                            <div v-if="Agent !== null">
+                                <edit-agent-form> </edit-agent-form>
+                            </div>
+                            <div v-else>
+                                <new-agent-form></new-agent-form>
+                            </div>
+                        </v-col>
+                        <v-card>
+                            <v-alert type="primary" outlined>
+                                <v-card-title>
+                                    {{$t("note")}}
+                                </v-card-title>
+                                <v-col sm="6" md="6">
+                                    <v-text-field v-model="Transaction.secretary_notes" outlined :label="$t('secretary_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.reviser_notes" outlined :label="$t('reviser_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.revisingManager_notes" outlined :label="$t('revisingManager_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.auditor_notes" outlined :label="$t('auditor_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-text-field disabled v-model="Transaction.archiveSecretary_notes" outlined :label="$t('archiveSecretary_notes')" required />
+                                </v-col>
+                                <v-col sm="6" md="6">
+                                    <v-btn @click="UpdateTransaction" color="primary" dark>
+                                        {{$t('save')}}
+                                    </v-btn>
+                                </v-col>
+                            </v-alert>
+                        </v-card>
+                                                <v-col cols="12">
+                            <v-card>
+                                <v-alert type="primary" outlined>
+                                    <v-card-title>
+                                        <span class="mr-3 ml-3">{{$t('branchesTrades')}}</span>
+                                        <v-spacer></v-spacer>
+                                        <v-dialog v-model="addDialog" max-width="600px">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn color="primary" class="mt-4" dark v-bind="attrs" v-on="on">
+                                                    <v-icon>mdi-plus</v-icon> {{$t('addBranchTrade')}}
+                                                </v-btn>
+                                            </template>
+                                            <v-card>
+                                                <v-card-title>
+                                                    {{$t('addBranchTrade')}}
+                                                </v-card-title>
+                                                <v-form id="BranchRegisterForm" @submit.prevent="AddBranchedRegister(); addDialog = false">
+                                                    <v-col cols="12" sm="6" md="6">
+                                                        <v-text-field v-model="NewBranchedRegister.number" outlined :rules="numbersRules" :label="$t('tradeNumber')" required />
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="6">
+                                                        <v-text-field v-model="NewBranchedRegister.production_place" outlined :rules="required" :label="$t('tradePlace')" required />
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="6">
+                                                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                            <template v-slot:activator="{ on, attrs2 }">
+                                                                <v-text-field outlined v-model="NewBranchedRegister.date" :label="$t('tradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                            </template>
+                                                            <v-date-picker v-model="NewBranchedRegister.date"></v-date-picker>
+                                                        </v-menu>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="6">
+                                                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                            <template v-slot:activator="{ on, attrs2 }">
+                                                                <v-text-field outlined v-model="NewBranchedRegister.EndDate" :label="$t('tradeEndDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                            </template>
+                                                            <v-date-picker v-model="NewBranchedRegister.EndDate"></v-date-picker>
+                                                        </v-menu>
+                                                    </v-col>
+                                                    <v-card-actions>
+                                                        <v-spacer></v-spacer>
+                                                        <v-btn type="submit" form="BranchRegisterForm" color="primary" dark>
+                                                            {{$t('save')}}
+                                                        </v-btn>
+                                                        <v-spacer></v-spacer>
+                                                    </v-card-actions>
+                                                </v-form>
+                                            </v-card>
+                                        </v-dialog>
+                                    </v-card-title>
+
+                                    <v-data-table :headers="headers" :items="BranchedTradeRegisters">
+                                        <template v-slot:item.action="{ item }">
+                                            <v-dialog v-model="editDialog" max-width="600px">
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-icon small class="mr-2" @click="editDialog = true;" v-on="on" v-bind="attrs">
+                                                        mdi-pencil
+                                                    </v-icon>
+                                                </template>
+                                                <v-card>
+                                                    <v-card-title>
+                                                        {{$t('editBranchTrade')}}
+                                                    </v-card-title>
+                                                    <v-form id="BranchRegisterFormEdit" @submit.prevent="UpdateRegister(item); editDialog = false;">
+                                                        <v-col cols="12" sm="6" md="6">
+                                                            <v-text-field v-model="item.number" outlined :rules="numbersRules" :label="$t('tradeNumber')" required />
+                                                        </v-col>
+                                                        <v-col cols="12" sm="6" md="6">
+                                                            <v-text-field v-model="item.production_place" outlined :rules="required" :label="$t('tradePlace')" required />
+                                                        </v-col>
+                                                        <v-col cols="12" sm="6" md="6">
+                                                            <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                                <template v-slot:activator="{ on, attrs2 }">
+                                                                    <v-text-field outlined v-model="item.date" :label="$t('tradeDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                                </template>
+                                                                <v-date-picker v-model="item.date"></v-date-picker>
+                                                            </v-menu>
+                                                        </v-col>
+                                                        <v-col cols="12" sm="6" md="6">
+                                                            <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                                                                <template v-slot:activator="{ on, attrs2 }">
+                                                                    <v-text-field outlined v-model="item.EndDate" :label="$t('tradeEndDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                                                                </template>
+                                                                <v-date-picker v-model="item.EndDate"></v-date-picker>
+                                                            </v-menu>
+                                                        </v-col>
+                                                        <v-card-actions>
+                                                            <v-spacer></v-spacer>
+                                                            <v-btn type="submit" form="BranchRegisterFormEdit" color="primary" dark>
+                                                                {{$t('save')}}
+                                                            </v-btn>
+                                                            <v-spacer></v-spacer>
+                                                        </v-card-actions>
+                                                    </v-form>
+                                                </v-card>
+                                            </v-dialog>
+                                            <v-icon small @click="DeleteRegister(item)">
+                                                mdi-delete
+                                            </v-icon>
+                                        </template>
+                                    </v-data-table>
+                                </v-alert>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-autocomplete v-model="ChoosenReviser" outlined :rules="required" :items="revisers" item-text="label" item-value="code" :label="$t('reviser')" required />
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-autocomplete v-model="ChoosenRevisingManager" outlined :rules="required" :items="revisingManagers" item-text="label" item-value="code" :label="$t('revisingManager')" required />
                         </v-col>
                     </v-row>
-                    <!----- /.Choose revisers Form Content -->
-                </div>
-            </div>
+                </v-container>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn type="submit" color="primary" dark>
+                    {{$t('save')}}
+                </v-btn>
+                <v-spacer></v-spacer>
+            </v-card-actions>
         </v-card>
-    </v-container>
+    </v-form>
+    <div v-if="LoadingSpinner" class="overlay">
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>
 </div>
 </template>
 
