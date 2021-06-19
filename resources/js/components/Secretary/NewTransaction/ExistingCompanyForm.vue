@@ -38,18 +38,21 @@
                                     </v-card-title>
                                     <v-form id="UpdateInstitutionForm" @submit.prevent="UpdateInstitution()">
                                         <v-row>
-                                            <v-col cols="12" sm="6" md="3">
+                                            <v-col cols="12" sm="6" md="2">
                                                 <v-autocomplete v-model="institution.type" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                             </v-col>
-                                            <v-col cols="12" v-if="institution.type !='chairty'" sm="6" md="3">
+                                            <v-col cols="12" v-if="institution.type !='chairty'" sm="6" md="2">
                                                 <v-text-field v-model="institution.number700" outlined autocomplete="number 700" :label="$t('number700')" required />
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="3">
+                                            <v-col cols="12" sm="6" md="2">
                                                 <v-text-field v-if="institution.type !='chairty'" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="3">
+                                            <v-col cols="12" sm="6" md="2">
                                                 <v-text-field v-model="institution.extra_tax_num" outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
                                             </v-col>
+                                            <v-col cols="12" sm="6" md="2">
+                                                <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
+                                                </v-col>
                                             <div v-if="institution.type=='organization'" class="row" id="NewOrganizationInformation">
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
@@ -146,9 +149,6 @@
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-autocomplete v-model="institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="2">
-                                                <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-text-field v-model="institution.company_period" :rules="required" outlined autocomplete="company_period" :label="$t('company_period')" required />
