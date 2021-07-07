@@ -12,7 +12,7 @@
             ( {{authObject.role}} )
         </p>
     </h5>
-    <h6 class="white--text text-center">
+    <h6 class="white--text text-center" v-if="authObject.office_branch">
     فرع:        {{authObject.office_branch.name}}
     </h6>
         <!-- <v-img class="mainLogo my-2" src="https://toppng.com/uploads/preview/deezer-logo-white-png-spotify-icon-png-white-115628504321wsqwqfkog.png" height="75px"></v-img> -->
