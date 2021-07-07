@@ -38,7 +38,7 @@
                                     </v-card-title>
                                     <v-form id="UpdateInstitutionForm" @submit.prevent="UpdateInstitution()">
                                         <v-row>
-                                            <v-col cols="12" sm="6" md="3">
+                                            <v-col cols="12" sm="6" md="2">
                                                 <v-autocomplete v-model="Institution.type" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                             </v-col>
                                             <v-col cols="12" v-if="Institution.type !='charity'" sm="6" md="3">
@@ -47,18 +47,21 @@
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-if="Institution.type !='charity'" v-model="Institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
                                             </v-col>
-                                            <v-col cols="12" sm="6" md="3">
+                                            <v-col cols="12" sm="6" md="2">
                                                 <v-text-field v-model="Institution.extra_tax_num" outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="2">
+                                                <v-autocomplete v-model="Institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
                                             </v-col>
                                             <div v-if="Institution.type=='organization'" class="row" id="NewOrganizationInformation">
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
+                                                    <v-autocomplete v-model="city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
-                                                    <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
+                                                    <v-text-field v-model="restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-text-field v-model="Institution.postal_box" outlined :rules="required" :label="$t('postal_box')" required />
@@ -206,15 +209,18 @@
                                                                         mdi-account
                                                                     </v-icon>
                                                                 </v-list-item-avatar>
+
                                                                 <v-list-item-content>
                                                                     <v-list-item-title v-text="manager"></v-list-item-title>
                                                                 </v-list-item-content>
+
                                                                 <v-list-item-action>
                                                                     <v-btn @click="RemoveManagerFromList(index)" icon>
                                                                         <v-icon color="grey lighten-1">mdi-delete</v-icon>
                                                                     </v-btn>
                                                                 </v-list-item-action>
                                                             </v-list-item>
+
                                                         </v-alert>
                                                     </v-list>
                                                 </v-col>
@@ -500,10 +506,9 @@ export default {
             angel_interestsOptions: [],
             natureOptions: [],
             cityOptions: [],
-            districtOptions: [],
+
 
             City: '',
-            District: '',
             RestOfAddress: '',
             MainRegisterIS_UPDATED: false,
             InstitutionIS_UPDATED: false,
@@ -527,7 +532,8 @@ export default {
         this.GetDropDowns(route('system.DropDowns.retrieve.option'));
         if (this.Institution.address) {
             this.City = this.Institution.address.split(',')[0];
-            this.RestOfAddress = this.Institution.address.split(',')[1];
+            this.District = this.Institution.address.split(',')[1];
+            this.RestOfAddress = this.Institution.address.split(',')[2];
         }
 
     },
@@ -594,10 +600,7 @@ export default {
                             this.natureOptions.push(option);
                         } else if (option.name == 'المدينة') {
                             this.cityOptions.push(option);
-                        } else if (option.name == 'الحي') {
-                            this.districtOptions.push(option);
                         }
-
                     })
                 })
         },
@@ -827,7 +830,7 @@ export default {
     computed: {
 
         getAddress() {
-            return this.City + ' , ' + this.District + ',' + this.RestOfAddress;
+            return this.City + ',' + this.RestOfAddress;
         },
 
     },

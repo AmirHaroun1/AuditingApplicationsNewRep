@@ -109,42 +109,42 @@ export default {
             ]
             const secItems = [
                 {
-                    title: 'المعاملات',
+                    title: 'عقود الارتباط',
                     icon: 'fa fa-open',
                     path: "Transactions.index.Secretary"
                 }
             ]
             const reviserItems = [
                 {
-                    title: 'المعاملات',
+                    title: 'عقود الارتباط',
                     icon: 'fa fa-open',
                     path: "Transactions.index.reviser"
                 }
             ]
             const auditorItems = [
                 {
-                    title: 'المعاملات',
+                    title: 'عقود الارتباط',
                     icon: 'fa fa-open',
                     path: "Transactions.index.auditor"
                 }
             ]
             const reviseManagerItems = [
                 {
-                    title: 'المعاملات',
+                    title: 'عقود الارتباط',
                     icon: 'fa fa-open',
                     path: "Transactions.index.RevisingManager"
                 }
             ]
             const partnerItems = [
                 {
-                    title: 'المعاملات',
+                    title: 'عقود الارتباط',
                     icon: 'fa fa-open',
                     path: "Transactions.index.partner"
                 }
             ]
             const archiveItems = [
                 {
-                    title: 'المعاملات',
+                    title: 'عقود الارتباط',
                     icon: 'fa fa-open',
                     path: "Transactions.index.archive"
                 }

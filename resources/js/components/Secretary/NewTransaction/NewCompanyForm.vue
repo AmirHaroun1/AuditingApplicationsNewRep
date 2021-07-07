@@ -37,7 +37,7 @@
                                         {{$t('companyInfo')}}
                                     </v-card-title>
                                     <v-row>
-                                        <v-col cols="12" sm="6" md="3">
+                                        <v-col cols="12" sm="6" md="2">
                                             <v-autocomplete v-model="InstitutionType" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                         </v-col>
                                         <v-col cols="12" v-if="InstitutionType !='charity'" sm="6" md="3">
@@ -489,7 +489,7 @@ export default {
                 company_number: '',
                 //العوان يتكون من التالي
                 city: '',
-                district: '',
+
                 restofadress: '',
                 //باقى بيانات الشركة
                 legal_entity: '',
@@ -524,7 +524,7 @@ export default {
             angel_interestsOptions: [],
             natureOptions: [],
             cityOptions: [],
-            districtOptions: [],
+
 
             created_institution: Object,
             NewCompanyNot_ADDED: true,
@@ -621,8 +621,6 @@ export default {
                             this.natureOptions.push(option);
                         } else if (option.name == 'المدينة') {
                             this.cityOptions.push(option);
-                        } else if (option.name == 'الحي') {
-                            this.districtOptions.push(option);
                         }
 
                     })
@@ -660,7 +658,7 @@ export default {
                     });
                     formData.append('managers', JSON.stringify(this.institution.managers));
 
-                } 
+                }
                 else if (this.InstitutionType == 'company') {
                     formData.append('legal_entity', this.institution.legal_entity);
                     formData.append('company_nationality', this.institution.company_nationality);
@@ -789,6 +787,7 @@ export default {
                     });
             } else if (!this.NewTransactionNot_ADDED) {
                 this.createBranchedRegisters();
+
             }
 
         },
@@ -807,12 +806,15 @@ export default {
             } else {
                 this.AddedBranchedRegisters.forEach((register, index) => {
                     this.LoadingSpinner = true;
+
                     var formData = new FormData();
+
                     formData.append('number', register.number);
                     formData.append('date', register.date);
                     formData.append('EndDate', register.EndDate);
                     formData.append('production_place', register.production_place);
                     formData.append('type', register.type);
+
                     axios.post(route('TradeRegister.store', this.$parent.$parent.$parent.Institution), formData)
                         .then((res) => {
 
