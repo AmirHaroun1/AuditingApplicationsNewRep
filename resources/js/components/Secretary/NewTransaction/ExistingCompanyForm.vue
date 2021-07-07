@@ -34,18 +34,18 @@
                             <v-card>
                                 <v-alert type="primary" outlined>
                                     <v-card-title>
-                                        {{$t('copmanyInfo')}}
+                                        {{$t('companyInfo')}}
                                     </v-card-title>
                                     <v-form id="UpdateInstitutionForm" @submit.prevent="UpdateInstitution()">
                                         <v-row>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-autocomplete v-model="institution.type" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                             </v-col>
-                                            <v-col cols="12" v-if="institution.type !='chairty'" sm="6" md="3">
+                                            <v-col cols="12" v-if="institution.type !='charity'" sm="6" md="3">
                                                 <v-text-field v-model="institution.number700" outlined autocomplete="number 700" :label="$t('number700')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
-                                                <v-text-field v-if="institution.type !='chairty'" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
+                                                <v-text-field v-if="institution.type !='charity'" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.extra_tax_num" outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
@@ -56,9 +56,6 @@
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -102,15 +99,12 @@
                                                     <v-textarea v-model="institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
                                                 </v-col>
                                             </div>
-                                            <div v-if="institution.type=='chairty'" class="row">
+                                            <div v-if="institution.type=='charity'" class="row">
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="3">
-                                                    <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
                                                     <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -171,9 +165,6 @@
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -455,8 +446,8 @@ export default {
                     value: 'project'
                 },
                 {
-                    text: this.$t('chairty'),
-                    value: 'chairty'
+                    text: this.$t('charity'),
+                    value: 'charity'
                 },
                 {
                     text: this.$t('other'),
@@ -548,8 +539,7 @@ export default {
 
         this.BranchedRegisters = this.$parent.$parent.$parent.Institution.branched_trade_register;
         this.City = this.institution.address.split(',')[0];
-        this.District = this.institution.address.split(',')[1];
-        this.RestOfAddress = this.institution.address.split(',')[2];
+        this.RestOfAddress = this.institution.address.split(',')[1];
     },
     methods: {
         // get all the revisers in the system and put them in the array
@@ -628,7 +618,6 @@ export default {
                     });
                 })
         },
-
         DeleteRegister(register) {
             this.LoadingSpinner = true;
 
@@ -657,7 +646,6 @@ export default {
                     });
                 })
         },
-
         AddBranchedRegister() {
             console.log('brances');
             this.LoadingSpinner = true;
@@ -705,7 +693,6 @@ export default {
             this.NewBranchedRegister.date = '';
             this.NewBranchedRegister.production_place = '';
         },
-
         UpdateInstitution() {
             this.LoadingSpinner = true;
 
@@ -774,17 +761,14 @@ export default {
                     data
                 }) => {
                     this.LoadingSpinner = false;
-
                     this.$toast.success('.',
                         'قد تم انشاء معاملة جديدة بنجاح ', {
                             timout: 2000
                         })
                     this.$parent.$parent.$parent.Transaction = data[0];
                     this.$parent.$parent.$parent.SectionStage = 2;
-
                 }).catch((error) => {
                     this.LoadingSpinner = false;
-
                     this.ValidationErrors = error.response.data.errors;
                     this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
                         timout: 2000

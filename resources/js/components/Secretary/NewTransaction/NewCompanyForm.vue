@@ -34,17 +34,17 @@
                             <v-card>
                                 <v-alert type="primary" outlined>
                                     <v-card-title>
-                                        {{$t('copmanyInfo')}}
+                                        {{$t('companyInfo')}}
                                     </v-card-title>
                                     <v-row>
                                         <v-col cols="12" sm="6" md="3">
                                             <v-autocomplete v-model="InstitutionType" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                         </v-col>
-                                        <v-col cols="12" v-if="InstitutionType !='chairty'" sm="6" md="3">
+                                        <v-col cols="12" v-if="InstitutionType !='charity'" sm="6" md="3">
                                             <v-text-field v-model="institution.number700" :rules="required" outlined autocomplete="number 700" :label="$t('number700')" required />
                                         </v-col>
                                         <v-col cols="12" sm="6" md="3">
-                                            <v-text-field v-if="InstitutionType !='chairty'" :rules="required" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
+                                            <v-text-field v-if="InstitutionType !='charity'" :rules="required" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
                                         </v-col>
                                         <v-col cols="12" sm="6" md="3">
                                             <v-text-field v-model="institution.extra_tax_num"  outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
@@ -55,9 +55,6 @@
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
                                                 <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="2">
-                                                <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -101,15 +98,12 @@
                                                 <v-textarea v-model="institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
                                             </v-col>
                                         </div>
-                                        <div v-if="InstitutionType=='chairty'" class="row">
+                                        <div v-if="InstitutionType=='charity'" class="row">
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="3">
-                                                <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
                                                 <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -144,6 +138,9 @@
                                                 <v-text-field v-model="institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('companyName')" required></v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
+                                                <v-autocomplete v-model="institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="2">
                                                 <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
@@ -167,9 +164,6 @@
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
                                                 <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="2">
-                                                <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -455,8 +449,8 @@ export default {
                     value: 'project'
                 },
                 {
-                    text: this.$t('chairty'),
-                    value: 'chairty'
+                    text: this.$t('charity'),
+                    value: 'charity'
                 },
                 {
                     text: this.$t('other'),
@@ -795,7 +789,6 @@ export default {
                     });
             } else if (!this.NewTransactionNot_ADDED) {
                 this.createBranchedRegisters();
-
             }
 
         },
@@ -814,15 +807,12 @@ export default {
             } else {
                 this.AddedBranchedRegisters.forEach((register, index) => {
                     this.LoadingSpinner = true;
-
                     var formData = new FormData();
-
                     formData.append('number', register.number);
                     formData.append('date', register.date);
                     formData.append('EndDate', register.EndDate);
                     formData.append('production_place', register.production_place);
                     formData.append('type', register.type);
-
                     axios.post(route('TradeRegister.store', this.$parent.$parent.$parent.Institution), formData)
                         .then((res) => {
 
@@ -842,12 +832,10 @@ export default {
                             }
                         }).catch((error) => {
                             this.LoadingSpinner = false;
-
                             this.ValidationErrors = error.response.data.errors;
                             this.$toast.error('خطأ', register.number + 'يرجى اعادة مراجعة بيانات سجل فرعي رقم ', {
                                 timout: 2000
                             });
-
                         });
                 });
             }
@@ -892,7 +880,7 @@ export default {
     computed: {
 
         getAddress() {
-            return this.institution.city + ' , ' + this.institution.district + ',' + this.institution.restofadress;
+            return this.institution.city + ',' + this.institution.restofadress;
         },
 
     },

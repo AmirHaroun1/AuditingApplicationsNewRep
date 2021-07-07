@@ -34,18 +34,18 @@
                             <v-card>
                                 <v-alert type="primary" outlined>
                                     <v-card-title>
-                                        {{$t('copmanyInfo')}}
+                                        {{$t('companyInfo')}}
                                     </v-card-title>
                                     <v-form id="UpdateInstitutionForm" @submit.prevent="UpdateInstitution()">
                                         <v-row>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-autocomplete v-model="Institution.type" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                             </v-col>
-                                            <v-col cols="12" v-if="Institution.type !='chairty'" sm="6" md="3">
+                                            <v-col cols="12" v-if="Institution.type !='charity'" sm="6" md="3">
                                                 <v-text-field v-model="Institution.number700" outlined autocomplete="number 700" :label="$t('number700')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
-                                                <v-text-field v-if="Institution.type !='chairty'" v-model="Institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
+                                                <v-text-field v-if="Institution.type !='charity'" v-model="Institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="Institution.extra_tax_num" outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
@@ -56,9 +56,6 @@
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="Institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -102,15 +99,12 @@
                                                     <v-textarea v-model="Institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
                                                 </v-col>
                                             </div>
-                                            <div v-if="Institution.type=='chairty'" class="row">
+                                            <div v-if="Institution.type=='charity'" class="row">
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="3">
-                                                    <v-autocomplete v-model="Institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
                                                     <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -172,9 +166,6 @@
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
                                                 </v-col>
-                                                <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="Institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
-                                                </v-col>
                                                 <v-col cols="12" sm="6" md="3">
                                                     <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
                                                 </v-col>
@@ -215,18 +206,15 @@
                                                                         mdi-account
                                                                     </v-icon>
                                                                 </v-list-item-avatar>
-
                                                                 <v-list-item-content>
                                                                     <v-list-item-title v-text="manager"></v-list-item-title>
                                                                 </v-list-item-content>
-
                                                                 <v-list-item-action>
                                                                     <v-btn @click="RemoveManagerFromList(index)" icon>
                                                                         <v-icon color="grey lighten-1">mdi-delete</v-icon>
                                                                     </v-btn>
                                                                 </v-list-item-action>
                                                             </v-list-item>
-
                                                         </v-alert>
                                                     </v-list>
                                                 </v-col>
@@ -539,8 +527,7 @@ export default {
         this.GetDropDowns(route('system.DropDowns.retrieve.option'));
         if (this.Institution.address) {
             this.City = this.Institution.address.split(',')[0];
-            this.District = this.Institution.address.split(',')[1];
-            this.RestOfAddress = this.Institution.address.split(',')[2];
+            this.RestOfAddress = this.Institution.address.split(',')[1];
         }
 
     },
