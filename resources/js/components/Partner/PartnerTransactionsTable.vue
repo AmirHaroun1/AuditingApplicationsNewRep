@@ -11,7 +11,7 @@
                     <v-text-field
                         id="search-box"
                         placeholder="ابحث برقم السجل الرئيسي"
-                        v-model="SearchMainRegisterNumber"
+                        v-model="search"
                         :label="$t('search')"
                         dense
                         small
@@ -20,8 +20,8 @@
                         solo
                         align-center
                         hide-details
-                        @click:append="search"
-                        @input="search"
+                        @click:append="searchTransaction"
+                         @change="searchTransaction"
                         style="width:100%"
                         append-icon="mdi-magnify"
                     />
@@ -50,9 +50,9 @@
                 class="table-border"
                 :headers="headers"
                 :items="Transactions"
-                :search="SearchMainRegisterNumber"
                 :loading="LoadingSpinner"
                 loading-text="Loading... Please wait"
+                :options.sync="options"
             >
                 <template v-slot:item.MainTradeRegisterNumber="{ item }">
                     <a :href="route('transactions.edit.partner', item.id)">
@@ -256,15 +256,15 @@ export default {
                     this.Transactions.push(...data.transactions.data);
                 });
         },
-        search(page = 1) {
+        searchTransaction() {
             this.LoadingSpinner = true;
 
             axios
                 .get(
                     route("transactions.index", {
-                        OrderByCase: this.OrderByCase,
-                        MainRegisterNumber: this.SearchMainRegisterNumber,
-                        page
+                    OrderByCase: this.OrderByCase,
+                    page: this.options.page,
+                    MainRegisterNumber: this.search
                     })
                 )
                 .then(({ data }) => {
@@ -309,7 +309,15 @@ export default {
                 })
 
         }
-    }
+    },
+            watch: {
+      options: {
+        handler () {
+          this.searchTransaction()
+        },
+        deep: true,
+      },
+    },
 };
 </script>
 

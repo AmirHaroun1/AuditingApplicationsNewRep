@@ -6,7 +6,7 @@
             <v-card-title class="mb-3">
                 <span class="mr-3 ml-3">{{$t('transactionsTable')}}</span>
                 <v-spacer></v-spacer>
-                <v-text-field id="search-box" v-model="search" class="col-md-2 mr-2 ml-2 mt-4" :label="$t('search')" dense small justify="center" single-line solo align-center hide-details append-icon="mdi-search" />
+                <v-text-field id="search-box" v-model="search" @change="searchTransaction" class="col-md-2 mr-2 ml-2 mt-4" :label="$t('search')" dense small justify="center" single-line solo align-center hide-details append-icon="mdi-search" />
                 <v-spacer></v-spacer>
                 <v-autocomplete :label="$t('filter')" hide-details dense chips multiple return-object v-model="headers" outlined class="col-md-3 mt-4 mr-2" :items="predefinedFilters" dense small justify="center">
                     <template v-slot:selection="{ item, index }">
@@ -19,7 +19,7 @@
                     </template>
                 </v-autocomplete>
             </v-card-title>
-            <v-data-table :headers="headers" :items="Transactions" :search="search">
+            <v-data-table :headers="headers" :items="Transactions" :options.sync="options">
                 <template :ref="item.id" v-slot:item.action="{ item }">
                     <v-icon small color="primary" @click="editItem(item.id)">
                         mdi-pencil
@@ -197,6 +197,29 @@ export default {
 
                 })
         },
+        searchTransaction() {
+            this.LoadingSpinner = true;
+            axios.get(route('transactions.index', {
+                    OrderByCase: this.OrderByCase,
+                    page: this.options.page,
+                    MainRegisterNumber: this.search
+                }))
+                .then(({
+                    data
+                }) => {
+
+                    this.LoadingSpinner = false;
+
+                    this.FetchPaginationData.current_page = data.transactions.current_page;
+                    this.FetchPaginationData.last_page = data.transactions.last_page;
+                    this.FetchPaginationData.next_page_url = data.transactions.next_page_url;
+                    this.FetchPaginationData.prev_page_url = data.transactions.prev_page_url;
+
+                    this.Transactions = [];
+                    this.Transactions.push(...data.transactions.data);
+
+                })
+        },
         printRow(item) {
             console.log('item', item);
         },
@@ -216,6 +239,14 @@ export default {
 
         }
 
+    },
+            watch: {
+      options: {
+        handler () {
+          this.searchTransaction()
+        },
+        deep: true,
+      },
     },
 }
 </script>

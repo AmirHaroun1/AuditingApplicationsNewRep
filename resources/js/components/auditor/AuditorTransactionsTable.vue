@@ -10,7 +10,7 @@
                     <v-text-field
                         id="search-box"
                         placeholder="ابحث برقم السجل الرئيسي"
-                        v-model="SearchMainRegisterNumber"
+                        v-model="search"
                         class="col-md-2 mr-2 ml-2 mt-4"
                         :label="$t('search')"
                         dense
@@ -20,8 +20,7 @@
                         solo
                         align-center
                         hide-details
-                        @click:append="search"
-                        @input="search"
+                        @input="searchTransaction"
                         append-icon="mdi-magnify"
                     />
                     <v-spacer></v-spacer>
@@ -53,8 +52,8 @@
                 <v-data-table
                     :headers="headers"
                     :items="Transactions"
-                    :search="SearchMainRegisterNumber"
                     :loading="LoadingSpinner"
+                    :options.sync="options"
                     loading-text="Loading... Please wait"
                 >
                     <template v-slot:item.MainTradeRegisterNumber="{ item }">
@@ -96,7 +95,7 @@ export default {
             SearchedTransactions: [],
             SearchMainRegisterNumber: "",
             OrderByCase: "latest",
-
+            options: {},
             FetchPaginationData: {
                 current_page: 0,
                 last_page: "",
@@ -209,15 +208,15 @@ export default {
                     this.Transactions.push(...data.transactions.data);
                 });
         },
-        search(page = 1) {
+        searchTransaction() {
             this.LoadingSpinner = true;
 
             axios
                 .get(
                     route("transactions.index", {
-                        OrderByCase: this.OrderByCase,
-                        MainRegisterNumber: this.SearchMainRegisterNumber,
-                        page
+                    OrderByCase: this.OrderByCase,
+                    page: this.options.page,
+                    MainRegisterNumber: this.search
                     })
                 )
                 .then(({ data }) => {
@@ -262,7 +261,15 @@ export default {
                 })
 
         }
-    }
+    },
+            watch: {
+      options: {
+        handler () {
+          this.searchTransaction()
+        },
+        deep: true,
+      },
+    },
 };
 </script>
 

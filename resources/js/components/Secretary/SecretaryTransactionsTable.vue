@@ -5,7 +5,7 @@
             <v-card-title class="mb-3">
                 <span class="mr-3 ml-3">{{$t('transactionsTable')}}</span>
                 <v-spacer></v-spacer>
-                <v-text-field id="search-box" v-model="search" class="col-md-2 mr-2 ml-2 mt-4" :label="$t('search')" dense small justify="center" single-line solo align-center hide-details append-icon="mdi-search" />
+                <v-text-field id="search-box" v-model="search" @change="searchTransaction" class="col-md-2 mr-2 ml-2 mt-4" :label="$t('search')" dense small justify="center" single-line solo align-center hide-details append-icon="mdi-search" />
                 <v-spacer></v-spacer>
                 <v-autocomplete :label="$t('filter')" hide-details dense chips multiple return-object v-model="headers" outlined class="col-md-3 mt-4 mr-2" :items="predefinedFilters" dense small justify="center">
                     <template v-slot:selection="{ item, index }">
@@ -22,7 +22,7 @@
                     <v-icon>mdi-plus</v-icon> {{$t('newTransaction')}}
                 </v-btn>
             </v-card-title>
-            <v-data-table :headers="computedHeaders" :items="Transactions" :search="search">
+            <v-data-table :headers="computedHeaders" :items="Transactions" :options.sync="options" :search="search">
                 <template :ref="item.id" v-slot:item.action="{ item }">
                     <v-icon small color="primary" @click="editItem(item.id)">
                         mdi-pencil
@@ -52,6 +52,7 @@ export default {
             LoadingSpinner: false,
             Transactions: [],
             SearchedTransactions: [],
+            options: {},
             SearchMainRegisterNumber: '',
             OrderByCase: 'latest',
             predefinedFilters: [{
@@ -182,7 +183,7 @@ export default {
             this.LoadingSpinner = true;
             axios.get(route('transactions.index', {
                     OrderByCase: this.OrderByCase,
-                    page
+                    page: this.options.page
                 }))
                 .then(({
                     data
@@ -200,13 +201,13 @@ export default {
 
                 })
         },
-        search(page = 1) {
+        searchTransaction() {
             this.LoadingSpinner = true;
 
             axios.get(route('transactions.index', {
                     OrderByCase: this.OrderByCase,
-                    MainRegisterNumber: this.SearchMainRegisterNumber,
-                    page
+                    MainRegisterNumber: this.search,
+                    page: this.options.page
                 }))
                 .then(({
                     data
@@ -269,6 +270,14 @@ export default {
 
 
         }
+    },
+    watch: {
+      options: {
+        handler () {
+          this.searchTransaction()
+        },
+        deep: true,
+      },
     },
     computed: {
         computedHeaders() {

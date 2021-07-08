@@ -22,7 +22,7 @@
                     <v-icon>mdi-plus</v-icon> {{$t('newTransaction')}}
                 </v-btn>
             </v-card-title>
-            <v-data-table :headers="headers" :items="Transactions" :search="search">
+            <v-data-table :headers="headers" :items="Transactions" :options.sync="options">
                 <template v-slot:item.MainTradeRegisterNumber="{ item }">
                     <a :href="route('RevisingGuid.index.archive',item.id)">
                         {{item.MainTradeRegisterNumber}}
@@ -55,6 +55,7 @@ export default {
             SearchedTransactions: [],
             SearchMainRegisterNumber: '',
             OrderByCase: 'latest',
+            options: {},
             predefinedFilters: [{
                     text: this.$t('mainItemNumber'),
                     align: 'start',
@@ -204,34 +205,40 @@ export default {
 
                 })
         },
-        search(page = 1) {
+        searchTransaction() {
             this.LoadingSpinner = true;
 
-            axios.get(route('transactions.index', {
+            axios
+                .get(
+                    route("transactions.index", {
                     OrderByCase: this.OrderByCase,
-                    MainRegisterNumber: this.SearchMainRegisterNumber,
-                    page
-                }))
-                .then(({
-                    data
-                }) => {
+                    page: this.options.page,
+                    MainRegisterNumber: this.search
+                    })
+                )
+                .then(({ data }) => {
                     this.LoadingSpinner = false;
 
-                    this.SearchPaginationData.current_page = data.transactions.current_page;
-                    this.SearchPaginationData.last_page = data.transactions.last_page;
-                    this.SearchPaginationData.next_page_url = data.transactions.next_page_url;
-                    this.SearchPaginationData.prev_page_url = data.transactions.prev_page_url;
+                    this.SearchPaginationData.current_page =
+                        data.transactions.current_page;
+                    this.SearchPaginationData.last_page =
+                        data.transactions.last_page;
+                    this.SearchPaginationData.next_page_url =
+                        data.transactions.next_page_url;
+                    this.SearchPaginationData.prev_page_url =
+                        data.transactions.prev_page_url;
 
                     this.SearchedTransactions = [];
                     this.SearchedTransactions.push(...data.transactions.data);
 
                     if (!this.SearchedTransactions.length) {
-                        this.$toast.warning(',',
-                            'لا يوجد معاملات تحتوى على رقم السجل', {
-                                timout: 2000
-                            });
+                        this.$toast.warning(
+                            ",",
+                            "لا يوجد معاملات تحتوى على رقم السجل",
+                            { timout: 2000 }
+                        );
                     }
-                })
+                });
         },
                 printRow(item) {
             console.log('item', item);
@@ -252,6 +259,14 @@ export default {
 
         }
 
+    },
+            watch: {
+      options: {
+        handler () {
+          this.searchTransaction()
+        },
+        deep: true,
+      },
     },
 }
 </script>

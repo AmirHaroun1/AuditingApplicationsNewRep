@@ -6,7 +6,7 @@
             <v-card-title class="mb-3">
                 <span class="mr-3 ml-3">{{$t('transactionsTable')}}</span>
                 <v-spacer></v-spacer>
-                <v-text-field id="search-box" v-model="search" class="col-md-2 mr-2 ml-2 mt-4" :label="$t('search')" dense small justify="center" single-line solo align-center hide-details append-icon="mdi-search" />
+                <v-text-field id="search-box" v-model="search" @change="searchTransaction" class="col-md-2 mr-2 ml-2 mt-4" :label="$t('search')" dense small justify="center" single-line solo align-center hide-details append-icon="mdi-search" />
                 <v-spacer></v-spacer>
                 <v-autocomplete :label="$t('filter')" hide-details dense chips multiple return-object v-model="headers" outlined class="col-md-3 mt-4 mr-2" :items="predefinedFilters" small justify="center">
                     <template v-slot:selection="{ item, index }">
@@ -22,7 +22,7 @@
                 <v-autocomplete v-if="authObject.office_branch.is_main" :label="$t('branches')" @change="fetchTransactions" item-text="name" item-value="id" hide-details dense chips v-model="currentBranch" outlined class="col-md-3 mt-4 mr-2" :items="branches" small justify="center">
                 </v-autocomplete>
             </v-card-title>
-            <v-data-table :headers="headers" :items="Transactions" :search="search">
+            <v-data-table :headers="headers" :items="Transactions" :options.sync="options">
                 <template :ref="item.id" v-slot:item.action="{ item }">
                     <v-icon small color="primary" @click="editItem(item.id)">
                         mdi-pencil
@@ -49,6 +49,7 @@ export default {
             LoadingSpinner: false,
             Transactions: [],
             branches: [],
+            options: {},
             currentBranch: '',
             SearchedTransactions: [],
             SearchMainRegisterNumber: '',
@@ -205,13 +206,13 @@ export default {
 
                 })
         },
-        search(page = 1) {
+        searchTransaction() {
             this.LoadingSpinner = true;
 
             axios.get(route('transactions.index', {
                     OrderByCase: this.OrderByCase,
-                    MainRegisterNumber: this.SearchMainRegisterNumber,
-                    page
+                    MainRegisterNumber: this.search,
+                    page: this.options.page
                 }))
                 .then(({
                     data
@@ -261,6 +262,14 @@ export default {
             });
         },
 
+    },
+        watch: {
+      options: {
+        handler () {
+          this.searchTransaction()
+        },
+        deep: true,
+      },
     },
     computed: {
         authObject () {
