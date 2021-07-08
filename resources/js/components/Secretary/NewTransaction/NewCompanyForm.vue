@@ -34,23 +34,20 @@
                             <v-card>
                                 <v-alert type="primary" outlined>
                                     <v-card-title>
-                                        {{$t('copmanyInfo')}}
+                                        {{$t('companyInfo')}}
                                     </v-card-title>
                                     <v-row>
                                         <v-col cols="12" sm="6" md="2">
                                             <v-autocomplete v-model="InstitutionType" :rules="required" outlined :items="InstitutionTypes" :label="$t('InstitutionType')" required />
                                         </v-col>
-                                        <v-col cols="12" v-if="InstitutionType !='chairty'" sm="6" md="2">
+                                        <v-col cols="12" v-if="InstitutionType !='charity'" sm="6" md="3">
                                             <v-text-field v-model="institution.number700" :rules="required" outlined autocomplete="number 700" :label="$t('number700')" required />
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="2">
-                                            <v-text-field v-if="InstitutionType !='chairty'" :rules="required" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
+                                        <v-col cols="12" sm="6" md="3">
+                                            <v-text-field v-if="InstitutionType !='charity'" :rules="required" v-model="institution.number300" outlined autocomplete="number 300" :label="$t('number300')" required />
                                         </v-col>
-                                        <v-col cols="12" sm="6" md="2">
-                                            <v-text-field v-model="institution.extra_tax_num" outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
-                                        </v-col>
-                                        <v-col cols="12" sm="6" md="2">
-                                            <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
+                                        <v-col cols="12" sm="6" md="3">
+                                            <v-text-field v-model="institution.extra_tax_num"  outlined :rules="numbersRules" :label="$t('extraTaxesNumber')" required />
                                         </v-col>
                                         <div v-if="InstitutionType=='organization'" class="row" id="NewOrganizationInformation">
                                             <v-col cols="12" sm="6" md="3">
@@ -58,9 +55,6 @@
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
                                                 <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="2">
-                                                <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -104,15 +98,12 @@
                                                 <v-textarea v-model="institution.business_activity" outlined :rules="required" autocomplete="business_activity" :label="$t('business_activity')" required />
                                             </v-col>
                                         </div>
-                                        <div v-if="InstitutionType=='chairty'" class="row">
+                                        <div v-if="InstitutionType=='charity'" class="row">
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="3">
-                                                <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="4">
                                                 <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -146,7 +137,12 @@
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('companyName')" required></v-text-field>
                                             </v-col>
-
+                                            <v-col cols="12" sm="6" md="2">
+                                                <v-autocomplete v-model="institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="2">
+                                                <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
+                                            </v-col>
                                             <v-col cols="12" sm="6" md="2">
                                                 <v-text-field v-model="institution.company_period" :rules="required" outlined autocomplete="company_period" :label="$t('company_period')" required />
                                             </v-col>
@@ -168,9 +164,6 @@
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
                                                 <v-autocomplete v-model="institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="2">
-                                                <v-autocomplete v-model="institution.district" outlined :rules="required" :items="districtOptions" item-text="value" item-value="value" :label="$t('addressDistrict')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="3">
                                                 <v-text-field v-model="institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
@@ -456,8 +449,8 @@ export default {
                     value: 'project'
                 },
                 {
-                    text: this.$t('chairty'),
-                    value: 'chairty'
+                    text: this.$t('charity'),
+                    value: 'charity'
                 },
                 {
                     text: this.$t('other'),
@@ -496,7 +489,7 @@ export default {
                 company_number: '',
                 //العوان يتكون من التالي
                 city: '',
-                district: '',
+
                 restofadress: '',
                 //باقى بيانات الشركة
                 legal_entity: '',
@@ -531,7 +524,7 @@ export default {
             angel_interestsOptions: [],
             natureOptions: [],
             cityOptions: [],
-            districtOptions: [],
+
 
             created_institution: Object,
             NewCompanyNot_ADDED: true,
@@ -628,8 +621,6 @@ export default {
                             this.natureOptions.push(option);
                         } else if (option.name == 'المدينة') {
                             this.cityOptions.push(option);
-                        } else if (option.name == 'الحي') {
-                            this.districtOptions.push(option);
                         }
 
                     })
@@ -637,77 +628,79 @@ export default {
         },
         createInstitution() {
             if (this.$refs.form.validate()) {
-                if (this.NewCompanyNot_ADDED) {
-                    this.LoadingSpinner = true;
+            if (this.NewCompanyNot_ADDED) {
+                this.LoadingSpinner = true;
 
-                    var formData = new FormData();
-                    formData.append('name', this.institution.name);
-                    formData.append('type', this.InstitutionType);
-                    formData.append('address', this.getAddress);
-                    formData.append('postal_box', this.institution.postal_box);
-                    formData.append('postal_code', this.institution.postal_code);
-                    formData.append('phone', this.institution.phone);
-                    formData.append('fax', this.institution.fax);
-                    formData.append('business_activity', this.institution.business_activity);
-                    formData.append('capital', this.institution.capital);
-                    formData.append('manager_authorities', this.institution.manager_authorities);
-                    formData.append('extra_tax_num', this.institution.extra_tax_num);
-                    formData.append('number300', this.institution.number300);
+                var formData = new FormData();
+                formData.append('name', this.institution.name);
+                formData.append('type', this.InstitutionType);
+                formData.append('address', this.getAddress);
+                formData.append('postal_box', this.institution.postal_box);
+                formData.append('postal_code', this.institution.postal_code);
+                formData.append('phone', this.institution.phone);
+                formData.append('fax', this.institution.fax);
+                formData.append('business_activity', this.institution.business_activity);
+                formData.append('capital', this.institution.capital);
+                formData.append('manager_authorities', this.institution.manager_authorities);
+                formData.append('extra_tax_num', this.institution.extra_tax_num);
+                formData.append('number300', this.institution.number300);
 
-                    if (this.InstitutionType == 'organization') {
-                        formData.append('number700', this.institution.number700);
-                        formData.append('merchant_name', this.institution.merchant_name);
-                        formData.append('merchant_nationality', this.institution.merchant_nationality);
-                        formData.append('merchant_birth_date', this.institution.merchant_birth_date);
-                        //manager
-                        this.institution.managers = [];
-                        let name = this.ManagerTemp.name;
-                        this.institution.managers.push({
-                            name
-                        });
-                        formData.append('managers', JSON.stringify(this.institution.managers));
-
-                    } else if (this.InstitutionType == 'company') {
-                        formData.append('legal_entity', this.institution.legal_entity);
-                        formData.append('company_nationality', this.institution.company_nationality);
-                        formData.append('company_period', this.institution.company_period);
-                        formData.append('company_start_period', this.institution.company_start_period);
-                        formData.append('company_end_period', this.institution.company_end_period);
-                        //managers needed to be implemented
-                        formData.append('managers', JSON.stringify(this.institution.managers));
-
-                    } else if (this.InstitutionType == 'project') {
-                        formData.append('number700', this.institution.number700);
-                    }
-                    axios.post(route('Institution.store'),
-                        formData
-                    ).then((res) => {
-
-                        this.created_institution = res.data;
-
-                        this.$parent.$parent.$parent.Institution = res.data;
-
-                        this.ValidationErrors = '';
-
-                        this.NewCompanyNot_ADDED = false;
-
-                        this.CompanyError = false;
-
-                        this.LoadingSpinner = false;
-                        this.createMainTradeRegister();
-                    }).catch((error) => {
-                        this.LoadingSpinner = false;
-                        this.ValidationErrors = error.response.data.errors;
-                        this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
-                            timout: 2000
-                        });
-                        this.CompanyError = true;
+                if (this.InstitutionType == 'organization') {
+                    formData.append('number700', this.institution.number700);
+                    formData.append('merchant_name', this.institution.merchant_name);
+                    formData.append('merchant_nationality', this.institution.merchant_nationality);
+                    formData.append('merchant_birth_date', this.institution.merchant_birth_date);
+                    //manager
+                    this.institution.managers = [];
+                    let name = this.ManagerTemp.name;
+                    this.institution.managers.push({
+                        name
                     });
-                } else if (!this.NewCompanyNot_ADDED) {
-                    this.LoadingSpinner = false;
+                    formData.append('managers', JSON.stringify(this.institution.managers));
 
-                    this.createMainTradeRegister();
                 }
+                else if (this.InstitutionType == 'company') {
+                    formData.append('legal_entity', this.institution.legal_entity);
+                    formData.append('company_nationality', this.institution.company_nationality);
+                    formData.append('company_period', this.institution.company_period);
+                    formData.append('company_start_period', this.institution.company_start_period);
+                    formData.append('company_end_period', this.institution.company_end_period);
+                    //managers needed to be implemented
+                    formData.append('managers', JSON.stringify(this.institution.managers));
+
+                }
+                else if (this.InstitutionType == 'project') {
+                    formData.append('number700', this.institution.number700);
+                }
+                axios.post(route('Institution.store'),
+                    formData
+                ).then((res) => {
+
+                    this.created_institution = res.data;
+
+                    this.$parent.$parent.$parent.Institution = res.data;
+
+                    this.ValidationErrors = '';
+
+                    this.NewCompanyNot_ADDED = false;
+
+                    this.CompanyError = false;
+
+                    this.LoadingSpinner = false;
+                    this.createMainTradeRegister();
+                }).catch((error) => {
+                    this.LoadingSpinner = false;
+                    this.ValidationErrors = error.response.data.errors;
+                    this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
+                        timout: 2000
+                    });
+                    this.CompanyError = true;
+                });
+            } else if (!this.NewCompanyNot_ADDED) {
+                this.LoadingSpinner = false;
+
+                this.createMainTradeRegister();
+            }
             }
 
         },
@@ -841,12 +834,10 @@ export default {
                             }
                         }).catch((error) => {
                             this.LoadingSpinner = false;
-
                             this.ValidationErrors = error.response.data.errors;
                             this.$toast.error('خطأ', register.number + 'يرجى اعادة مراجعة بيانات سجل فرعي رقم ', {
                                 timout: 2000
                             });
-
                         });
                 });
             }
@@ -891,7 +882,7 @@ export default {
     computed: {
 
         getAddress() {
-            return this.institution.city + ' , ' + this.institution.district + ',' + this.institution.restofadress;
+            return this.institution.city + ',' + this.institution.restofadress;
         },
 
     },
