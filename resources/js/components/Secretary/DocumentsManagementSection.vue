@@ -43,22 +43,24 @@
             </td>
         </template>
         <template v-slot:item.action="{ item }">
-            <v-icon @click="UploadDocuments()" small>
-                mdi-upload
-            </v-icon>
+            <v-file-input hide-input @change="uploadDocs(item.id, $event)" v-model="item.transactions" chips multiple label="ارفع الملفات" prepend-icon="mdi-upload"></v-file-input>
         </template>
     </v-data-table>
+    <v-btn color="primary" dark @click="moveNext()">
+        {{$t('next')}}
+    </v-btn>
 </div>
 </template>
 
 <script>
 export default {
     name: "DocumentsManagementSection.vue",
-
+    props: [
+        'Transaction',
+    ],
     data() {
         return {
             LoadingSpinner: false,
-            Transaction: this.$parent.Transaction,
             RequiredDocuments: [],
             expanded: [],
             headers: [{
@@ -71,6 +73,11 @@ export default {
                     value: 'action',
                 },
             ],
+        }
+    },
+    watch: {
+        Transaction() {
+            this.FetchDocuments(route('documents.index', this.Transaction.id))
         }
     },
     created() {
@@ -144,7 +151,35 @@ export default {
                 this.UploadIsSuccess = false;
             }
         },
+        uploadDocs(id, event) {
+            console.log(('event', event));
+            Array.prototype.forEach.call(event, file => {
+                let formData = new FormData();
+                formData.append('file', file);
+                return axios.post(route('TransactionDocuments.AddDocument', [this.transaction.id, id]), formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        onUploadProgress
+                    })
+                    .then(({
+                        data
+                    }) => {
+                        this.UploadMessage = 'تم الرفع بنجاح';
+                        this.UploadIsSuccess = true;
+    
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        this.UploadMessage = 'خطأ اثناء الرفع';
+                        this.UploadIsSuccess = false;
+                    })
+            });
 
+        },
+        moveNext () {
+                                this.$parent.$parent.$parent.SectionStage = 2;
+        },
         DeleteDocuments(file) {
             this.DeleteProgress = 0;
             this.UploadProgress = null;
