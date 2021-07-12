@@ -760,15 +760,11 @@ export default {
                 var formData = new FormData();
 
                 formData.append('financial_year', this.transaction.financial_year);
-                formData.append('status', 'under_review');
                 formData.append('start_financial_year', this.transaction.start_financial_year);
                 formData.append('end_financial_year', this.transaction.end_financial_year);
-
                 formData.append('financial_period', this.transaction.financial_period);
-
                 formData.append('MainTradeRegisterNumber', this.MainTradeRegister.number);
                 formData.append('revisingManager_id', this.ChoosenRevisingManagerID);
-
                 formData.append('institution_id', this.created_institution.id);
                 formData.append('reviser_id', this.ChoosenReviserID);
 
