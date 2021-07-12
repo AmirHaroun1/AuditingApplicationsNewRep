@@ -56,7 +56,7 @@
                     <new-company-form></new-company-form>
                 </v-stepper-content>
                 <v-stepper-content step="2">
-                    <documents-management-section></documents-management-section>
+                    <documents-management-section :transaction="Transaction"></documents-management-section>
                 </v-stepper-content>
                 <v-stepper-content step="3">
                     <payment-details-form :Transaction="Transaction"></payment-details-form>
@@ -93,7 +93,7 @@
                     <existing-company-form></existing-company-form>
                 </v-stepper-content>
                 <v-stepper-content step="2">
-                    <documents-management-section></documents-management-section>
+                    <documents-management-section :transaction="Transaction"></documents-management-section>
                 </v-stepper-content>
                 <v-stepper-content step="3">
                     <payment-details-form :Transaction="Transaction"></payment-details-form>

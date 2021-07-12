@@ -57,7 +57,7 @@
                         <v-col cols="12" sm="6" md="6">
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="this.$parent.Institution.id" outlined disabled :label="$t('clientCode')" />
+                            <v-text-field v-model="$parent.$parent.$parent.Institution.id" outlined disabled :label="$t('clientCode')" />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                         </v-col>
@@ -272,7 +272,7 @@ export default {
 
             return route('Print.ReceiptVoucher', {
                 TransactionYear: this.financial_year,
-                CompanyName: this.$parent.Institution.name,
+                CompanyName: this.$parent.$parent.$parent.Institution.name,
                 PaymentType: this.PaymentType,
                 PaymentValue: this.PaymentValue,
                 ReviserCompanyName: this.ReviserCompanyName

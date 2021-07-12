@@ -13,52 +13,34 @@
                                         mdi-download
                                     </v-icon>
                                 </a>
-                                <v-icon @click="DeleteDocuments(file.pivot)" small>
+                                <v-icon @click="DeleteDocuments(item,file)" small>
                                     mdi-delete
                                 </v-icon>
                             </td>
                         </tr>
                     </tbody>
                 </v-simple-table>
-
-                <!-- <v-list subheader two-line>
-                    <v-list-item v-for="file in item.transactions" :key="file.pivot.DocumentPath">
-
-                        <v-list-item-content>
-                            <v-list-item-subtitle v-text="file.pivot.original_name"></v-list-item-subtitle>
-                        </v-list-item-content>
-
-                        <v-list-item-action>
-                            <a :href="DownloadDocumentLink(file.pivot.DocumentPath,file.pivot.original_name)">
-                                <v-icon small class="mr-2">
-                                    mdi-download
-                                </v-icon>
-                            </a>
-                            <v-icon @click="DeleteDocuments(file.pivot)" small>
-                                mdi-delete
-                            </v-icon>
-                        </v-list-item-action>
-                    </v-list-item>
-                </v-list> -->
             </td>
         </template>
         <template v-slot:item.action="{ item }">
-            <v-icon @click="UploadDocuments()" small>
-                mdi-upload
-            </v-icon>
+            <v-file-input  hide-input @change="uploadDocs(item, $event)" chips multiple show-size counter  label="ارفع الملفات" prepend-icon="mdi-upload"></v-file-input>
         </template>
     </v-data-table>
+    <v-btn color="primary" dark @click="moveNext()">
+        {{$t('next')}}
+    </v-btn>
 </div>
 </template>
 
 <script>
 export default {
     name: "DocumentsManagementSection.vue",
-
+    props: [
+        'Transaction',
+    ],
     data() {
         return {
             LoadingSpinner: false,
-            Transaction: this.$parent.Transaction,
             RequiredDocuments: [],
             expanded: [],
             headers: [{
@@ -73,7 +55,13 @@ export default {
             ],
         }
     },
+    watch: {
+        Transaction() {
+            this.FetchDocuments(route('documents.index', this.Transaction.id))
+        }
+    },
     created() {
+
         this.FetchDocuments(route('documents.index', this.Transaction.id))
     },
     methods: {
@@ -109,21 +97,19 @@ export default {
                 this.UploadProgress = Math.round((100 * event.loaded) / event.total);
             })
         },
-        uploadFiles(onUploadProgress) {
+        /*uploadFiles(onUploadProgress) {
 
             if (this.$refs.FileContainer.files.length > 0) {
                 Array.prototype.forEach.call(this.$refs.FileContainer.files, file => {
                     let formData = new FormData();
                     formData.append('file', file);
-                    return axios.post(route('TransactionDocuments.AddDocument', [this.transaction.id, this.document.id]), formData, {
+                    return axios.post(route('TransactionDocuments.AddDocument', [this.Transaction.id, this.document.id]), formData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
                             },
                             onUploadProgress
                         })
-                        .then(({
-                            data
-                        }) => {
+                        .then((res) => {
                             this.UploadMessage = 'تم الرفع بنجاح';
                             this.UploadIsSuccess = true;
                             console.log(data);
@@ -131,32 +117,62 @@ export default {
                                 'id': data.FileID,
                                 'original_name': data.FileName,
                                 'DocumentPath': data.FilePath
-                            });
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                            this.UploadMessage = 'خطأ اثناء الرفع';
-                            this.UploadIsSuccess = false;
-                        })
+                            })
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                                this.UploadMessage = 'خطأ اثناء الرفع';
+                                this.UploadIsSuccess = false;
+                            })
                 });
             } else {
                 this.UploadMessage = 'أختر الملف'
                 this.UploadIsSuccess = false;
             }
-        },
+        },*/
+        uploadDocs(RequiredDocument, event) {
+            Array.prototype.forEach.call(event, file => {
+                let formData = new FormData();
+                formData.append('file', file);
+                return axios.post(route('TransactionDocuments.AddDocument', [this.Transaction.id, RequiredDocument.id]), formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        event
+                    })
+                    .then(({data}) => {
+                        RequiredDocument.transactions.push({
+                            'pivot' : {
+                                'id': data.FileID,
+                                'original_name': data.FileName,
+                                'DocumentPath': data.FilePath
+                            }
+                        })
+                        this.UploadMessage = 'تم الرفع بنجاح';
+                        this.UploadIsSuccess = true;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        this.UploadMessage = 'خطأ اثناء الرفع';
+                        this.UploadIsSuccess = false;
+                    })
+            });
 
-        DeleteDocuments(file) {
+        },
+        moveNext () {
+            this.$parent.$parent.$parent.SectionStage = 2;
+        },
+        DeleteDocuments(RequiredDocument,file) {
             this.DeleteProgress = 0;
             this.UploadProgress = null;
             this.UploadIsSuccess = false;
-            this.DeleteFiles(file);
+            this.DeleteFiles(RequiredDocument,file);
         },
-
-        DeleteFiles(file) {
+        DeleteFiles(RequiredDocument,file) {
             let formData = new FormData();
             formData.append("_method", 'DELETE');
-            formData.append("FilePath", file.DocumentPath);
-            return axios.post(route('TransactionDocuments.removeDocument', [file.id]), formData, {
+            formData.append("FilePath", file.pivot.DocumentPath);
+            return axios.post(route('TransactionDocuments.removeDocument', [file.pivot.id]), formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     },
@@ -166,7 +182,7 @@ export default {
                     this.DeleteIsSuccess = true;
                     this.DeleteProgress = 100;
                     this.DeletedCount++;
-                    this.UploadedDocuments.splice(this.UploadedDocuments.indexOf(file), 1);
+                    RequiredDocument.transactions.splice( RequiredDocument.transactions.indexOf(file), 1);
 
                 }).catch((error) => {
                     console.log(error);
