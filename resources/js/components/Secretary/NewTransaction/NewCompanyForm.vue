@@ -586,7 +586,7 @@ export default {
 
         }
     },
-    created() {
+    mounted() {
         this.GetRevisers(route('employee.type', 'مراجع فني'));
         this.GetRevisingManagers(route('employee.type', 'مدير مراجعة'));
         this.GetDropDowns(route('system.DropDowns.retrieve.option'));

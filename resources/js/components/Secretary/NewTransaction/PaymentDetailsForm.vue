@@ -17,15 +17,6 @@
                         <v-col cols="12" sm="6" md="6">
                             <v-text-field @input="CheckTotal_value()" v-model="agreed_contract_value" outlined :rules="numbersRules" autocomplete="MainTradeRegister" :label="$t('mainTradeNumber')" required />
                         </v-col>
-
-                        <v-col cols="12" sm="6" md="6">
-                            <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs2 }">
-                                    <v-text-field outlined v-model="actualDate" name="national_id_date" :label="$t('actualDate')" prepend-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
-                                </template>
-                                <v-date-picker v-model="actualDate" @input="menu2 = false"></v-date-picker>
-                            </v-menu>
-                        </v-col>
                         <v-col cols="12" sm="6" md="6">
                             <v-text-field v-model="secretary_notes" outlined :label="$t('notes')" required />
                         </v-col>
@@ -57,7 +48,7 @@
                         <v-col cols="12" sm="6" md="6">
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="$parent.$parent.$parent.Institution.id" outlined disabled :label="$t('clientCode')" />
+                            <v-text-field v-model="this.$parent.Institution.id" outlined disabled :label="$t('clientCode')" />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                         </v-col>
@@ -126,23 +117,18 @@ export default {
             startingDate: new Date(),
             measurement_standard_determinantsOptions: [],
             measurement_standardOptions: [],
-
             measurement_standard_determinants: this.Transaction.measurement_standard_determinants,
             measurement_standard: this.Transaction.measurement_standard,
-
             agreed_contract_value: this.Transaction.agreed_contract_value,
-
             down_payment: this.Transaction.down_payment,
             final_payment: this.Transaction.final_payment,
             total_value: this.Transaction.total_value,
-
             value_added_tax_percentage: '15' + '%',
             value_added_tax_amount: this.Transaction.value_added_tax,
             zakat_deposit_fees: this.Transaction.zakat_deposit_fees,
             offer_value: this.Transaction.offer_value,
             status: this.Transaction.status,
             rejection_reason: this.Transaction.rejection_reason,
-
             ReviserCompanyName: 'مكتوب مسعود الرفيدى',
             PaymentType: 'مقدم أتعاب',
             PaymentValue: '',
@@ -174,14 +160,10 @@ export default {
             required: [
                 v => !!v || this.$t('requiredField'),
             ],
-
         }
-
     },
-
     created() {
         this.GetDropDowns(route('system.DropDowns.retrieve.option'));
-
     },
     methods: {
         GetDropDowns(endpoint) {
@@ -191,7 +173,6 @@ export default {
                     data
                 }) => {
                     data.DropDownsOptions.forEach((option, index) => {
-
                         if (option.name == 'محددات معيار القياس') {
                             this.measurement_standard_determinantsOptions.push(option);
                         } else if (option.name == 'معيار القياس') {
@@ -209,18 +190,15 @@ export default {
             const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
             const diffMinutes = Math.ceil(diffTime / (1000 * 60));
             const actual_time = parseFloat(diffHours + '.' + diffMinutes);
-
             formData.append('_method', 'PATCH');
             formData.append('measurement_standard_determinants', this.measurement_standard_determinants);
             formData.append('measurement_standard', this.measurement_standard);
             formData.append('secretary_notes', this.secretary_notes);
             formData.append('secretary_actualTime', actual_time);
-
             formData.append('agreed_contract_value', this.agreed_contract_value);
             formData.append('value_added_tax', this.value_added_tax_amount);
             formData.append('zakat_deposit_fees', this.zakat_deposit_fees);
             formData.append('offer_value', this.offer_value);
-
             formData.append('down_payment', this.down_payment);
             formData.append('final_payment', this.final_payment);
             formData.append('total_value', this.total_value);
@@ -228,17 +206,13 @@ export default {
             axios.post(route('Transactions.update', this.Transaction.id), formData)
                 .then((res) => {
                     this.LoadingSpinner = false;
-
                     this.$toast.success('<i class="fas fa-thumbs-up"></i>',
                         'قد تم تسجيل البيانات بنجاح ', {
                             timout: 2000
                         });
-
                 }).catch((error) => {
                     this.LoadingSpinner = false;
-
                     this.ValidationErrors = error.response.data.errors;
-
                     this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
                         timout: 2000
                     });
@@ -269,26 +243,21 @@ export default {
             } else {
                 this.PaymentValue = this.down_payment;
             }
-
             return route('Print.ReceiptVoucher', {
                 TransactionYear: this.financial_year,
-                CompanyName: this.$parent.$parent.$parent.Institution.name,
+                CompanyName: this.$parent.Institution.name,
                 PaymentType: this.PaymentType,
                 PaymentValue: this.PaymentValue,
                 ReviserCompanyName: this.ReviserCompanyName
             });
         },
         EngagementLetterLink() {
-            return route('Print.EngagementLetter', [this.Transaction]);
+            return route('Print.EngagementLetter', [this.$parent.Institution, this.Transaction]);
         }
-
     },
-
     name: "PaymentDetailsForm.vue",
-
 }
 </script>
 
 <style scoped>
-
 </style>

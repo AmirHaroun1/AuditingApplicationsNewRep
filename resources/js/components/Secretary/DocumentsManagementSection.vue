@@ -43,7 +43,7 @@
             </td>
         </template>
         <template v-slot:item.action="{ item }">
-            <v-file-input hide-input @change="uploadDocs(item.id, $event)" v-model="item.transactions" chips multiple label="ارفع الملفات" prepend-icon="mdi-upload"></v-file-input>
+            <v-file-input hide-input @click="activeID = item" v-model="files"  multiple label="ارفع الملفات" prepend-icon="mdi-upload"></v-file-input>
         </template>
     </v-data-table>
     <v-btn color="primary" dark @click="moveNext()">
@@ -63,6 +63,8 @@ export default {
             LoadingSpinner: false,
             RequiredDocuments: [],
             expanded: [],
+            files: [],
+            activeID: {},
             headers: [{
                     text: this.$t('document'),
                     align: 'start',
@@ -78,6 +80,9 @@ export default {
     watch: {
         Transaction() {
             this.FetchDocuments(route('documents.index', this.Transaction.id))
+        },
+        files () {
+            this.uploadFiles()
         }
     },
     created() {
@@ -116,18 +121,16 @@ export default {
                 this.UploadProgress = Math.round((100 * event.loaded) / event.total);
             })
         },
-        uploadFiles(onUploadProgress) {
+        uploadFiles() {
 
-            if (this.$refs.FileContainer.files.length > 0) {
-                Array.prototype.forEach.call(this.$refs.FileContainer.files, file => {
+            if (this.files.length > 0) {
+                Array.prototype.forEach.call(this.files, file => {
                     let formData = new FormData();
                     formData.append('file', file);
-                    return axios.post(route('TransactionDocuments.AddDocument', [this.transaction.id, this.document.id]), formData, {
+                    return axios.post(route('TransactionDocuments.AddDocument', [this.Transaction.id, this.activeID.id]), formData, {
                             headers: {
                                 'Content-Type': 'multipart/form-data'
-                            },
-                            onUploadProgress
-                        })
+                            }                        })
                         .then(({
                             data
                         }) => {
@@ -156,7 +159,7 @@ export default {
             Array.prototype.forEach.call(event, file => {
                 let formData = new FormData();
                 formData.append('file', file);
-                return axios.post(route('TransactionDocuments.AddDocument', [this.transaction.id, id]), formData, {
+                return axios.post(route('TransactionDocuments.AddDocument', [this.Transaction.id, id]), formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
@@ -178,7 +181,7 @@ export default {
 
         },
         moveNext () {
-                                this.$parent.$parent.$parent.SectionStage = 2;
+            this.$parent.$parent.$parent.SectionStage = 2;
         },
         DeleteDocuments(file) {
             this.DeleteProgress = 0;
