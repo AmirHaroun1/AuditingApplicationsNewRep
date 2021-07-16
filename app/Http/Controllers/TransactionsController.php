@@ -44,9 +44,9 @@ class TransactionsController extends Controller
                 when(true, function($query){
                     switch (auth()->user()->role)
                     {
-                        case "مراجع فني": return $query->where('reviser_id',auth()->user()->id);
-                        case "مدقق": return $query->where('auditor_id',auth()->user()->id);
-                        case "شريك اداري": return $query->where('partner_id',auth()->user()->id);
+                        case "مراجع فني": return $query->where('reviser_id',auth()->user()->id)->where('status','NOT LIKE','engagement_letter_not_printed');
+                        case "مدقق": return $query->where('auditor_id',auth()->user()->id)->where('status','NOT LIKE','engagement_letter_not_printed');
+                        case "شريك اداري": return $query->where('partner_id',auth()->user()->id)->where('status','NOT LIKE','engagement_letter_not_printed');
                     }
                 })
                 ->when(!is_null($MainRegisterNumber),function($query) use ($MainRegisterNumber){
@@ -85,7 +85,7 @@ class TransactionsController extends Controller
 
     public function store(StoreTransactionRequest $request){
 
-        $NewTransaction = Transaction::create(array_merge($request->all(),['branch_office_id'=>Auth::user()->branch_office_id]));
+        $NewTransaction = Transaction::create(array_merge($request->all(),['branch_office_id'=>Auth::user()->branch_office_id,'status'=>'engagement_letter_not_printed']));
 
         return response()->json([$NewTransaction],200);
     }
@@ -165,7 +165,10 @@ class TransactionsController extends Controller
         }
         $Institution = $Transaction->institution;
         $Transaction->append(['actual_start_date','hijri_actual_start_date','actual_end_date','hijri_actual_end_date','engagement_letter_date','hijri_engagement_letter_Date'])->toArray();
-
+        if ($Transaction->status = 'engagement_letter_not_printed'){
+            $Transaction->status = 'under_review';
+            $Transaction->save();
+        }
         return view('Transactions.EngagementLetter',compact('Institution','Transaction','OfficeInfo'));
     }
 }

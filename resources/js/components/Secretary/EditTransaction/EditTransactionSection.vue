@@ -21,7 +21,7 @@
             <edit-transaction-data :Agent="Agent"></edit-transaction-data>
         </transition>
         <div class="tab-pane fade in show" v-else-if="ActivePane=='الملفات'">
-            <documents-management-section></documents-management-section>
+            <documents-management-section :Transaction="Transaction"></documents-management-section>
         </div>
         <div class="tab-pane fade in show" v-else-if="ActivePane=='الدفع'">
             <payment-details-form :Transaction="Transaction"></payment-details-form>
