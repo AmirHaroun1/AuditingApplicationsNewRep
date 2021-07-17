@@ -134,7 +134,7 @@ export default {
                 this.UploadMessage = 'أختر الملف'
                 this.UploadIsSuccess = false;
             }
-        },*/
+        },
         uploadDocs(RequiredDocument, event) {
             Array.prototype.forEach.call(event, file => {
                 let formData = new FormData();
