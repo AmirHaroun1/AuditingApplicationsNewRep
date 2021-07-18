@@ -240,7 +240,7 @@ export default {
                 } else {
                     this.PaymentValue = this.down_payment;
                 }
-                return route('Print.ReceiptVoucher', {TransactionYear: this.financial_year, CompanyName: this.Institution.name, PaymentType: this.PaymentType, PaymentValue: this.PaymentValue, ReviserCompanyName: this.ReviserCompanyName});
+                return route('Print.ReceiptVoucher', {TransactionYear: this.financial_year, CompanyName: this.Institution.name, PaymentType: this.PaymentType, PaymentValue: this.PaymentValue});
             },
             EngagementLetterLink() {
                 return route('Print.EngagementLetter', [this.Institution, this.Transaction]);

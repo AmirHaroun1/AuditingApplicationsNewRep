@@ -151,7 +151,12 @@ class TransactionsController extends Controller
         return response()->json([],200);
     }
 
-    public function PrintReceiptVoucher($TransactionYear,$InistitutionName,$PaymentType,$PaymentValue,$ReviserCompanyName){
+    public function PrintReceiptVoucher($TransactionYear,$InistitutionName,$PaymentType,$PaymentValue){
+        $ReviserCompany = SystemSettings::where('type','LIKE','بيانات المكتب')->first();
+        if(!$ReviserCompany){
+            return abort(403,'Please Set Office Info Data');
+        }
+        $ReviserCompanyName = $ReviserCompany->name;
         return view('Transactions.ReceiptVoucher',compact('TransactionYear','InistitutionName','PaymentType','PaymentValue','ReviserCompanyName'));
     }
 
