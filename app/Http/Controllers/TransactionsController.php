@@ -157,7 +157,6 @@ class TransactionsController extends Controller
 
     public function PrintEngagementLetter(Transaction $Transaction)
     {
-
         $Transaction->load(['partner:id,name,signature','institution.agent']);
         $OfficeInfo = SystemSettings::where('type','LIKE','بيانات المكتب')->first();
         if(!$OfficeInfo){
@@ -165,7 +164,7 @@ class TransactionsController extends Controller
         }
         $Institution = $Transaction->institution;
         $Transaction->append(['actual_start_date','hijri_actual_start_date','actual_end_date','hijri_actual_end_date','engagement_letter_date','hijri_engagement_letter_Date'])->toArray();
-        if ($Transaction->status = 'engagement_letter_not_printed'){
+        if ($Transaction->status == 'engagement_letter_not_printed'){
             $Transaction->status = 'under_review';
             $Transaction->save();
         }

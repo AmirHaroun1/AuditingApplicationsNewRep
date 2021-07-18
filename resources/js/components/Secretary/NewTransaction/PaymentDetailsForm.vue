@@ -87,10 +87,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn link  target="_blank" color="primary" dark>
+                <v-btn :href="PrintLink" target="_blank" color="primary" dark>
                     {{$t('printSalaryContract')}}
                 </v-btn>
-                <v-btn link target="_blank" color="primary" dark>
+                <v-btn :href="EngagementLetterLink" target="_blank" color="primary" dark>
                     {{$t('printEngagment')}}
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -234,23 +234,17 @@ export default {
         }
     },
         computed: {
-        // PrintLink() {
-        //     if (this.PaymentType == 'دفعة أتعاب نهائية') {
-        //         this.PaymentValue = this.final_payment;
-        //     } else {
-        //         this.PaymentValue = this.down_payment;
-        //     }
-        //     return route('Print.ReceiptVoucher', {
-        //         TransactionYear: this.financial_year,
-        //         CompanyName: this.Institution.name,
-        //         PaymentType: this.PaymentType,
-        //         PaymentValue: this.PaymentValue,
-        //         ReviserCompanyName: this.ReviserCompanyName
-        //     });
-        // },
-        // EngagementLetterLink() {
-        //     return route('Print.EngagementLetter', [this.Institution, this.Transaction]);
-        // }
+        PrintLink() {
+            if (this.PaymentType == 'دفعة أتعاب نهائية') {
+                this.PaymentValue = this.final_payment;
+                } else {
+                    this.PaymentValue = this.down_payment;
+                }
+                return route('Print.ReceiptVoucher', {TransactionYear: this.financial_year, CompanyName: this.Institution.name, PaymentType: this.PaymentType, PaymentValue: this.PaymentValue, ReviserCompanyName: this.ReviserCompanyName});
+            },
+            EngagementLetterLink() {
+                return route('Print.EngagementLetter', [this.Institution, this.Transaction]);
+            }
     },
     }
 </script>
