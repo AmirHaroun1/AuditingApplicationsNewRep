@@ -25,6 +25,9 @@
                         <v-autocomplete v-model="user.role" name="role" :items="items" label="الوظيفه" />
                     </v-col>
                     <v-col cols="12" sm="6">
+                        <v-autocomplete v-model="user.branch_office_id" name="branch" :items="branches" item-text="name" item-value="id" label="الفرع" />
+                    </v-col>
+                    <v-col cols="12" sm="6">
                         <v-text-field v-model="user.name" name="name" :rules="required" autocomplete="name" label="الاسم" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6">
@@ -99,7 +102,11 @@ export default {
                 'شريك اداري',
                 'مدير أداري',
             ],
+            branches: [],
         }
+    },
+    created() {
+        this.getAllBranches()
     },
     methods: {
         close() {
@@ -116,7 +123,15 @@ export default {
                 console.log('res', res)
                 this.$emit('close')
             })
-        }
+        },
+        getAllBranches() {
+            axios.get(route('OfficeBranches.index')).then((result) => {
+                console.log('res', result);
+                this.branches = result.data.OfficeBranches
+            }).catch((err) => {
+                console.log('err', error);
+            });
+        },
     },
 }
 </script>
