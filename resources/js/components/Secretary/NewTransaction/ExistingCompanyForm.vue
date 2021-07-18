@@ -235,13 +235,7 @@
                                                 </v-col>
                                             </div>
                                         </v-row>
-                                        <v-card-actions>
-                                            <v-spacer></v-spacer>
-                                            <v-btn outlined type="submit" form="UpdateInstitutionForm" color="primary" dark>
-                                                {{$t('save')}}
-                                            </v-btn>
-                                            <v-spacer></v-spacer>
-                                        </v-card-actions>
+                
                                     </v-form>
                                 </v-alert>
                             </v-card>
@@ -772,7 +766,7 @@ export default {
                 }).catch((error) => {
                     this.LoadingSpinner = false;
                     this.ValidationErrors = error.response.data.errors;
-                    this.$toast.error('خطأ', 'يرجى اعادة مراجعة البيانات', {
+                    this.$toast.error('خطأ', Object.values(error.response.data.errors).join(), {
                         timout: 2000
                     });
 

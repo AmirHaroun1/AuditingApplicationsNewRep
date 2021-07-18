@@ -36,13 +36,6 @@
                     <v-text-field v-model="Agent.phone" outlined :rules="numbersRules" :label="$t('phone')" required />
                 </v-col>
                 </v-row>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn outlined type="submit" ref="NewAgentForm" form="BranchRegisterForm" color="primary" dark>
-                        {{$t('save')}}
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                </v-card-actions>
             </v-form>
         </v-alert>
     </v-card>

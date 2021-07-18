@@ -165,7 +165,7 @@ export default {
 
         },
         moveNext () {
-            this.$parent.$parent.$parent.SectionStage = 2;
+            this.$parent.$parent.$parent.SectionStage = 3;
         },
         DeleteDocuments(RequiredDocument,file) {
             this.DeleteProgress = 0;

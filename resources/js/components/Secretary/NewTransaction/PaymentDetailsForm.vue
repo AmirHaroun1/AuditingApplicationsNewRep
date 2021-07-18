@@ -27,9 +27,6 @@
                             <v-text-field @input="CheckTotal_value()" v-model="zakat_deposit_fees" :rules="numbersRules" outlined :label="$t('zakahDeposit')" required />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field @input="CheckTotal_value()" v-model="zakat_deposit_fees" :rules="numbersRules" outlined :label="$t('zakahDeposit')" required />
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
                             <v-text-field @input="CheckTotal_value()" v-model="offer_value" :rules="numbersRules" outlined :label="$t('discountValue')" required />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
@@ -48,7 +45,7 @@
                         <v-col cols="12" sm="6" md="6">
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="this.$parent.$parent.$parent.Institution.id" outlined disabled :label="$t('clientCode')" />
+                            <v-text-field v-model="Institution.id" outlined disabled :label="$t('clientCode')" />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                         </v-col>
@@ -90,10 +87,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn link :href="PrintLink" target="_blank" color="primary" dark>
+                <v-btn link  target="_blank" color="primary" dark>
                     {{$t('printSalaryContract')}}
                 </v-btn>
-                <v-btn link :href="EngagementLetterLink" target="_blank" color="primary" dark>
+                <v-btn link target="_blank" color="primary" dark>
                     {{$t('printEngagment')}}
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -106,9 +103,12 @@
 <script>
 export default {
     props: [
-        'Transaction',
+        'Institution', 'Transaction'
     ],
-    data() {
+    mounted() {
+        this.GetDropDowns(route('system.DropDowns.retrieve.option'));
+    },
+        data() {
         return {
             LoadingSpinner: '',
             ValidationErrors: '',
@@ -161,9 +161,6 @@ export default {
                 v => !!v || this.$t('requiredField'),
             ],
         }
-    },
-    created() {
-        this.GetDropDowns(route('system.DropDowns.retrieve.option'));
     },
     methods: {
         GetDropDowns(endpoint) {
@@ -236,25 +233,27 @@ export default {
             })
         }
     },
-    computed: {
-        PrintLink() {
-            if (this.PaymentType == 'دفعة أتعاب نهائية') {
-                this.PaymentValue = this.final_payment;
-            } else {
-                this.PaymentValue = this.down_payment;
-            }
-            return route('Print.ReceiptVoucher', {
-                TransactionYear: this.financial_year,
-                CompanyName: this.$parent.$parent.$parent.Institution.name,
-                PaymentType: this.PaymentType,
-                PaymentValue: this.PaymentValue,
-                ReviserCompanyName: this.ReviserCompanyName
-            });
-        },
-        EngagementLetterLink() {
-            return route('Print.EngagementLetter', [this.$parent.$parent.$parent.Institution, this.Transaction]);
-        }
+        computed: {
+        // PrintLink() {
+        //     if (this.PaymentType == 'دفعة أتعاب نهائية') {
+        //         this.PaymentValue = this.final_payment;
+        //     } else {
+        //         this.PaymentValue = this.down_payment;
+        //     }
+        //     return route('Print.ReceiptVoucher', {
+        //         TransactionYear: this.financial_year,
+        //         CompanyName: this.Institution.name,
+        //         PaymentType: this.PaymentType,
+        //         PaymentValue: this.PaymentValue,
+        //         ReviserCompanyName: this.ReviserCompanyName
+        //     });
+        // },
+        // EngagementLetterLink() {
+        //     return route('Print.EngagementLetter', [this.Institution, this.Transaction]);
+        // }
     },
-    name: "PaymentDetailsForm.vue",
-}
+    }
 </script>
+
+<style scoped>
+</style>

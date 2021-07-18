@@ -59,7 +59,7 @@
                     <documents-management-section :transaction="Transaction"></documents-management-section>
                 </v-stepper-content>
                 <v-stepper-content step="3">
-                    <payment-details-form :Transaction="Transaction"></payment-details-form>
+                    <payment-details-form :Institution="Institution" v-if="SectionStage == 3" :Transaction="Transaction"></payment-details-form>
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
@@ -77,13 +77,13 @@
 
                 <v-divider></v-divider>
 
-                <v-stepper-step step="3">
+                <v-stepper-step step="2">
                     {{$t('files')}}
                 </v-stepper-step>
 
                 <v-divider></v-divider>
 
-                <v-stepper-step step="4">
+                <v-stepper-step step="3">
                     {{$t('payment')}}
                 </v-stepper-step>
             </v-stepper-header>
@@ -96,7 +96,7 @@
                     <documents-management-section :transaction="Transaction"></documents-management-section>
                 </v-stepper-content>
                 <v-stepper-content step="3">
-                    <payment-details-form :Transaction="Transaction"></payment-details-form>
+                    <payment-details-form :Institution="Institution" v-if="SectionStage == 3" :Transaction="Transaction"></payment-details-form>
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
@@ -118,9 +118,9 @@ export default {
 
             TradeRegister: '',
 
-            SectionStage: 2,
+            SectionStage: 1,
 
-            Institution: '',
+            Institution: {},
             Agent: '',
             Transaction: '',
 

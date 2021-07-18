@@ -22,7 +22,7 @@
                     <v-icon>mdi-plus</v-icon> {{$t('newTransaction')}}
                 </v-btn>
             </v-card-title>
-            <v-data-table :headers="computedHeaders" :items="Transactions" :options.sync="options" :search="search">
+            <v-data-table :headers="computedHeaders" :server-items-length="count" :items="Transactions" :options.sync="options" >
                 <template :ref="item.id" v-slot:item.action="{ item }">
                     <v-icon small color="primary" @click="editItem(item.id)">
                         mdi-pencil
@@ -179,7 +179,7 @@ export default {
         this.fetchTransactions();
     },
     methods: {
-        fetchTransactions(page = 1) {
+        fetchTransactions() {
             this.LoadingSpinner = true;
             axios.get(route('transactions.index', {
                     OrderByCase: this.OrderByCase,
@@ -195,6 +195,7 @@ export default {
                     this.FetchPaginationData.last_page = data.transactions.last_page;
                     this.FetchPaginationData.next_page_url = data.transactions.next_page_url;
                     this.FetchPaginationData.prev_page_url = data.transactions.prev_page_url;
+                    this.count = data.transactions.total;
 
                     this.Transactions = [];
                     this.Transactions.push(...data.transactions.data);
@@ -274,7 +275,7 @@ export default {
     watch: {
       options: {
         handler () {
-          this.searchTransaction()
+          this.fetchTransactions()
         },
         deep: true,
       },
