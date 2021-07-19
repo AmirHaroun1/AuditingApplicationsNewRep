@@ -24,7 +24,7 @@
             <documents-management-section :Transaction="Transaction"></documents-management-section>
         </div>
         <div class="tab-pane fade in show" v-else-if="ActivePane=='الدفع'">
-            <payment-details-form :Transaction="Transaction"></payment-details-form>
+            <payment-details-form :Institution="Institution" :Transaction="Transaction"></payment-details-form>
         </div>
     </div>
 
