@@ -138,7 +138,7 @@ Route::group(['prefix'=>'Secretary','middleware'=>['auth','Secretary'] ],functio
     Route::post('/StoreNewTransaction', 'TransactionsController@store')->name('Transactions.store');
     Route::delete('/DeleteTransaction','TransactionsController@destroy')->name('Transactions.destroy');
 
-    Route::get('/PrintReceiptVoucher/TransactionYear/{TransactionYear}/CompanyName/{CompanyName}/PaymentType/{PaymentType}/PaymentValue/{PaymentValue}/ReviserCompanyName/{ReviserCompanyName}','TransactionsController@PrintReceiptVoucher')->name('Print.ReceiptVoucher');
+    Route::get('/PrintReceiptVoucher/TransactionYear/{TransactionYear}/CompanyName/{CompanyName}/PaymentType/{PaymentType}/PaymentValue/{PaymentValue}','TransactionsController@PrintReceiptVoucher')->name('Print.ReceiptVoucher');
     Route::get('/EngagementLetter/transaction/{transaction}/','TransactionsController@PrintEngagementLetter')->name('Print.EngagementLetter');
     Route::get('/EditTransaction/{Transaction_id}','TransactionsController@edit')->name('transactions.edit.secretary')->middleware('CheckEmployeeHasAccess');
 

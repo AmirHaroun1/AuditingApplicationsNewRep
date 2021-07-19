@@ -96,7 +96,7 @@
                     <documents-management-section :transaction="Transaction"></documents-management-section>
                 </v-stepper-content>
                 <v-stepper-content step="3">
-                    <payment-details-form :Institution="Institution" v-if="SectionStage == 3" :Transaction="Transaction"></payment-details-form>
+                    <payment-details-form :Institution="Institution" :Transaction="Transaction" v-if="SectionStage == 3"></payment-details-form>
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
