@@ -122,27 +122,24 @@ class TransactionsController extends Controller
         return response()->json([$transaction],200);
     }
     public function updateActualTime(Transaction $transaction, Request $request){
-
-        if($request->ActualTimeType == "secretary_actualTime"){
-
-            $transaction->secretary_actualTime += $request->secretary_actualTime;
-
-        }else if($request->ActualTimeType =="reviser_actualTime"){
-
-            $transaction->reviser_actualTime += $request->reviser_actualTime;
-
-        }else if($request->ActualTimeType == "revisingManager_actualTime"){
-
-            $transaction->revisingManager_actualTime += $request->revisingManager_actualTime;
-
-        }else if($request->ActualTimeType == "auditor_actualTime"){
-
-            $transaction->auditor_actualTime += $request->auditor_actualTime;
-
-        }else{
-            $transaction->Managing_partner_actualTime += $request->Managing_partner_actualTime;
+        $role = Auth::user()->role;
+        switch ($role) {
+            case 'سكرتير':
+                $transaction->secretary_actualTime += $request->time;
+                break;
+            case 'مراجع فني':
+                $transaction->reviser_actualTime += $request->time;
+                break;
+            case 'مدير مراجعة':
+                $transaction->revisingManager_actualTime += $request->time;
+                break;
+            case 'مدقق':
+                $transaction->auditor_actualTime += $request->time;
+                break;
+            case 'شريك اداري':
+                $transaction->Managing_partner_actualTime += $request->time;
+                break;
         }
-
         if( ($transaction->secretary_time < $transaction->secretary_actualTime ) || ($transaction->reviser_time < $transaction->reviser_actualTime ) || ($transaction->revisingManager_time < $transaction->revisingManager_actualTime ) || ($transaction->auditor_time < $transaction->auditor_actualTime ) || ($transaction->Managing_partner_time < $transaction->Managing_partner_time )){
             $transaction->time_status = "unacceptable";
         }
