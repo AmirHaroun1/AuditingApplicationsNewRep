@@ -220,7 +220,7 @@ export default {
             }
             let formData = new FormData();
             formData.append('_method', 'PATCH');
-            formData.append('partner_id', this.ChoosenPartner.code);
+            formData.append('partner_id', this.ChoosenPartner);
             axios.post(route('Transactions.update', this.Transaction.id), formData)
                 .then((res) => {
                     this.$toast.success('.', 'تم تحديد الشريك بنجاح', {

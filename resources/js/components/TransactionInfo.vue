@@ -424,7 +424,11 @@ export default {
     return {
       main_datePicker: false,
       finish_reservation: false,
+      startTime: null,
     };
+  },
+  created() {
+      this.startTime = moment(new Date()); 
   },
   methods: {
     UpdateTransaction() {
@@ -487,6 +491,14 @@ export default {
           });
         });
     },
+  },
+  beforeDestroy() {
+    var end = moment(new Date); // another date
+    var duration = moment.duration(this.startTime.diff(end));
+    var hours = duration.hours();
+    var minutes = duration.minutes();
+    console.log('hours')
+    console.log('minutes', minutes)
   },
 };
 </script>

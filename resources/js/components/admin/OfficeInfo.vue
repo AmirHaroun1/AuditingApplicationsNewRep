@@ -67,8 +67,8 @@ export default {
                     formData.append(key, element)
                 }
             }
-            if (!this.officeInfo.name) {
-                axios.patch(route('system.officeInfo.store'), formData).then(res => {
+            if (!this.officeInfo !== null) {
+                axios.post(route('system.officeInfo.store'), formData).then(res => {
                     console.log('res', res);
                 }).catch(err => {
                     console.log('err', err);
