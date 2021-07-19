@@ -498,24 +498,19 @@ export default {
       var formData = new FormData();
 
       formData.append("_method", "PATCH");
-      formData.append('ActualTimeType', "revisingManager_actualTime")
       formData.append("time", time);
-      formData.append("financial_year", this.Transaction.financial_year);
       axios
         .post(route("Transactions.update.ActualTime", this.Transaction.id), formData)
         .then((res) => {
           this.LoadingSpinner = false;
           this.ValidationErrors = "";
-          this.$toast.success(".", "قد تم تعديل بيانات المعاملة بنجاح", {
+          this.$toast.success(".", "قد تم تعديل وقت المعاملة بنجاح", {
             timout: 2000,
           });
         })
         .catch((error) => {
           this.LoadingSpinner = false;
           this.ValidationErrors = error.response.data.errors;
-          this.$toast.error("خطأ", "يرجى اعادة مراجعة البيانات", {
-            timout: 2000,
-          });
         });
     },
   },
@@ -524,8 +519,6 @@ export default {
     var duration = moment.duration(end.diff(this.startTime));
     var hours = duration.hours();
     var minutes = duration.minutes();
-    console.log('hours', duration)
-    console.log('minutes', minutes)
     let time = parseFloat(`${hours}.${minutes}`)
     this.UpdateTransactionTime(time)
   },
