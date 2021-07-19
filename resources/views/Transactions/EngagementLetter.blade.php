@@ -398,7 +398,12 @@
                             <h5 class="text-left" style="padding-top: 20px">
 
 
-                                Signature :  {{$Transaction->partner->name}}
+                                Signature :
+                                @if($Transaction->partner)
+                                {{$Transaction->partner->name }}
+                                    @else
+                                "لم يتم تحديد شريك ادارى"
+                                @endif
 
                             </h5>
                             <h5 class="text-left" style="padding-top: 20px">
@@ -432,7 +437,11 @@
                             </h5>
                             <h5 class="text-right" style="padding-top: 20px">
                                 التوقيع:
-                                {{$Transaction->partner->name}}
+                                @if($Transaction->partner)
+                                    {{$Transaction->partner->name }}
+                                @else
+                                    "لم يتم تحديد شريك ادارى"
+                                @endif
 
 
                             </h5>
