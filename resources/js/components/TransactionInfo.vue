@@ -414,6 +414,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: "TransactionInfo",
   props: {
@@ -491,14 +492,35 @@ export default {
           });
         });
     },
+    UpdateTransactionTime(time) {
+      this.LoadingSpinner = true;
+
+      var formData = new FormData();
+
+      formData.append("_method", "PATCH");
+      formData.append("time", time);
+      axios
+        .post(route("Transactions.update.ActualTime", this.Transaction.id), formData)
+        .then((res) => {
+          this.LoadingSpinner = false;
+          this.ValidationErrors = "";
+          this.$toast.success(".", "قد تم تعديل وقت المعاملة بنجاح", {
+            timout: 2000,
+          });
+        })
+        .catch((error) => {
+          this.LoadingSpinner = false;
+          this.ValidationErrors = error.response.data.errors;
+        });
+    },
   },
   beforeDestroy() {
     var end = moment(new Date); // another date
-    var duration = moment.duration(this.startTime.diff(end));
+    var duration = moment.duration(end.diff(this.startTime));
     var hours = duration.hours();
     var minutes = duration.minutes();
-    console.log('hours')
-    console.log('minutes', minutes)
+    let time = parseFloat(`${hours}.${minutes}`)
+    this.UpdateTransactionTime(time)
   },
 };
 </script>
