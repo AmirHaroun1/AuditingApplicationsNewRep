@@ -772,7 +772,6 @@
                                                 <input v-if="!PrintingMood" type="text" class="form-control" v-model="Transaction.helper_time">
                                                 <h4 v-else class="font-weight-bold">{{Transaction.helper_time}}</h4>
                                             </td>
-
                                         </tr>
                                     </tbody>
                                 </table>

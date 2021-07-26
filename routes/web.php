@@ -273,9 +273,9 @@ Route::group(['middleware'=>['auth'] ],function () {
     |  System Standard Time Table  Routes
     |--------------------------------------------------------------------------
     */
-    Route::get('/standardTime','SystemSettingsController@GetStandardTime')->name('system.standard_time.index');
-    Route::post('/StoreStandardTime','SystemSettingsController@StoreStandardTime')->name('system.standard_time.store');
-    Route::patch('/UpdateStandardTime','SystemSettingsController@UpdateStandardTime')->name('system.standard_time.update');
+        Route::get('/standardTime','SystemSettingsController@GetStandardTime')->name('system.standard_time.index');
+        Route::post('/StoreStandardTime','SystemSettingsController@StoreStandardTime')->name('system.standard_time.store');
+        Route::patch('/UpdateStandardTime','SystemSettingsController@UpdateStandardTime')->name('system.standard_time.update');
     /*
     |--------------------------------------------------------------------------
     |  update Transaction Routes

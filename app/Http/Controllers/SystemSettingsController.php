@@ -86,7 +86,7 @@ class SystemSettingsController extends Controller
     }
     public function StoreStandardTime(Request $request){
         $StandardTime = DB::table('standard_time')->insert([
-           'secretary_time' => $request->secretary_time,
+            'secretary_time' => $request->secretary_time,
             'fieldDelegate_time'=> $request->fieldDelegate_time,
             'auditor_time' => $request->auditor_time,
             'executiveDirector_time'=>$request->executiveDirector_time,
@@ -99,7 +99,7 @@ class SystemSettingsController extends Controller
     }
     public function UpdateStandardTime(Request $request){
         $StandardTime = DB::table('standard_time')
-            ->first()
+            ->where('id',1)
             ->update([
                 'secretary_time' => $request->secretary_time,
                 'fieldDelegate_time'=> $request->fieldDelegate_time,
