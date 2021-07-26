@@ -1,5 +1,10 @@
 {
     "employeesTable": "فريق العمل",
+    "managingPartners": "الشركاء الاداريين",
+    "newPartner": "شريك جديد",
+    "license_number": "رقم الترخيص",
+    "license_start_date": "تاريخ الترخيص",
+    "license_end_date": "ناريخ انتهاء الترخيص",
     "others": "أخري",
     "search": "بحث",
     "filter": "اختيار العناصر",
@@ -234,7 +239,6 @@
     "archiveSecretary_notes":  "ملاحظات الأرشيف",
 
     "branches": "الفروع",
-    "shouldbe10": "يجب ان يكون 10  ارقام",
-    "companyName": "اسم الشركة"
+    "shouldbe10": "يجب ان يكون 10  ارقام"
 
 }

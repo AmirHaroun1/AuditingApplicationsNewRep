@@ -31,6 +31,11 @@
                 </v-row>
                 <v-card>
                     <v-alert type="primary" outlined>
+                        <ManagePartners />
+                    </v-alert>
+                </v-card>
+                <v-card>
+                    <v-alert type="primary" outlined>
                         <office-branches></office-branches>
                     </v-alert>
                 </v-card>

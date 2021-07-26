@@ -51,6 +51,37 @@
                             </div>
                         </div>
                         <!-- ./ Start / End Date  ------>
+                        <div class="row ma-4"  style="padding-top:15px;padding-bottom:15px">
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">السكرتير</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">الميدانى</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المراجع الفنى</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المدقق</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">مدير المراجعة</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المدير التنفيذي</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">الشريك</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المساعد</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td>
+                                            <input type="text" class="form-control" disabled v-model="StandardTime.secretary_time">
+                                        </td>
+                                        <td><input type="text" class="form-control" disabled  v-model="StandardTime.fieldDelegate_time"></td>
+                                        <td><input type="text" class="form-control"  disabled v-model="StandardTime.reviser_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.auditor_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.revisingManager_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.executiveDirector_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.Managing_partner_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.helper_time"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <!-- توزيع ساعات العمل  ------>
                         <div class="row" style="padding-top:15px;padding-bottom:15px">
                             <table class="table table-bordered text-center">
@@ -170,10 +201,12 @@ export default {
             ActivePane: 'بيانات المعاملة',
             Partners: [],
             ChoosenPartner: '',
+            StandardTime: {},
         }
     },
     created() {
         this.GetPartners(route('employee.type', 'شريك اداري'));
+        this.getStandardTime()
     },
     mounted() {
         if (this.Transaction.partner) {
@@ -231,7 +264,12 @@ export default {
                         timeout: 3000
                     });
                 })
-        }
+        },
+        getStandardTime() {
+            axios.get(route('system.standard_time.index')).then(res => {
+                this.StandardTime = res.data.StandardTime
+            })
+        },
     }
 
 }

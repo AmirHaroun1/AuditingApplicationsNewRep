@@ -15,7 +15,7 @@
             <draggable v-model="AvailableRevisingGuides" v-on="$listeners" group="people" @start="drag=true" @end="drag=false">
                 <div v-for="(element, index) in AvailableRevisingGuides" :key="element.id">
                     <MenuItem :source="element" :index="index" />
-                   </div>
+                </div>
             </draggable>
         </div>
     </div>
@@ -47,6 +47,40 @@
                         </v-row>
 
                         <br>
+                        <div class="row ma-4" v-if="SelectedItem.code === 'ن7'" style="padding-top:15px;padding-bottom:15px">
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">السكرتير</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">الميدانى</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المراجع الفنى</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المدقق</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">مدير المراجعة</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المدير التنفيذي</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">الشريك</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المساعد</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td>
+                                            <input type="text" class="form-control" v-model="Transaction.secretary_time">
+                                        </td>
+                                        <td><input type="text" class="form-control" v-model="Transaction.fieldDelegate_time"></td>
+                                        <td><input type="text" class="form-control" v-model="Transaction.reviser_time"></td>
+                                        <td><input type="text" class="form-control" v-model="Transaction.auditor_time"></td>
+                                        <td><input type="text" class="form-control" v-model="Transaction.revisingManager_time"></td>
+                                        <td><input type="text" class="form-control" v-model="Transaction.executiveDirector_time"></td>
+                                        <td><input type="text" class="form-control" v-model="Transaction.Managing_partner_time"></td>
+                                        <td><input type="text" class="form-control" v-model="Transaction.helper_time"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <v-btn @click="updateStandardTime()" class="mr-4 ml-4" color="primary" dark>
+                                {{$t('save')}}
+                            </v-btn>
+                        </div>
                         <v-form @submit.prevent="updateRevisingGuidNotes()" id="NotesForm">
                             <v-row>
                                 <v-col cols="9">
@@ -290,6 +324,7 @@ export default {
             AvailableRevisingGuides: this.AllRevisingGuides,
             vSelectRevisingGuides: [],
             LoadingSpinner: false,
+            Transaction: {},
             newAccountDialog: false,
             finalArray: [],
             editAccountDialog: false,
@@ -353,10 +388,10 @@ export default {
         }
     },
     watch: {
-        AvailableRevisingGuides (newVal, oldVal) {
+        AvailableRevisingGuides(newVal, oldVal) {
             if (newVal.length === oldVal.length) {
-                this.updateRevisingGuidIndex()                
-            } 
+                this.updateRevisingGuidIndex()
+            }
         }
     },
     created() {
@@ -372,6 +407,7 @@ export default {
 
             this.SelectedItem = RevisingGuid;
         })
+        this.getStandardTime()
     },
     methods: {
         FlatRevisingGuidArray() {
@@ -395,16 +431,16 @@ export default {
         },
         ShowAddModal() {
             this.Added_revisingGuid.id = '',
-            this.Added_revisingGuid.name = '',
-            this.Added_revisingGuid.code = '',
-            this.Added_revisingGuid.id = '',
-            this.Added_revisingGuid.name = '',
-            this.Added_revisingGuid.code = '',
-            this.Added_revisingGuid.isText = '',
-            this.Added_revisingGuid.default_status = '',
-            this.Added_revisingGuid.default_reference = '',
-            this.Added_revisingGuid.Parent = null,
-            this.newAccountDialog = true;
+                this.Added_revisingGuid.name = '',
+                this.Added_revisingGuid.code = '',
+                this.Added_revisingGuid.id = '',
+                this.Added_revisingGuid.name = '',
+                this.Added_revisingGuid.code = '',
+                this.Added_revisingGuid.isText = '',
+                this.Added_revisingGuid.default_status = '',
+                this.Added_revisingGuid.default_reference = '',
+                this.Added_revisingGuid.Parent = null,
+                this.newAccountDialog = true;
         },
         ShowAddChildOfRevisingGuidModal(Parent) {
             this.newAccountDialog = true
@@ -953,38 +989,74 @@ export default {
                 ],
             });
         },
-        updateRevisingGuidIndex () {
+        updateRevisingGuidIndex() {
             let count = 0;
-           const data = this.AvailableRevisingGuides.map((element, index) => {
-               count++;
-               return {
-                   id: element.id,
-                   order_in_list: index
-               }
+            const data = this.AvailableRevisingGuides.map((element, index) => {
+                count++;
+                return {
+                    id: element.id,
+                    order_in_list: index
+                }
 
-           }) 
+            })
 
             let formData = new FormData();
-           formData.append('_method',"PATCH");
-           formData.append('data',JSON.stringify(data));
-           formData.append('data_length',count);
+            formData.append('_method', "PATCH");
+            formData.append('data', JSON.stringify(data));
+            formData.append('data_length', count);
             this.LoadingSpinner = true;
-           axios.post(route('PatchUpdate.indices'),formData)
-               .then(res => {
-                   this.LoadingSpinner = false;
-                   console.log(res);
-                   this.$toast.success('.', 'تم التعديل بنجاح', {
-                       timeout: 3000
-                   });
-               }).catch(error => {
-               this.LoadingSpinner = false;
-               console.log(error);
-               this.$toast.warning('.', 'خطأ يرجى اعادة المحاولة', {
-                   timeout: 3000
-               });
-           })
+            axios.post(route('PatchUpdate.indices'), formData)
+                .then(res => {
+                    this.LoadingSpinner = false;
+                    console.log(res);
+                    this.$toast.success('.', 'تم التعديل بنجاح', {
+                        timeout: 3000
+                    });
+                }).catch(error => {
+                    this.LoadingSpinner = false;
+                    console.log(error);
+                    this.$toast.warning('.', 'خطأ يرجى اعادة المحاولة', {
+                        timeout: 3000
+                    });
+                })
 
-        }
+        },
+        getStandardTime() {
+            axios.get(route('system.standard_time.index')).then(res => {
+                this.Transaction = res.data.StandardTime
+            })
+        },
+        updateStandardTime() {
+            let formData = new FormData();
+
+            for (var key in this.Transaction) {
+                formData.append(key, this.Transaction[key]);
+            }
+            if (this.Transaction.id) {
+                axios.patch(route('system.standard_time.update'), formData).then(res => {
+                    console.log('res', res);
+                    this.$toast.success('.', 'تم التعديل بنجاح', {
+                        timeout: 3000
+                    });
+                }).catch(error => {
+                    this.$toast.error('خطأ', error.message, {
+                        timout: 2000
+                    });
+                })
+            } else {
+                axios.post(route('system.standard_time.store'), formData).then(res => {
+                    console.log('res', res);
+                    this.$toast.success('.', 'تم الحفظ بنجاح', {
+                        timeout: 3000
+                    });
+                }).catch(error => {
+                    this.$toast.error('خطأ', Object.values(error.response.data.errors).join(), {
+                        timout: 2000
+                    });
+                })
+            }
+
+        },
 
     }
 }
