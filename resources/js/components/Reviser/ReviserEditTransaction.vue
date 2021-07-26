@@ -49,9 +49,42 @@
                                             <VueCtkDateTimePicker :format="'YYYY-MM-DD H:mm'" :formatted="'H:mm , Y-M-D '" label="أختر التاريخ و الوقت" v-model="end_date"></VueCtkDateTimePicker>
                                         </div>
                                     </div>
+                                                            <div class="row ma-4"  style="padding-top:15px;padding-bottom:15px">
+                            <h3> توزيع الساعات المعيارى </h3>
+                            <table class="table table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">السكرتير</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">الميدانى</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المراجع الفنى</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المدقق</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">مدير المراجعة</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المدير التنفيذي</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">الشريك</th>
+                                        <th style="color: white;background-color: #00a65a;border-color:white">المساعد</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td>
+                                            <input type="text" class="form-control" disabled v-model="StandardTime.secretary_time">
+                                        </td>
+                                        <td><input type="text" class="form-control" disabled  v-model="StandardTime.fieldDelegate_time"></td>
+                                        <td><input type="text" class="form-control"  disabled v-model="StandardTime.reviser_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.auditor_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.revisingManager_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.executiveDirector_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.Managing_partner_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.helper_time"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                                     <!-- ./ Start / End Date  ------>
                                     <!-- توزيع ساعات العمل  ------>
                                     <div class="row" style="padding-top:15px;padding-bottom:15px">
+                                        <h3> توزيع الساعات الفعلي للمعاملة </h3>
                                         <table class="table table-bordered text-center">
                                             <thead>
                                                 <tr>
@@ -75,7 +108,7 @@
                                                     </td>
                                                     <td><input type="text" class="form-control" v-model="reviser_time">
                                                     </td>
-                                                    <td><input type="text" class="form-control"  v-model="auditor_time">
+                                                    <td><input type="text" class="form-control" v-model="auditor_time">
                                                     </td>
                                                     <td><input type="text" class="form-control" v-model="revisingManager_time">
 
@@ -92,6 +125,9 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <v-btn @click="UpdateTransaction()" class="mr-4 ml-4" color="primary" dark>
+                                            {{$t('save')}}
+                                        </v-btn>
                                     </div>
                                     <!-- توزيع ساعات العمل/.  ------>
                                     <!-- اختيرا المندوب الميدانى و المدقق  ------>
@@ -169,6 +205,7 @@ export default {
             ActivePane: 'بيانات المعاملة',
             ChoosenFieldDelegate: '',
             fieldDelegates: [],
+            StandardTime: {},
             notes_on_time: '',
             start_date: this.Transaction.start_date,
             end_date: this.Transaction.end_date,
@@ -198,6 +235,7 @@ export default {
     },
     created() {
         this.GetAuditors(route('employee.type', 'مدقق'))
+        this.getStandardTime()
 
         this.GetFieldDelegates(route('employee.type', 'مندوب ميداني'))
     },
@@ -296,6 +334,11 @@ export default {
                     this.LoadingSpinner = false;
 
                 });
+        },
+               getStandardTime() {
+            axios.get(route('system.standard_time.index')).then(res => {
+                this.StandardTime = res.data.StandardTime
+            })
         },
     },
 

@@ -65,7 +65,7 @@
                                     <tr>
 
                                         <td>
-                                            <input type="text" class="form-control" v-model="Transaction.secretary_time">
+                                            <input type="text" class="form-control"  v-model="Transaction.secretary_time">
                                         </td>
                                         <td><input type="text" class="form-control" v-model="Transaction.fieldDelegate_time"></td>
                                         <td><input type="text" class="form-control" v-model="Transaction.reviser_time"></td>
@@ -1023,17 +1023,19 @@ export default {
         },
         getStandardTime() {
             axios.get(route('system.standard_time.index')).then(res => {
+                if (res.data.StandardTime.id) {
                 this.Transaction = res.data.StandardTime
+                }
             })
         },
         updateStandardTime() {
             let formData = new FormData();
-
             for (var key in this.Transaction) {
                 formData.append(key, this.Transaction[key]);
             }
             if (this.Transaction.id) {
-                axios.patch(route('system.standard_time.update'), formData).then(res => {
+                formData.append("_method", "PATCH");
+                axios.post(route('system.standard_time.update'), formData).then(res => {
                     console.log('res', res);
                     this.$toast.success('.', 'تم التعديل بنجاح', {
                         timeout: 3000
