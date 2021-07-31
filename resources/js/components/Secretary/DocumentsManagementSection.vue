@@ -115,6 +115,8 @@ export default {
                         .then(({
                             data
                         }) => {
+                            this.RequiredDocuments = []
+                            this.FetchDocuments(route('documents.index', this.Transaction.id))
                             this.UploadMessage = 'تم الرفع بنجاح';
                             this.UploadIsSuccess = true;
                             console.log(data);

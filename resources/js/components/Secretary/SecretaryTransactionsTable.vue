@@ -115,7 +115,7 @@ export default {
                     value: 'down_payment'
                 },
                 {
-                    text: this.$t('end_financial_year'),
+                    text: this.$t('finaincialYearEnd'),
                     value: 'end_financial_year'
                 },
                 {
@@ -123,11 +123,11 @@ export default {
                     value: 'engagement_letter_date'
                 },
                 {
-                    text: this.$t('final_payment'),
+                    text: this.$t('finalPatch'),
                     value: 'final_payment'
                 },
                 {
-                    text: this.$t('down_payment'),
+                    text: this.$t('prePaid'),
                     value: 'down_payment'
                 },
             ],

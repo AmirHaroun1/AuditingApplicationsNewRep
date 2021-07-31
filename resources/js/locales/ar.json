@@ -125,7 +125,13 @@
 
 
     "chairty": "جمعيه خيريه",
-
+    "angel_interests": "اهتمامات الملاك",
+    "engagement_letter_date": "تاريخ خطاب الارتباط",
+    "Managing_partner_actualTime": " وقت الشريك الادارى الفعلي",
+    "Managing_partner_time": "وقت الشريك الادارى",
+    "auditor_actualTime": "وقت المدقق الغعلي",
+    "auditor_time": "وقت المدقق",
+    "down_payment": "العربون",
 
     "document": "المستند",
     "documentNumber": "رقم المستند",
@@ -146,7 +152,8 @@
     "transactionStatus": "حالة العملية",
     "ryal": "ريال",
     "withdrawn": "تم سحب عقد الارتباط ",
-    "sentToReviser": "ترسل الي المدقق",
+    "sentToReviser": "ترسل الي المراجع الفني",
+    "sentToRevisingManager": "ترسل الي مدير المراجعه",
     "rejected": "مرفوض",
     "rejectionReason": "سبب الرفض",
     "printSalary": "طباعة سند القبض & خطاب الأرتباط",
@@ -155,7 +162,7 @@
     "printSalaryContract": "طباعة سند القبض",
     "printEngagment": "خطاب الأرتباط",
 
-
+    "agreed_contract_value": "القيمة المتفق عليها",
     "enterCopmanyMainNumber": "أدخل رقم السجل الرئيسي للمنشأة",
 
     "newCompanyTransaction": "عقد ارتباط لصالح منشأة جديدة",
