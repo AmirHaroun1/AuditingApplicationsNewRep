@@ -195,7 +195,7 @@
                                             <v-col cols="12" sm="6" md="6">
                                             </v-col>
                                             <v-col cols="12" sm="6" md="6">
-                                                <v-text-field v-model="ManagerTemp.name" outlined :rules="required" autocomplete="managerName" :label="$t('ManagerTempName')" required />
+                                                <v-text-field v-model="ManagerTemp.name" outlined  autocomplete="managerName" :label="$t('ManagerTempName')" required />
                                                 <v-btn @click="AddManagerToList()" dark color="success">
                                                     {{$t('addManager')}}
                                                 </v-btn>
@@ -862,6 +862,7 @@ export default {
             this.AddedBranchedRegisters.splice(this.AddedBranchedRegisters.indexOf(reg), 1);
         },
         ClearBranchedRegisterInput() {
+            this.addDialog = false;
             this.BranchedTradeRegister.number = '',
                 this.BranchedTradeRegister.date = '',
                 this.BranchedTradeRegister.EndDate = '',

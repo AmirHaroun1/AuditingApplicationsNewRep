@@ -15,7 +15,7 @@
                             <v-autocomplete v-model="measurement_standard" outlined :items="measurement_standardOptions" item-text="value" item-value="value" :label="$t('measurmentStandrad')" required />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field @input="CheckTotal_value()" v-model="agreed_contract_value" outlined :rules="numbersRules" autocomplete="MainTradeRegister" :label="$t('mainTradeNumber')" required />
+                            <v-text-field @input="CheckTotal_value()" v-model="agreed_contract_value" outlined :rules="numbersRules" autocomplete="agreed_contract_value" :label="$t('agreed_contract_value')" required />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                             <v-text-field v-model="secretary_notes" outlined :label="$t('notes')" required />
@@ -54,6 +54,12 @@
                         </v-col>
                         <v-col v-if="status == 'rejected'" cols="12" sm="6" md="6">
                             <v-text-field v-model="rejection_reason" :rules="required" outlined :label="$t('rejectionReason')" required />
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-autocomplete v-model="ChoosenRevisingManagerID" outlined :rules="required" :items="revisingManagers" item-text="name" item-value="id" :label="$t('revisingManager')" required />
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-autocomplete v-model="ChoosenReviserID" outlined :rules="required" :items="revisers" item-text="name" item-value="id" :label="$t('reviser')" required />
                         </v-col>
 
                     </v-row>
@@ -107,6 +113,8 @@ export default {
     ],
     mounted() {
         this.GetDropDowns(route('system.DropDowns.retrieve.option'));
+        this.GetRevisers(route('employee.type', 'مراجع فني'));
+        this.GetRevisingManagers(route('employee.type', 'مدير مراجعة'));
     },
         data() {
         return {
@@ -114,6 +122,8 @@ export default {
             ValidationErrors: '',
             secretary_notes: '',
             valid: false,
+            revisingManagers: [],
+            revisers: [],
             startingDate: new Date(),
             measurement_standard_determinantsOptions: [],
             measurement_standardOptions: [],
@@ -129,6 +139,8 @@ export default {
             offer_value: this.Transaction.offer_value,
             status: this.Transaction.status,
             rejection_reason: this.Transaction.rejection_reason,
+            ChoosenRevisingManagerID: '',
+            ChoosenReviserID: '',
             ReviserCompanyName: 'مكتوب مسعود الرفيدى',
             PaymentType: 'مقدم أتعاب',
             PaymentValue: '',
@@ -140,6 +152,10 @@ export default {
                 {
                     text: this.$t('sentToReviser'),
                     value: 'reviser'
+                },
+                {
+                    text: this.$t('sentToRevisingManager'),
+                    value: 'revising_manager'
                 },
                 {
                     text: this.$t('rejected'),
@@ -163,6 +179,28 @@ export default {
         }
     },
     methods: {
+                // get all the revisers in the system and put them in the array
+        GetRevisers(endpoint) {
+            axios.get(endpoint)
+                .then(({
+                    data
+                }) => {
+                    data.employees.forEach((reviser) => {
+                        this.revisers.push(reviser);
+                    });
+                })
+        },
+        // get all the RevisingManagers in the system and put them in the array
+        GetRevisingManagers(endpoint) {
+            axios.get(endpoint)
+                .then(({
+                    data
+                }) => {
+                    data.employees.forEach((revisingManager) => {
+                        this.revisingManagers.push(revisingManager);
+                    });
+                })
+        },
         GetDropDowns(endpoint) {
             this.LoadingSpinner = true;
             axios.get(endpoint)
@@ -226,6 +264,8 @@ export default {
             let formData = new FormData();
             formData.append('_method', 'PATCH');
             formData.append('status', this.status);
+            formData.append('revisingManager_id', this.ChoosenRevisingManagerID);
+            formData.append('reviser_id', this.ChoosenReviserID);
             axios.post(route('Transactions.update', this.Transaction.id), formData).then(res => {
                 console.log('res', res)
             }).catch(err => {
