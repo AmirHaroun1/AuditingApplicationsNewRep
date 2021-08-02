@@ -144,10 +144,7 @@
                                                 <v-autocomplete v-model="institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
-                                                <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="angel_interestsOptions" autocomplete="angel_interests" :label="$t('angel_interests')" required></v-autocomplete>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="2">
-                                                <v-autocomplete v-model="institution.nature" outlined :rules="required" :items="natureOptions" autocomplete="nature" :label="$t('angel_interests')" required></v-autocomplete>
+                                                <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" item-text="name" item-value="value" :items="angel_interestsOptions" autocomplete="angel_interests" :label="$t('angel_interests')" required></v-autocomplete>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="2">
                                                 <v-text-field v-model="institution.company_period" :rules="required" outlined autocomplete="company_period" :label="$t('company_period')" required />
@@ -341,7 +338,7 @@
                                                     </v-col>
                                                     <v-card-actions>
                                                         <v-spacer></v-spacer>
-                                                        <v-btn type="submit" @click="AddRegisterToList()" form="BranchRegisterForm" color="primary" dark>
+                                                        <v-btn @click="AddRegisterToList()" color="primary" dark>
                                                             {{$t('save')}}
                                                         </v-btn>
                                                         <v-spacer></v-spacer>

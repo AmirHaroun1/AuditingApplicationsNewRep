@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <!-- ./ Start / End Date  ------>
-                        <div class="row ma-4"  style="padding-top:15px;padding-bottom:15px">
+                        <div class="row ma-4" style="padding-top:15px;padding-bottom:15px">
                             <table class="table table-bordered text-center">
                                 <thead>
                                     <tr>
@@ -71,8 +71,8 @@
                                         <td>
                                             <input type="text" class="form-control" disabled v-model="StandardTime.secretary_time">
                                         </td>
-                                        <td><input type="text" class="form-control" disabled  v-model="StandardTime.fieldDelegate_time"></td>
-                                        <td><input type="text" class="form-control"  disabled v-model="StandardTime.reviser_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.fieldDelegate_time"></td>
+                                        <td><input type="text" class="form-control" disabled v-model="StandardTime.reviser_time"></td>
                                         <td><input type="text" class="form-control" disabled v-model="StandardTime.auditor_time"></td>
                                         <td><input type="text" class="form-control" disabled v-model="StandardTime.revisingManager_time"></td>
                                         <td><input type="text" class="form-control" disabled v-model="StandardTime.executiveDirector_time"></td>
@@ -178,11 +178,14 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="text-center">
-            <button @click="UpdateTransactionStatus('managing_partner')" class="btn btn-success btn-lg">إرسال إلى الشريك الإداري</button>
-        </div>
-    </div>
+    <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn  @click="UpdateTransactionStatus('managing_partner')" color="success" dark>
+            إرسال إلى الشريك الإداري
+        </v-btn>
+        <v-spacer></v-spacer>
+    </v-card-actions>
+
 </div>
 </template>
 
