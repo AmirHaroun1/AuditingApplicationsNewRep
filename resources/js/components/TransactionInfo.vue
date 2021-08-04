@@ -145,9 +145,6 @@
                                                     <v-autocomplete v-model="Institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="institution.company_nationality" outlined :rules="required" :items="['سعوديه', 'أجنبيه', 'مختلطه']" autocomplete="company_nationality" :label="$t('company_nationality')" required></v-autocomplete>
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="2">
                                                     <v-text-field v-model="Institution.company_period" :rules="required" outlined autocomplete="company_period" :label="$t('company_period')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
