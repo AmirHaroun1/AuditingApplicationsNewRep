@@ -117,6 +117,9 @@ class TransactionsController extends Controller
         if( ($transaction->auditor_id != null) && ($request->auditor_id != $transaction->auditor_id ) ){
             $request['auditor_is_changed'] = 1;
         }
+        if ($transaction->status == 'reviser' && $request['status'] == 'managing_partner'){
+            $request['can_be_sent_to_management_partner'] = 1;
+        }
         $transaction->update($request->all());
 
         return response()->json([$transaction],200);
