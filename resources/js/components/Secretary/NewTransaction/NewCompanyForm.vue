@@ -401,12 +401,6 @@
                                 </v-alert>
                             </v-card>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete v-model="ChoosenReviserID" outlined :rules="required" :items="revisers" item-text="name" item-value="id" :label="$t('reviser')" required />
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete v-model="ChoosenRevisingManagerID" outlined :rules="required" :items="revisingManagers" item-text="name" item-value="id" :label="$t('revisingManager')" required />
-                        </v-col>
                     </v-row>
                 </v-container>
             </v-card-text>
@@ -650,6 +644,7 @@ export default {
                     formData.append('manager_authorities', this.institution.manager_authorities);
                     formData.append('extra_tax_num', this.institution.extra_tax_num);
                     formData.append('number300', this.institution.number300);
+                    formData.append('company_nationality', this.institution.company_nationality);
 
                     if (this.InstitutionType == 'organization') {
                         formData.append('number700', this.institution.number700);
@@ -666,7 +661,6 @@ export default {
 
                     } else if (this.InstitutionType == 'company') {
                         formData.append('legal_entity', this.institution.legal_entity);
-                        formData.append('company_nationality', this.institution.company_nationality);
                         formData.append('company_period', this.institution.company_period);
                         formData.append('company_start_period', this.institution.company_start_period);
                         formData.append('company_end_period', this.institution.company_end_period);
@@ -776,6 +770,7 @@ export default {
                         this.LoadingSpinner = false;
 
                         this.createBranchedRegisters();
+                        this.$refs.agent.createAgent()
                     }).catch((error) => {
                         this.LoadingSpinner = false;
 
@@ -830,7 +825,6 @@ export default {
                                     'قد تم تسجيل البيانات بنجاح ', {
                                         timout: 2000
                                     });
-                                    this.$refs.agent.createAgent()
                                 this.$parent.$parent.$parent.SectionStage = 2;
                             }
                         }).catch((error) => {
@@ -842,6 +836,7 @@ export default {
                         });
                 });
             }
+            
 
         },
         AddRegisterToList() {

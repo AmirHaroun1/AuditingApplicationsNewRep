@@ -403,12 +403,6 @@
                                 </v-alert>
                             </v-card>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete v-model="ChoosenReviserID" outlined :rules="required" :items="revisers" item-text="name" item-value="id" :label="$t('reviser')" required />
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete v-model="ChoosenRevisingManagerID" outlined :rules="required" :items="revisingManagers" item-text="name" item-value="id" :label="$t('revisingManager')" required />
-                        </v-col>
                     </v-row>
                 </v-container>
             </v-card-text>
@@ -762,6 +756,7 @@ export default {
                             timout: 2000
                         })
                     this.$parent.$parent.$parent.Transaction = data[0];
+                    this.$refs.agent.createAgent()
                     this.$parent.$parent.$parent.SectionStage = 2;
                 }).catch((error) => {
                     this.LoadingSpinner = false;

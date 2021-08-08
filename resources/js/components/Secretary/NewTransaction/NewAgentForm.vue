@@ -7,34 +7,34 @@
             </v-card-title>
             <v-form id="BranchRegisterForm" @submit.prevent="createAgent()">
                 <v-row>
-                <v-col cols="12" sm="6" md="3">
-                    <v-text-field v-model="Agent.national_id" outlined :rules="numbersRules" :label="$t('idNumber')" required />
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                    <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                        <template v-slot:activator="{ on, attrs2 }">
-                            <v-text-field outlined v-model="Agent.national_id_date" :label="$t('idDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
-                        </template>
-                        <v-date-picker v-model="Agent.national_id_date"></v-date-picker>
-                    </v-menu>
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                    <v-text-field v-model="Agent.name" outlined :rules="required" :label="$t('fullName')" required />
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                    <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
-                        <template v-slot:activator="{ on, attrs2 }">
-                            <v-text-field outlined v-model="Agent.birth_date" :label="$t('birthDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
-                        </template>
-                        <v-date-picker v-model="Agent.birth_date"></v-date-picker>
-                    </v-menu>
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                    <v-text-field v-model="Agent.email" outlined :rules="emailRules" :label="$t('email')" required />
-                </v-col>
-                <v-col cols="12" sm="6" md="3">
-                    <v-text-field v-model="Agent.phone" outlined :rules="numbersRules" :label="$t('phone')" required />
-                </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <v-text-field v-model="Agent.national_id" outlined :rules="required10" :label="$t('idNumber')" required />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                            <template v-slot:activator="{ on, attrs2 }">
+                                <v-text-field outlined v-model="Agent.national_id_date" :label="$t('idDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="Agent.national_id_date"></v-date-picker>
+                        </v-menu>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <v-text-field v-model="Agent.name" outlined :rules="required" :label="$t('fullName')" required />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <v-menu :close-on-content-click="false" :nudge-right="40" transition="scale-transition" offset-y min-width="auto">
+                            <template v-slot:activator="{ on, attrs2 }">
+                                <v-text-field outlined v-model="Agent.birth_date" :label="$t('birthDate')" append-icon="mdi-calendar" readonly v-bind="attrs2" v-on="on"></v-text-field>
+                            </template>
+                            <v-date-picker v-model="Agent.birth_date"></v-date-picker>
+                        </v-menu>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <v-text-field v-model="Agent.email" outlined :rules="emailRules" :label="$t('email')" required />
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                        <v-text-field v-model="Agent.phone" outlined :rules="numbersRules" :label="$t('phone')" required />
+                    </v-col>
                 </v-row>
             </v-form>
         </v-alert>
@@ -63,7 +63,7 @@ export default {
                 'phone': '',
                 'password': '',
             },
-                      numbersRules: [
+            numbersRules: [
                 v => !!v || this.$t('requiredField'),
                 v => /^\d+$/.test(v) || this.$t('numbersOnly'),
             ],
@@ -73,6 +73,11 @@ export default {
             ],
             required: [
                 v => !!v || this.$t('requiredField'),
+            ],
+            required10: [
+                v => !!v || this.$t('requiredField'),
+                v => /^\d+$/.test(v) || this.$t('numbersOnly'),
+                v => (v && v.length == 10) || this.$t('requiredField'),
             ],
 
         }

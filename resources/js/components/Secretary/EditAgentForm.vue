@@ -55,7 +55,7 @@ export default {
         return {
             LoadingSpinner: false,
             valid: false,
-            Agent: this.$parent.Agent,
+            Agent: this.$parent.$parent.$parent.Agent,
             ValidationErrors: '',
             numbersRules: [
                 v => !!v || this.$t('requiredField'),

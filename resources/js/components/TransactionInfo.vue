@@ -281,7 +281,7 @@
                         <v-col cols="12" sm="12" md="12">
                             <fieldset disabled="disabled">
                                 <div v-if="Agent !== null">
-                                    <edit-agent-form> </edit-agent-form>
+                                    <edit-agent-form :Agent="Agent"> </edit-agent-form>
                                 </div>
                                 <div v-else>
                                     <new-agent-form></new-agent-form>
