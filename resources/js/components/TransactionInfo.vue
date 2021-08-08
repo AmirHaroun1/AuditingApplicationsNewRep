@@ -279,14 +279,14 @@
                             <v-divider></v-divider>
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
-                          <fieldset disabled="disabled">
-                            <div v-if="Agent !== null">
-                                <edit-agent-form> </edit-agent-form>
-                            </div>
-                            <div v-else>
-                                <new-agent-form></new-agent-form>
-                            </div>
-                          </fieldset>
+                            <fieldset disabled="disabled">
+                                <div v-if="Agent !== null">
+                                    <edit-agent-form> </edit-agent-form>
+                                </div>
+                                <div v-else>
+                                    <new-agent-form></new-agent-form>
+                                </div>
+                            </fieldset>
                         </v-col>
                         <v-card>
                             <v-alert type="primary" outlined>
@@ -321,17 +321,17 @@
                             <v-card>
                                 <v-alert type="primary" outlined>
                                     <v-card-title>
-                                        <span class="mr-3 ml-3">{{$t('branchesTrades')}}</span>                          
+                                        <span class="mr-3 ml-3">{{$t('branchesTrades')}}</span>
                                     </v-card-title>
 
                                     <v-data-table :headers="headers" :items="BranchedTradeRegisters">
-                             
+
                                     </v-data-table>
                                 </v-alert>
                             </v-card>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete disabled v-model="ChoosenReviser" outlined :rules="required" :items="revisers" item-text="label" item-value="code" :label="$t('reviser')" required />
+                            <v-autocomplete :disabled="Transaction.can_be_sent_to_management_partner" v-model="ChoosenReviser" outlined :rules="required" :items="revisers" item-text="label" item-value="code" :label="$t('reviser')" required />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                             <v-autocomplete disabled v-model="ChoosenRevisingManager" outlined :rules="required" :items="revisingManagers" item-text="label" item-value="code" :label="$t('revisingManager')" required />
@@ -339,6 +339,14 @@
                     </v-row>
                 </v-container>
             </v-card-text>
+            <v-card-actions v-if="!Transaction.can_be_sent_to_management_partner && jobTitle == 'revisingManager'">
+                <v-spacer></v-spacer>
+                <v-btn @click="UpdateTransaction()" color="primary" dark>
+                    تحديث
+                </v-btn>
+                <v-spacer></v-spacer>
+            </v-card-actions>
+
         </v-card>
     </v-form>
     <div v-if="LoadingSpinner" class="overlay">
@@ -348,6 +356,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
     name: "EditTransactionData.vue",
     props: [
@@ -366,6 +375,7 @@ export default {
             menu2: false,
             valid: false,
             editDialog: false,
+            menu6: false,
             selectedItem: null,
             Transaction: this.$parent.Transaction,
             MainTradeRegister: this.$parent.Transaction.institution.main_trade_register,
@@ -426,6 +436,7 @@ export default {
     },
     created() {
         this.startTime = moment(new Date());
+        console.log('crearted');
         this.GetRevisers(route('employee.type', 'مراجع فني'));
         this.GetRevisingManagers(route('employee.type', 'مدير مراجعة'));;
 

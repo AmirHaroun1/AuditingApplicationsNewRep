@@ -417,12 +417,6 @@
                                 </v-alert>
                             </v-card>
                         </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete v-model="ChoosenReviser" outlined :rules="required" :items="revisers" item-text="label" item-value="code" :label="$t('reviser')" required />
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                            <v-autocomplete v-model="ChoosenRevisingManager" outlined :rules="required" :items="revisingManagers" item-text="label" item-value="code" :label="$t('revisingManager')" required />
-                        </v-col>
                     </v-row>
                 </v-container>
             </v-card-text>

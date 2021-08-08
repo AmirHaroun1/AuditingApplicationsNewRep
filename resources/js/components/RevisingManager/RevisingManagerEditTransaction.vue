@@ -21,7 +21,7 @@
             <v-icon>fa fa-book</v-icon>
         </v-tab>
 
-        <v-tab @click="ActivePane = 'الشريك الأداري' ">
+        <v-tab v-if="Transaction.can_be_sent_to_management_partner" @click="ActivePane = 'الشريك الأداري' ">
             {{$t('managinePartner')}}
             <v-icon>fa fa-user</v-icon>
         </v-tab>
@@ -180,8 +180,11 @@
 
     <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn  @click="UpdateTransactionStatus('managing_partner')" color="success" dark>
+        <v-btn v-if="Transaction.can_be_sent_to_management_partner"  @click="UpdateTransactionStatus('managing_partner')" color="success" dark>
             إرسال إلى الشريك الإداري
+        </v-btn>
+        <v-btn v-else  @click="UpdateTransactionStatus('reviser')" color="success" dark>
+            إرسال إلى المراجع الفنى
         </v-btn>
         <v-spacer></v-spacer>
     </v-card-actions>
