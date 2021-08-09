@@ -58,10 +58,10 @@
                                                     <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
+                                                    <v-autocomplete v-model="City" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
-                                                    <v-text-field v-model="restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
+                                                    <v-text-field v-model="RestOfAddress" outlined :rules="required" :label="$t('addressComplete')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-text-field v-model="Institution.postal_box" outlined :rules="required" :label="$t('postal_box')" required />
@@ -107,10 +107,10 @@
                                                     <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('organizationName')" required></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
-                                                    <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
+                                                    <v-autocomplete v-model="City" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
+                                                    <v-text-field v-model="RestOfAddress" outlined :rules="required" :label="$t('addressComplete')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-text-field v-model="Institution.postal_box" outlined :rules="required" :label="$t('postal_box')" required />
@@ -142,9 +142,6 @@
                                                     <v-text-field v-model="Institution.name" :rules="required" outlined autocomplete="organizationName" :label="$t('companyName')" required></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="Institution.legal_entity" :rules="required" outlined item-text="name" item-value="value" :items="legal_entityOptions" :label="$t('legal_entity')" required />
-                                                </v-col>
-                                                <v-col cols="12" sm="6" md="2">
                                                     <v-text-field v-model="Institution.company_period" :rules="required" outlined autocomplete="company_period" :label="$t('company_period')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
@@ -164,10 +161,10 @@
                                                     </v-menu>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
-                                                    <v-autocomplete v-model="Institution.city" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
+                                                    <v-autocomplete v-model="City" outlined :rules="required" :items="cityOptions" item-text="value" item-value="value" :label="$t('addressCity')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="3">
-                                                    <v-text-field v-model="Institution.restofadress" outlined :rules="required" :label="$t('addressComplete')" required />
+                                                    <v-text-field v-model="RestOfAddress" outlined :rules="required" :label="$t('addressComplete')" required />
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="2">
                                                     <v-text-field v-model="Institution.postal_box" outlined :rules="required" :label="$t('postal_box')" required />
@@ -280,7 +277,7 @@
                         </v-col>
                         <v-col cols="12" sm="12" md="12">
                             <div v-if="Agent !== null">
-                                <edit-agent-form> </edit-agent-form>
+                                <edit-agent-form :Agent="Agent"> </edit-agent-form>
                             </div>
                             <div v-else>
                                 <new-agent-form></new-agent-form>
@@ -459,6 +456,28 @@ export default {
             MainTradeRegister: this.$parent.MainTradeRegister,
             BranchedTradeRegisters: this.$parent.BranchedTradeRegisters,
             Institution: this.$parent.Institution,
+            InstitutionTypes: [{
+                    text: this.$t('organization'),
+                    value: 'organization'
+                },
+                {
+                    text: this.$t('company'),
+                    value: 'company'
+                },
+                {
+                    text: this.$t('project'),
+                    value: 'project'
+                },
+                {
+                    text: this.$t('charity'),
+                    value: 'charity'
+                },
+                {
+                    text: this.$t('other'),
+                    value: 'other'
+                },
+
+            ],
             headers: [{
                     text: this.$t('tradeNumber'),
                     align: 'start',
@@ -499,8 +518,8 @@ export default {
             natureOptions: [],
             cityOptions: [],
 
-            City: '',
-            RestOfAddress: '',
+            City: this.$parent.Institution.address ? this.$parent.Institution.address.split(',')[0] : '',
+            RestOfAddress: this.$parent.Institution.address ? this.$parent.Institution.address.split(',')[1] : '',
             MainRegisterIS_UPDATED: false,
             InstitutionIS_UPDATED: false,
             numbersRules: [
@@ -517,15 +536,13 @@ export default {
         }
     },
     created() {
-        this.startTime = moment(new Date());
         this.GetRevisers(route('employee.type', 'مراجع فني'));
         this.GetRevisingManagers(route('employee.type', 'مدير مراجعة'));;
 
         this.GetDropDowns(route('system.DropDowns.retrieve.option'));
         if (this.Institution.address) {
             this.City = this.Institution.address.split(',')[0];
-            this.District = this.Institution.address.split(',')[1];
-            this.RestOfAddress = this.Institution.address.split(',')[2];
+            this.RestOfAddress = this.Institution.address.split(',')[1];
         }
     },
     methods: {
